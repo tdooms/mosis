@@ -189,20 +189,30 @@ class TrolleyPriorityScanner(Scanner):
             return "init"
 
         elif state == "init":
-            if input == "E 1": return "Wait1"
-            elif input == "E 2": return "Wait2"
+            if input == "E 1": return "q12"
+            elif input == "E 2": return "q22"
             elif input is None: return "end"
             else: return "init"
 
-        elif state == "Wait1":
-            if input == "G 1": return "init"
-            elif input == "G 2": return None
-            else: "Wait1"
+        elif state == "q12":
+            if input == "E 2": return "q13"
+            elif input in ["G 1", "G 2"]: return None
+            else: "q12"
 
-        elif state == "Wait2":
-            if input == "G 2": return "init"
-            elif input == "G 1": return None
-            else: "Wait2"
+        elif state == "q13":
+            if input == "G 2": return "q13"
+            elif input == "G 1": return "loop"
+            else: None
+
+        elif state == "q22":
+            if input == "E 1": return "q23"
+            elif input in ["G 1", "G 2"]: return None
+            else: "q22"
+
+        elif state == "q23":
+            if input == "G 1": return "q23"
+            elif input == "G 2": return "loop"
+            else: None
 
 
 if __name__ == "__main__":
