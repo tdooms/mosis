@@ -5,6 +5,7 @@
 # Updated to Python 3 in 2021
 #
 import re
+
 # trace FSA dynamics (True | False)
 __trace__ = False
 
@@ -91,48 +92,48 @@ class Scanner:
         if __trace__:
             print("\ndefault transition --> " + self.current_state)
 
-            while True:
-                # look ahead at the next character in the input stream
-                next_char = self.stream.peek()
+        while True:
+            # look ahead at the next character in the input stream
+            next_char = self.stream.peek()
 
-                # stop if this is the end of the input stream
-                if next_char is None: break
-
-                if __trace__:
-                    if self.current_state is not None:
-                        print("transition", self.current_state, "-|", next_char,
-                              end=' ')
-
-                # perform transition and its action to the appropriate new state
-                next_state = self.transition(self.current_state, next_char)
-
-                if __trace__:
-                    if next_state is None:
-                        print("")
-                    else:
-                        print("|->", next_state)
-
-                # stop if a transition was not possible
-                if next_state is None:
-                    break
-                else:
-                    self.current_state = next_state
-                    # perform the new state's entry action (if any)
-                    self.entry(self.current_state, next_char)
-
-                # now, actually consume the next character in the input stream
-                next_char = self.stream.consume()
+            # stop if this is the end of the input stream
+            if next_char is None: break
 
             if __trace__:
-                print("")
+                if self.current_state is not None:
+                    print("transition", self.current_state, "-|", next_char,
+                          end=' ')
 
-            # now check whether to accept consumed characters
-            success = self.current_state in self.accepting_states
-            if success:
-                self.stream.commit()
+            # perform transition and its action to the appropriate new state
+            next_state = self.transition(self.current_state, next_char)
+
+            if __trace__:
+                if next_state is None:
+                    print("")
+                else:
+                    print("|->", next_state)
+
+            # stop if a transition was not possible
+            if next_state is None:
+                break
             else:
-                self.stream.rollback()
-            return success
+                self.current_state = next_state
+                # perform the new state's entry action (if any)
+                self.entry(self.current_state, next_char)
+
+            # now, actually consume the next character in the input stream
+            next_char = self.stream.consume()
+
+        if __trace__:
+            print("")
+
+        # now check whether to accept consumed characters
+        success = self.current_state in self.accepting_states
+        if success:
+            self.stream.commit()
+        else:
+            self.stream.rollback()
+        return success
 
 
 class TrolleyIsOnJunctionScanner(Scanner):
@@ -141,7 +142,10 @@ class TrolleyIsOnJunctionScanner(Scanner):
         super().__init__(stream)
 
         # define accepting states
-        self.accepting_states = ["end"]
+        self.accepting_states = ["init"]
+
+    def entry(self, state, input):
+        pass
 
     def transition(self, state, input):
         """
@@ -150,8 +154,11 @@ class TrolleyIsOnJunctionScanner(Scanner):
         :param input: The input we get
         :return: The state in which we are next given the input-parameters
         """
-        if state is None:
+        if input is None:
             return "init"
+
+        if state is None:
+            return None
         elif state == "init":
             if input == "E 3":
                 return "locked"
@@ -172,7 +179,10 @@ class TrolleyPriorityScanner(Scanner):
         super().__init__(stream)
 
         # define accepting states
-        self.accepting_states = ["end"]
+        self.accepting_states = ["loop"]
+
+    def entry(self, state, input):
+        pass
 
     def transition(self, state, input):
         """
@@ -182,45 +192,79 @@ class TrolleyPriorityScanner(Scanner):
         :return: The state in which we are next given the input-parameters
         """
 
-        if not re.match("[RXGE] [123]", input):
-            raise Exception("72 piece chicken")
+        if input is None:
+            return "init"
 
         if state is None:
             return "init"
 
         elif state == "init":
-            if input == "E 1": return "q12"
-            elif input == "E 2": return "q22"
-            elif input is None: return "end"
-            else: return "init"
+            if input == "E 1":
+                return "q12"
+            elif input == "E 2":
+                return "q22"
+            elif input is None:
+                return "end"
+            else:
+                return "init"
 
         elif state == "q12":
             if input == "E 2": return "q13"
-            elif input in ["G 1", "G 2"]: return None
-            else: "q12"
+            if input == "G 1":
+                return "init"
+            else:
+                return "q12"
 
         elif state == "q13":
-            if input == "G 2": return "q13"
-            elif input == "G 1": return "loop"
-            else: None
+            if input == "G 2":
+                return "loop"
+            elif input == "G 1":
+                return "init"
+            else:
+                return "q13"
 
         elif state == "q22":
-            if input == "E 1": return "q23"
-            elif input in ["G 1", "G 2"]: return None
-            else: "q22"
+            if input == "E 1":
+                return "q23"
+            elif input == "G 2":
+                return "init"
+            else:
+                return "q22"
 
         elif state == "q23":
-            if input == "G 1": return "q23"
-            elif input == "G 2": return "loop"
-            else: None
+            if input == "G 1":
+                return "loop"
+            elif input == "G 2":
+                return "init"
+            else:
+                return "q23"
+
+        elif state == "loop":
+            return "loop"
 
 
 if __name__ == "__main__":
-    f = open("demofile.txt", "r")
-    stream = LineStream(f.read())
-    scanner = TrolleyPriorityScanner(stream)
-    success = scanner.scan()
-    if success:
-        print("Stream has been accepted.")
-    else:
-        print("Stream not accepted.")
+    for i in range(1, 7):
+        f = open(f"input/trace{i}.txt", "r")
+        stream = LineStream(f.read())
+        scanner = TrolleyIsOnJunctionScanner(stream)
+        success = scanner.scan()
+        f2 = open(f"input/trace{i}.txt", "r")
+        stream2 = LineStream(f2.read())
+        scanner2 = TrolleyPriorityScanner(stream2)
+        success2 = scanner2.scan()
+        f = open(f"input/trace{i}.txt", "r")
+        file = f.read()
+
+        # print(re.match("(. .\n)*(((E 1\n)([^G] .\n)*(E 2\n)([^G] .\n)*(G 2\n))|((E 2\n)([^G] .\n)*(E 1\n)([^G] .\n)*(G 1\n)))(. .\n)*", file))
+        print("\nUse case: trolley is on junction")
+        if success:
+            print(f"Stream {i} has been accepted.")
+        else:
+            print(f"Stream {i} not accepted.")
+
+        print("\nUse case: trolley priority")
+        if not success2:
+            print(f"Stream {i} has been accepted.")
+        else:
+            print(f"Stream {i} not accepted.")
