@@ -30,7 +30,7 @@
                     <h1> General </h1>
                     <h4> Definitions </h4>
                     <ul>
-                        <li> With junction we mean:  The controller, corresponding lights and tracks. </li>
+                        <li> With junction we mean: The controller, corresponding lights and tracks. </li>
                         <li> With safe we mean that there is no trolley on the outgoing track. </li>
                     </ul>
 
@@ -82,7 +82,7 @@
                         </tr>
                         <tr>
                             <th>Multiplicity</th>
-                            <td>There  can  be  only  one  trolley  on  a  junction,  while  the other trollies wait behind a red light</td>
+                            <td>There can be only one trolley on a junction, while the other trollies wait behind a red light</td>
                         </tr>
                         <tr>
                             <th>Main success scenario</th>
@@ -92,14 +92,14 @@
                                     <li>Trolley is on OUT/junction track</li>
                                     <li>Light for other incoming tracks stays red.</li>
                                     <li>OUT/Junction track sends a signal to the controller indicating that the trolley on the junction wants to exit</li>
-                                    <li>Light  for  the  OUT/junction  track  eventually becomes green.</li>
+                                    <li>Light for the OUT/junction track eventually becomes green.</li>
                                     <li>Trolley exits junction safely.</li>
                                 </ul>
                             </td>
                         </tr>
                         <tr>
                             <th>Extensions</th>
-                            <td>After the controller was reset and a trolley is still on the junction,  the light will turn green upon arrival of a newtrolley whilst it is not safe.  This isn’t possible given the assumption that the state of the controller is retained after a shutdown.</td>
+                            <td>After the controller was reset and a trolley is still on the junction, the light will turn green upon arrival of a new trolley whilst it is not safe.  This isn’t possible given the assumption that the state of the controller is retained after a shutdown.</td>
                         </tr>
                         </thead>
                     </table>
@@ -131,16 +131,16 @@
                             <td>
                                 <ul>
                                     <li>Trolley 1 arrives at INX track, light is red.</li>
-                                    <li>INXtrack sends arrive signal to controller.</li>
-                                    <li>Trolley 2 arrives second at INYtrack, light is red.</li>
-                                    <li>INYtrack sends arrive signal to controller.</li>
-                                    <li>Controller  sends  signal  to  INXtrack  and  this  one  getsthe first green light of INXtrack and INYtrack.</li>
+                                    <li>INX_track sends arrive signal to controller.</li>
+                                    <li>Trolley 2 arrives second at INY_track, light is red.</li>
+                                    <li>INY_track sends arrive signal to controller.</li>
+                                    <li>Controller sends signal to INX_track and this one gets the first green light of INX_track and INY_track.</li>
                                 </ul>
                             </td>
                         </tr>
                         <tr>
                             <th>Extensions</th>
-                            <td>When both trolleys arrive at the exact same time, grant arandom trolley priority.</td>
+                            <td>When both trolleys arrive at the exact same time, grant a random trolley priority.</td>
                         </tr>
                         </thead>
                     </table>
