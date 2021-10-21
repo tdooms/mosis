@@ -47,7 +47,7 @@
                         <li> The tracefiles start and end in a default state, meaning junctions start and end empty. </li>
                         <li> The track detects the trolley and sends the signal to the controller. </li>
                         <li> Time of messages in the log are linear i.e. network delays are non-existent. </li>
-                        <li> Trolleys respect the traffic lights which will prevent them from entering inconsistent states. This implies there can only be a single trolley on a given track. </li>
+                        <li> Trollies respect the traffic lights which will prevent them from entering inconsistent states. This implies there can only be a single trolley on a given track. </li>
                     </ul>
                     
                     <h4> Images </h4>
@@ -140,7 +140,7 @@
                         </tr>
                         <tr>
                             <th>Extensions</th>
-                            <td>When both trolleys arrive at the exact same time, grant a random trolley priority.</td>
+                            <td>When both trollies arrive at the exact same time, grant a random trolley priority.</td>
                         </tr>
                         </thead>
                     </table>
@@ -188,7 +188,7 @@
                         <li>What happens before a trolley enters a junction is not relevant in this requirement, hence the <b>(. .\n)*</b>.</li>
                         <li><b>(E 3\n)</b> is the trolley entering the track.</li>
                         <li><b>(R [12]\n)</b> says that the light must be red for the incoming lights (again we assume only the incoming should stay red).</li>
-                        <li><b>(E [12]\n)</b> other trolleys can enter the waiting tracks.</li>
+                        <li><b>(E [12]\n)</b> other trollies can enter the waiting tracks.</li>
                         <li>When <b>(X 3\n)</b> happens, the junction is clear again.</li>
                         <li>This pattern of `irrelevant lines' and then a match can happen n times.</li>
                     </ul>
@@ -223,7 +223,7 @@
                     <h1>Code verification</h1>
 
                     <p> All traces for trolley is on junction were accepted. </p>
-                    <p> traces 2,3,4 and 6 for trolley priority were accepted. But this is a negative match FSA which means these files are wrong </p>
+                    <p> traces 2,3,4 and 6 for trolley priority were accepted. But this is a negative match FSA which means these files are wrong. </p>
 
                     <h1>Problem/bug in traces</h1>
                     <p>
@@ -248,7 +248,7 @@
                     </p>
 
                     <p>
-                        In our findings this happens in two cases: When a trolley is on the junction and two trolleys are waiting or when a trolley arrives just after the trolley leaves the junction.
+                        In our findings this happens in two cases: When a trolley is on the junction and two trollies are waiting or when a trolley arrives just after the trolley leaves the junction.
                     </p>
 
                     <p>
