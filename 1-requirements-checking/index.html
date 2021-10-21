@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MoSIS</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    </head>
+    <body>
+        <section class="section">
+            <div class="container">
+            <div class="columns is-centered">
+            <div class="column is-half">
+
+                <h1 class="title">Requirements checking assignment</h1>
+
+                <div class="columns">
+                    <div class="column is-narrow">
+                        <p> Thomas Dooms </p>
+                        <p> Basil Rommens </p>
+                    </div>
+                    <div class="column is-narrow">
+                        <p>S<b>0181389</b></p>
+                        <p>S<b>0185714</b></p>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="content">
+                    <h1> General </h1>
+                    <h4> Definitions </h4>
+                    <ul>
+                        <li> With junction we mean:  The controller, corresponding lights and tracks. </li>
+                        <li> With safe we mean that there is no trolley on the outgoing track. </li>
+                    </ul>
+
+                    <h4> Assumptions about the requirements </h4>
+                    <ul>
+                        <li> Requirement 2: Only the traffic lights that prevent the entry to the junction are set to red, otherwise the trolley could never leave the junction. </li>
+                        <li> Requirement 3: Again only the traffic lights that prevent the entry need to be red. </li>
+                        <li> Requirement 4: Under permission to pass we understand that the trolley just gets green light, it doesn't need to pass. </li>
+                    </ul>
+
+                    <h4> Other assumptions </h4>
+                    <ul>
+                        <li> The state of the controller is retained after a shutdown/reboot and messages are never lost even in a shutdown scenario. </li>
+                        <li> The tracefiles start and end in a default state, meaning junctions start and end empty. </li>
+                        <li> The track detects the trolley and sends the signal to the controller. </li>
+                        <li> Time of messages in the log are linear i.e. network delays are non-existent. </li>
+                        <li> Trolleys respect the traffic lights which will prevent them from entering inconsistent states. This implies there can only be a single trolley on a given track. </li>
+                    </ul>
+                    
+                    <h4> Images </h4>
+                    <img src="rail_example.png" alt="example from Factorio">
+                    <p> The differently coloured tracks indicate different sections. e.g. The blue track is the junction and the red and yellow are the incoming tracks</p>
+
+                    <div class="py-5"> </div>
+
+                    <img src="draw_example.png" alt="scribbles from our collaboration">
+                    <p>We used this diagram to better represent the problem for ourselves, it is included for completeness. This is not necessarily correct. </p>
+
+                    <h1> Use cases </h1>
+                    <p> <b>note</b> X can be either 1 or 2, the same for Y. </p>
+
+                    <table class="table is-striped is-bordered">
+                        <thead>
+                        <tr>
+                            <th>Use case</th>
+                            <td>TrolleyIsOnJunction</td>
+                        </tr>
+                        <tr>
+                            <th>Scope</th>
+                            <td>Controller and junction</td>
+                        </tr>
+                        <tr>
+                            <th>Primary actor</th>
+                            <td>Controller</td>
+                        </tr>
+                        <tr>
+                            <th>Intention</th>
+                            <td>The intention of the trolley is to safely cross the junction.</td>
+                        </tr>
+                        <tr>
+                            <th>Multiplicity</th>
+                            <td>There  can  be  only  one  trolley  on  a  junction,  while  the other trollies wait behind a red light</td>
+                        </tr>
+                        <tr>
+                            <th>Main success scenario</th>
+                            <td>
+                                <ul>
+                                    <li>OUT/Junction track sends a signal to the controller indicating that the trolley moved to and entered the OUT-/junction track.</li>
+                                    <li>Trolley is on OUT/junction track</li>
+                                    <li>Light for other incoming tracks stays red.</li>
+                                    <li>OUT/Junction track sends a signal to the controller indicating that the trolley on the junction wants to exit</li>
+                                    <li>Light  for  the  OUT/junction  track  eventually becomes green.</li>
+                                    <li>Trolley exits junction safely.</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Extensions</th>
+                            <td>After the controller was reset and a trolley is still on the junction,  the light will turn green upon arrival of a newtrolley whilst it is not safe.  This isn’t possible given the assumption that the state of the controller is retained after a shutdown.</td>
+                        </tr>
+                        </thead>
+                    </table>
+
+                    <table class="table is-striped is-bordered">
+                        <thead>
+                        <tr>
+                            <th>Use case</th>
+                            <td>TrolleyPriority</td>
+                        </tr>
+                        <tr>
+                            <th>Scope</th>
+                            <td>Controller and junction</td>
+                        </tr>
+                        <tr>
+                            <th>Primary actor</th>
+                            <td>Controller</td>
+                        </tr>
+                        <tr>
+                            <th>Intention</th>
+                            <td>The intention is to grant access to the trolley that arrived first.</td>
+                        </tr>
+                        <tr>
+                            <th>Multiplicity</th>
+                            <td>Every junction needs a separate priority queue</td>
+                        </tr>
+                        <tr>
+                            <th>Main success scenario</th>
+                            <td>
+                                <ul>
+                                    <li>Trolley 1 arrives at INX track, light is red.</li>
+                                    <li>INXtrack sends arrive signal to controller.</li>
+                                    <li>Trolley 2 arrives second at INYtrack, light is red.</li>
+                                    <li>INYtrack sends arrive signal to controller.</li>
+                                    <li>Controller  sends  signal  to  INXtrack  and  this  one  getsthe first green light of INXtrack and INYtrack.</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Extensions</th>
+                            <td>When both trolleys arrive at the exact same time, grant arandom trolley priority.</td>
+                        </tr>
+                        </thead>
+                    </table>
+                    <h1>UML sequence diagrams</h1>
+                    <p> <b>note</b> X can be either 1 or 2, the same for Y. </p>
+
+                    <h4>Use case TrolleyIsOnJunction</h4>
+                    <img src="screenshot_9.png" alt="trolley on junction sequence diagram">
+                    <blockquote>
+                        title TrolleyIsOnJunction<br>
+                        <br>
+                        OUT_track->(2)Controller: enter(trolley)<br>
+                        Controller->(2)Controller: move(INX_track, OUT_track)<br>
+                        Controller->(2)IN1_light: setLight(RED)<br>
+                        Controller->(2)IN2_light: setLight(RED)<br>
+                        OUT_track->(2)Controller: exit()<br>
+                        Controller->(2)OUT_light: setLight(GREEN)<br>
+                        Controller->(2)Controller: exit(OUT_track)<br>
+                    </blockquote>
+
+                    <h4>Use case TrolleyPriority</h4>
+                    <img src="screenshot_10.png" alt="trolley priority sequence diagram">
+                    <blockquote>
+                        title TrolleyPriority<br>
+                        <br>
+                        INX_track->(2)Controller: enter(trolley1)<br>
+                        Controller->(2)Controller: enter(INX_track, trolley1)<br>
+                        INY_track->(2)Controller: enter(trolley2)<br>
+                        Controller->(2)Controller: enter(INY_track, trolley2)<br>
+                        Controller->(2)INX_light: setLight(GREEN)<br>
+                    </blockquote>
+
+                    <h1>Regex</h1>
+
+                    <p>
+                        For simplicity these regexes assume that a trolley can only enter or leave a section once.
+                        It is possible to use another regex to verify this.
+                    </p>
+
+                    <h4>Use case TrolleyIsOnJunction</h4>
+                    <blockquote>
+                        ((. .\n)*(E 3\n)((R [12]\n)|(E [12]\n))*(X 3\n))*
+                    </blockquote>
+                    <ul>
+                        <li>What happens before a trolley enters a junction is not relevant in this requirement, hence the <b>(. .\n)*</b>.</li>
+                        <li><b>(E 3\n)</b> is the trolley entering the track.</li>
+                        <li><b>(R [12]\n)</b> says that the light must be red for the incoming lights (again we assume only the incoming should stay red).</li>
+                        <li><b>(E [12]\n)</b> other trolleys can enter the waiting tracks.</li>
+                        <li>When <b>(X 3\n)</b> happens, the junction is clear again.</li>
+                        <li>This pattern of `irrelevant lines' and then a match can happen n times.</li>
+                    </ul>
+
+                    <h4>Use case TrolleyPriority</h4>
+                    <blockquote>
+                        (. .\n)*<br>
+                        (((E 1\n)([^G] .\n)*(E 2\n)([^G] .\n)*(G 2\n))|<br>
+                        ((E 2\n)([^G] .\n)*(E 1\n)([^G] .\n)*(G 1\n)))<br>
+                        (. .\n)*<br>
+                    </blockquote>
+                    <ul>
+                        <li>This is a negative match regex. This means if the middle part matches, the whole file will be matched.</li>
+                        <li>The regex checks for an enter, then any input except green, an enter of another trolley, any input except green again and then green for the wrong track.</li>
+                        <li>It is important to note we only check for green light and not if the trolley actually entered the junction first (see assumptions).</li>
+                    </ul>
+
+                    <h1>FSA</h1>
+
+                    <p>
+                        In this FSM we use an informal notation we used to employ in another course.
+                        * Means all valid transitions (aka <b>[GREX] [123]</b>) minus all other outgoing transitions from that state.
+                        When there is no outgoing transition for a certain output it is assumed to go to a dead state.
+                    </p>
+
+                    <h4>Use case TrolleyIsOnJunction</h4>
+                    <img src="lock_fsm.png" alt="trolley is on junction fsa">
+
+                    <h4>Use case TrolleyPriority</h4>
+                    <img src="prio_fsm4.png" alt="trolley priority sequence diagram">
+
+                    <h1>Code verification</h1>
+
+                    <p> All traces for trolley is on junction were accepted. </p>
+                    <p> All traces for trolley priority were accepted. </p>
+
+                    <h1>Problem/bug in traces</h1>
+                    <p>
+                        From our observations it looks like there is no minimal timer for the light to be green.
+                        If trolley 1 arrives and the junction is empty, it gets green. But if trolley 2 arrives a second later,
+                        it will switch the lights. Under our assumptions this isn't a hard error but certainly could be an issue in the real world.
+                    </p>
+
+                    <ul>
+                        <li>The intersection is empty</li>
+                        <li>Trolley 1 arrives</li>
+                        <li>Light 1 is set to green (as there is nobody)</li>
+                        <li>Trolley 2 arrives</li>
+                        <li>Light 1 is set to red and light 2 becomes green</li>
+                    </ul>
+
+                    <p>This is probably very confusing for the driver of the trolley.</p>
+                </div>
+
+            </div>
+            </div>
+            </div>
+        </section>
+    </body>
+</html>
