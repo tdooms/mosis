@@ -223,7 +223,7 @@
                     <h1>Code verification</h1>
 
                     <p> All traces for trolley is on junction were accepted. </p>
-                    <p> All traces for trolley priority were accepted. </p>
+                    <p> traces 2,3,4 and 6 for trolley priority were accepted. But this is a negative match FSA which means these files are wrong </p>
 
                     <h1>Problem/bug in traces</h1>
                     <p>
@@ -241,6 +241,53 @@
                     </ul>
 
                     <p>This is probably very confusing for the driver of the trolley.</p>
+
+                    <p>
+                        The other more serious problem is that the priority requirement is not satisfied in most files.
+                        Sometimes when a trolley enters the junction, the controller gets confused and gives the wrong track green lights.
+                    </p>
+
+                    <p>
+                        In our findings this happens in two cases: When a trolley is on the junction and two trolleys are waiting or when a trolley arrives just after the trolley leaves the junction.
+                    </p>
+
+                    <p>
+                        A sample trace for the first case is as follows:
+                    </p>
+
+                    <blockquote>
+                        E 3<br>
+                        E 1<br>
+                        E 2<br>
+                        X 3<br>
+                        G 2<br>
+                    </blockquote>
+                    <p>
+                        We see that the second trolley that arrived gets priority. An example of this is tracefile2 line 17484.
+                    </p>
+
+                    <p>
+                        The second case is:
+                    </p>
+
+                    <blockquote>
+                        E 3<br>
+                        E 1<br>
+                        X 3<br>
+                        E 2<br>
+                        G 2<br>
+                    </blockquote>
+                    <p>
+                        This is almost the same except the reversed <b>X 3</b> and <b>E 2</b>.
+                        Again the wrong trolley gets priority.
+                        An example of this is tracefile4 line 1458.
+                    </p>
+
+                    <p>
+                        It's difficult to find out why these errors occurs without any code.
+                        A guess could be that priority queues are not updated while there
+                        is a trolley on the junction, but it could be something else altogether.
+                    </p>
                 </div>
 
             </div>
