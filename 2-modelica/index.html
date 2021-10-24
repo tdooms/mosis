@@ -27,16 +27,45 @@
                 <hr>
 
                 <div class="content">
-			<h2>Look up model</h2>
+			<h4>Look up model</h4>
 
 			<blockquote>
-				model step1
-  output Real vel(start=0, fixed=true);
-equation
-  vel = if (time &gt; 10) then 0 elseif (time &gt; 170) then 10 elseif (time &gt; 200) then 8 elseif (time &gt; 260) then 18 else 12;
-  annotation(experiment(StopTime=500));
-end step1;
+            model step1<br>
+            output Real vel(start=0, fixed=true);<br>
+            equation<br>
+            vel = if (time &gt; 10) then 0 elseif (time &gt; 170) then 10 elseif (time &gt; 200) then 8 elseif (time &gt; 260) then 18 else 12;<br>
+            annotation(experiment(StopTime=500));<br>
+            end step1;<br>
 			</blockquote>
+
+            <h4>Exercise 4</h4>
+            <img src="images/ex4_acc.png" alt="trolley acceleration">
+            <img src="images/ex4_traction.png" alt="trolley traction">
+
+            <p>TODO: idk what displacement is. Does m mean the mass of the passenger?</p>
+
+            <p>
+                D<sub>min</sub> and D<sub>max</sub> define the range in which no action is taken.
+                So the value will always oscillate within this range. On the second image we can see if we set the max,
+                the function oscillates only under the target function.
+            </p>
+
+            <h4>Exercise 5</h4>
+
+            <img src="images/dminmax5-5.png" alt="min=-5 max=5">
+            <img src="images/dminmax50.png" alt="min=0 max=5">
+            <p>
+                g defines the force or slope with which the value oscillates.
+                If this value is higher it oscillates faster as can be seen on the images.
+            </p>
+            <img src="images/g500.png" alt="low g value">
+            <img src="images/g10000.png" alt="high g value">
+
+            <p>TODO: We have no if-statements technically, only piecewise constructors</p>
+
+            <h4>Exercise 6</h4>
+            <img src="images/pid_acc.png" alt="trolley acceleration">
+            <img src="images/pid_sim.png" alt="trolley velocities">
 		</div>
 
             </div>
