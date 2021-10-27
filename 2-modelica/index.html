@@ -136,7 +136,7 @@
                 meaning only when the value reaches the threshold it will execute the statement.
                 If it were allowed to use when statements in this code fragment this wouldn't change anything.
                 Using the if method, each iteration we set active to true or false
-                while using when we only set active once each time a threshold is reached.
+                while using when we only set active once each time a threshold is exceeded.
                 Which could be more efficient.
             </p>
 
@@ -154,8 +154,12 @@
                 </blockquote>
 
             <h4>Exercise 6</h4>
-            <img src="images/pid_acc.png" alt="trolley acceleration">
             <img src="images/pid_sim.png" alt="trolley velocities">
+            <img src="images/pid_acc.png" alt="trolley acceleration">
+
+
+            <p> We can see that the passengers will barely not fall using the integrated
+                PID-controller as the displacement exceeds -1. The second image is added for completeness. </p>
 		</div>
 
             </div>
