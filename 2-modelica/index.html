@@ -26,7 +26,59 @@
                 </div>
                 <hr>
 
-                <div class="content">
+            <div class="content">
+            <h4> Lotka-Volterra</h4>
+                <b> Does this system stabilize? Why (not)? How can you tell? </b>
+                <p>No, it is a cyclic system, so it will never stabilize.
+                    This is easy to see in the parametric graph,
+                    where it would converge(spiral inward) to a certain point if
+                    it were to stabilize at some point. </p>
+
+                <p> Most integrators will converge (probably due to numerical error) after a very long time,
+                    Here is an example of the ircsko integrator using 10 000 years.</p>
+
+            <img src="images/lotka_convergence.png" alt="convergence">
+
+            <p>We also tried playing with the integration parameters and select different methods.
+                This is al made using the block diagram implementation. </p>
+
+            <p> The following graphs are calculated with the Rungekutta integration method.</p>
+            <img src="images/lotka_100.png" alt="rungekutta">
+            <img src="images/lotka_parametric.png" alt="rungekutta">
+
+            <p> The following graphs are calculated with the Dassl integration method.
+                The outlier is due to the start being higher for some reason.
+                Also, it is remarkable that the peaks are only 15 high instead of 25 for the previous one. </p>
+            <img src="images/lotka_dassl.png" alt="dassl">
+            <img src="images/lotka_dassl_param.png" alt="dassl">
+
+            <p> Some integrators give very weird results, like SymSolvercc and Qss</p>
+            <img src="images/lotka_symsolver.png" alt="symsolver">
+            <img src="images/lotka_qss.png" alt="qss">
+
+
+            <p> These are the normal charts using the text model.
+                We will now try to alter some of these parameters.</p>
+
+            <img src="images/lotka_normal.png" alt="default parameters">
+            <img src="images/lotka_normal_param.png" alt="default parameters">
+
+            <p> These are the graphs with alpha = 15.</p>
+            <img src="images/lotka_a15.png" alt="alpha = 15">
+            <img src="images/lotka_a15_param.png" alt="alpha = 15">
+
+            <p> These are the graphs with beta = 7.</p>
+            <img src="images/lotka_b7.png" alt="beta = 7">
+            <img src="images/lotka_b7_param.png" alt="beta = 7">
+
+            <p> These are the graphs with delta = 2.</p>
+            <img src="images/lotka_d2.png" alt="delta = 2">
+            <img src="images/lotka_d2_param.png" alt="delta = 2">
+
+            <p> These are the graphs with gamma = 2.</p>
+            <img src="images/lotka_g2.png" alt="gamma = 2">
+            <img src="images/lotka_g2_param.png" alt="gamma = 2">
+
 			<h4>Look up model</h4>
 
 			<blockquote>
