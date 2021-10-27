@@ -108,7 +108,10 @@
             <img src="images/ex4_acc.png" alt="trolley acceleration">
             <img src="images/ex4_traction.png" alt="trolley traction">
 
-            <p>TODO: idk what displacement is. Does m mean the mass of the passenger?</p>
+            <p>
+                The max positive displacement due to acceleration is around 0.17 while the negative is -0.23.
+                So the passengers will not fall.
+            </p>
 
             <p>
                 D<sub>min</sub> and D<sub>max</sub> define the range in which no action is taken.
@@ -127,7 +130,28 @@
             <img src="images/g500.png" alt="low g value">
             <img src="images/g10000.png" alt="high g value">
 
-            <p>TODO: We have no if-statements technically, only piecewise constructors</p>
+            <p>We have no if-statements technically, only piecewise constructors</p>
+
+            <p> A when will only execute the code the moment the event becomes active,
+                meaning only when the value reaches the threshold it will execute the statement.
+                If it were allowed to use when statements in this code fragment this wouldn't change anything.
+                Using the if method, each iteration we set active to true or false
+                while using when we only set active once each time a threshold is reached.
+                Which could be more efficient.
+            </p>
+
+            <blockquote>
+                active = if u > d_max then true elseif u < d_min then false else pre(active);
+            </blockquote>
+
+                <p> Our other line calculating the force would behave differently
+                    if changed to when as the force would be 0 most of the time.
+                    The estimation would oscillate around d_max continuously as then the event is triggered over and over.
+                </p>
+
+                <blockquote>
+                    F = if active then g else 0;
+                </blockquote>
 
             <h4>Exercise 6</h4>
             <img src="images/pid_acc.png" alt="trolley acceleration">
