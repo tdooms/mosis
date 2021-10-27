@@ -60,6 +60,20 @@
             <p> These are the normal charts using the text model.
                 We will now try to alter some of these parameters.</p>
 
+            <blockquote>
+                model LotkaVolterra<br>
+                  output Real x(start=10, fixed=true);<br>
+                  output Real y(start=10, fixed=true);<br>
+                  parameter Real alpha=1.5;<br>
+                  parameter Real beta=0.7;<br>
+                  parameter Real delta=0.2;<br>
+                  parameter Real gamma=0.2;<br>
+                equation<br>
+                  der(x) = alpha*x-beta*x*y;<br>
+                  der(y) = delta*x*y-gamma*y;<br>
+                end LotkaVolterra;<br>
+            </blockquote>
+
             <img src="images/lotka_normal.png" alt="default parameters">
             <img src="images/lotka_normal_param.png" alt="default parameters">
 
