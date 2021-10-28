@@ -2,6 +2,7 @@ import csv
 import os
 from typing import Optional
 from dataclasses import dataclass
+import random
 import numpy as np
 
 PATH = "PRT_PID_system_res.csv"
@@ -14,7 +15,7 @@ EPS = 1.0000001
 
 KP_RANGE = (300, 350)
 KI_RANGE = (0.5, 1.5)
-KD_RANGE = (-20, 70)
+KD_RANGE = (0, 70)
 
 KP_START = KP_RANGE[0] + (KP_RANGE[1] - KP_RANGE[0]) / 2
 KI_START = KI_RANGE[0] + (KI_RANGE[1] - KI_RANGE[0]) / 2
@@ -37,14 +38,14 @@ def print_headers():
 def least_squares_speed(rows) -> Optional[float]:
     accumulator = 0
     for row in rows:
-        x_psgr = float(row['customPlant.x_psgr'])
+        x_psgr = abs(float(row['customPlant.x_psgr']))
         v_trolley = float(row['customPlant.v_trolley'])
         v_ideal = float(row['lookUp.v_ideal'])
 
         if x_psgr > 0.35:
             return None
 
-        accumulator += (v_trolley - v_ideal)**2
+        accumulator += (v_trolley - v_ideal) ** 2
     return accumulator
 
 
@@ -79,31 +80,39 @@ def hill_climb(start: Point, cost_fn):
 
         neighbours = calc_neighbours(c_sample, c_size)
         values = [evaluate(n, cost_fn) for n in neighbours]
-        index = np.argmax(values)
+        index = np.argmin(values)
 
         # we add an EPS to avoid bouncing back and forward the whole time
-        if values[index] > c_value + EPS:
+        if values[index] < c_value - EPS:
             c_sample = neighbours[index]
             c_value = values[index]
         else:
             c_size = c_size / 2
 
         print("step", c_step, ":", c_sample, "->", c_value)
+    return c_sample, c_value
 
 
 def evaluate(sample: Point, cost_fn) -> Optional[float]:
     # Very cool conversions
     cmd = f"{CMD} -override pid.Ti={sample.kp / sample.ki},pid.Td={sample.kd / sample.kp},pid.k={sample.kp} >/dev/null 2>&1"
-    os.system()
+    os.system(cmd)
 
     file = open(PATH, newline='')
     rows = csv.DictReader(file)
     value = cost_fn(rows)
     print("sample", sample, ":", value)
-    return value
+    return value if value is not None else float("infinity")
 
 
 # ------- main code ------- #
-os.chdir("/home/thomas/brol/PRT_PID_system")
-hill_climb(Point(KP_START, KI_START, KD_START), least_squares_speed)
-# print_headers()
+if __name__ == "__main__":
+    os.chdir("/tmp/OpenModelica_basil/OMEdit/PRT_PID_system")
+    array = list()
+    for i in range(50):
+        new_point = hill_climb(Point(random.uniform(KP_RANGE[0], KP_RANGE[1]),
+                                     random.uniform(KI_RANGE[0], KI_RANGE[1]),
+                                     random.uniform(KD_RANGE[0], KD_RANGE[1])),
+                               least_squares_speed)
+        array.append(new_point)
+    print("\n", array)
