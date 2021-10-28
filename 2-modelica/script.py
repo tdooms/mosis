@@ -38,11 +38,11 @@ def print_headers():
 def least_squares_speed(rows) -> Optional[float]:
     accumulator = 0
     for row in rows:
-        x_psgr = abs(float(row['customPlant.x_psgr']))
+        x_psgr = float(row['customPlant.x_psgr'])
         v_trolley = float(row['customPlant.v_trolley'])
         v_ideal = float(row['lookUp.v_ideal'])
 
-        if x_psgr > 0.35:
+        if abs(x_psgr) > 0.35:
             return None
 
         accumulator += (v_trolley - v_ideal) ** 2
@@ -96,7 +96,8 @@ def hill_climb(start: Point, cost_fn):
 def evaluate(sample: Point, cost_fn) -> Optional[float]:
     # Very cool conversions
     cmd = f"{CMD} -override pid.Ti={sample.kp / sample.ki},pid.Td={sample.kd / sample.kp},pid.k={sample.kp} >/dev/null 2>&1"
-    os.system(cmd)
+    if os.system(cmd):
+        return float("infinity")
 
     file = open(PATH, newline='')
     rows = csv.DictReader(file)
@@ -109,7 +110,9 @@ def evaluate(sample: Point, cost_fn) -> Optional[float]:
 if __name__ == "__main__":
     os.chdir("/tmp/OpenModelica_basil/OMEdit/PRT_PID_system")
     array = list()
-    for i in range(50):
+    # print(hill_climb(Point(kp=336.3962156124765, ki=1.2504978652402856,
+    #                        kd=-4.148098383305211), least_squares_speed))
+    for i in range(5):
         new_point = hill_climb(Point(random.uniform(KP_RANGE[0], KP_RANGE[1]),
                                      random.uniform(KI_RANGE[0], KI_RANGE[1]),
                                      random.uniform(KD_RANGE[0], KD_RANGE[1])),

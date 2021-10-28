@@ -9,7 +9,7 @@ model PRT_PID_system
     Placement(visible = true, transformation(origin = {-52, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   CustomPlant customPlant(A = 9.12, C_D = 0.6, c = 150, k = 300, m_psgr = 77, m_trolley = 2376, p = 1.2)  annotation(
     Placement(visible = true, transformation(origin = {50, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
-  Modelica.Blocks.Continuous.PID pid(Td = 0.25, Ti = 269.0098279758657, k = 336.3962156124765)  annotation(
+  Modelica.Blocks.Continuous.PID pid(Td = 61.0669477634099, Ti = 4.581656294293791, k = 322.8425502997668)  annotation(
     Placement(visible = true, transformation(origin = {48, -28}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(negative.y, product.u2) annotation(
@@ -23,7 +23,7 @@ equation
   connect(multiSum.y, pid.u) annotation(
     Line(points = {{4, -30}, {36, -30}, {36, -28}}, color = {0, 0, 127}));
   connect(pid.y, customPlant.F_traction) annotation(
-    Line(points = {{60, -28}, {92, -28}, {92, 12}, {62, 12}, {62, 10}}, color = {0, 0, 127}));
+    Line(points = {{60, -28}, {94, -28}, {94, 10}, {62, 10}}, color = {0, 0, 127}));
 protected
   annotation(
     experiment(StopTime = 300),
