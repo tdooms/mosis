@@ -53,8 +53,9 @@
                         where it would converge(spiral inward) to a certain point if
                         it were to stabilize at some point. </p>
 
-                <p> However, most integrators will actually converge (probably due to numerical error) after a very long time,
-                    Here is an example of the ircsko integrator using 10 000 years.</p>
+                    <p> However, most integrators will actually converge (probably due to numerical error) after a very
+                        long time,
+                        Here is an example of the ircsko integrator that simulated 10 000 years.</p>
 
                     <img src="images/lotka_convergence.png" alt="convergence">
 
@@ -92,11 +93,14 @@
                         parameter Real delta=0.2;<br>
                         parameter Real gamma=0.2;<br>
                         Modelica.Blocks.Interfaces.RealOutput x(start=10, fixed=true) annotation(<br>
-                        Placement(visible = true, transformation(origin = {110, 50}, extent = {{-10, -10}, {10, 10}},<br>
-                        rotation = 0), iconTransformation(origin = {110, 50}, extent = {{-10, -10}, {10, 10}}, rotation<br>
+                        Placement(visible = true, transformation(origin = {110, 50}, extent = {{-10, -10}, {10,
+                        10}},<br>
+                        rotation = 0), iconTransformation(origin = {110, 50}, extent = {{-10, -10}, {10, 10}},
+                        rotation<br>
                         = 0)));<br>
                         Modelica.Blocks.Interfaces.RealOutput y(start=10, fixed=true) annotation(<br>
-                        Placement(visible = true, transformation(origin = {110, -48}, extent = {{-10, -10}, {10, 10}},<br>
+                        Placement(visible = true, transformation(origin = {110, -48}, extent = {{-10, -10}, {10,
+                        10}},<br>
                         rotation = 0), iconTransformation(origin = {110, -50}, extent = {{-10, -10}, {10, 10}}, rotation<br>
                         = 0)));<br>
                         equation<br>
@@ -132,49 +136,32 @@
                     <img src="images/lotka_b7.png" alt="beta = 7">
                     <img src="images/lotka_b7_param.png" alt="beta = 7">
 
-                    <p> These are the graphs with delta = 2. Here again we can see that there is a period, but it is
-                        quite large looking as if it is the same as the parameter beta. On the other hand we have the
-                        preys whom are
-                        significantly less in population than the predators. Compared to the initial graph of the
-                        Lotka-Volterra equations we can see that the predators are significantly higher in numbers, in
-                        contrast to the prey who were higher in numbers. As we can see in this graph, the population
-                        also almost flat-lines.</p>
+                    <p> These are the graphs with delta = 2. Here again we can see that there is a period, but it looks
+                        quite large as if it were the same as the parameter beta. On the other hand we have the
+                        preys who have
+                        significantly smaller population than the predators. Compared to the initial graph of
+                        the Lotka-Volterra equations we can see that the predators are more numerous.
+                        Lastly we can also notice that the population also almost flat-lines between cycles.</p>
                     <img src="images/lotka_d2.png" alt="delta = 2">
                     <img src="images/lotka_d2_param.png" alt="delta = 2">
-            <p> These are the graphs with delta = 2. Here again we can see that there is a period, but it is quite large as with the parameter beta. But this time the predator population is significantly lower than the preys.</p>
-            <img src="images/lotka_d2.png" alt="delta = 2">
-            <img src="images/lotka_d2_param.png" alt="delta = 2">
 
-            <p> These are the graphs with gamma = 2. The frequency has risen significantly when increasing this parameter, therefore the population will rise and fall quicker than with a lower gamma. The predator population never exceeds 10, which is in stark contrast with the preys which achieve population sizes of up to 40.</p>
-            <img src="images/lotka_g2.png" alt="gamma = 2">
-            <img src="images/lotka_g2_param.png" alt="gamma = 2">
                     <p> These are the graphs with gamma = 2. The frequency has risen significantly when increasing this
-                        parameter, therefore will the population rise and fall quicker than with a lower gamma. The
-                        predators never go over 10 in numbers, which is in stark contrast with the preys which achieve
+                        parameter, therefore the population will rise and fall quicker than with a lower gamma. The
+                        predator population never exceeds 10, which is in stark contrast with the preys which achieve
                         numbers of up to 40. None of the populations will reach or come close to 0 in the displayed
                         curves.
                     </p>
                     <img src="images/lotka_g2.png" alt="gamma = 2">
                     <img src="images/lotka_g2_param.png" alt="gamma = 2">
 
-			<h4>Look up model</h4>
-            For the lookup model we use a piecewise constructor.
-
-			<blockquote>
-            model lookup<br>
-            output Real vel(start=0, fixed=true);<br>
-            equation<br>
-            vel = if (time &gt; 10) then 0 elseif (time &gt; 170) then 10 elseif (time &gt; 200) then 8 elseif (time &gt; 260) then 18 else 12;<br>
-            annotation(experiment(StopTime=500));<br>
-            end lookup;<br>
-			</blockquote>
                     <p>
                         We can conclude that both parameters, delta and beta, decrease the cycle of the population
                         quicker
                         than the other two parameters, alpha and gamma. While beta doesn't seem to adapt the population
                         totals, parameters alpha and delta seem to increase the population of the predators and only
-                        beta seem to increase the population of the preys.
+                        beta seems to increase the population of the preys.
                     </p>
+
                     <h4>PRT</h4>
                     <h5>Part 1: Look-up model</h5>
                     <img src="images/look_up.png" alt="gamma = 2">
@@ -188,8 +175,8 @@
                         annotation(experiment(StopTime=500));<br>
                         end step1;<br>
                     </blockquote>
-                    We needed to use a piecewise evaluation to make modelica give us the correct output, as described in
-                    the look-up table.
+                    <p>We needed to use a piecewise evaluation to make modelica give us the correct output, as described in
+                        the look-up table. </p>
 
                     <h5>Part 2: Plant model</h5>
                     <blockquote>
@@ -314,50 +301,34 @@
                     <img src="images/ex4_acc.png" alt="trolley acceleration">
                     <img src="images/ex4_traction.png" alt="trolley traction">
 
-            <p>
-                The max positive displacement due to acceleration is around 0.17 while the negative is -0.23.
-                We can conclude that the passengers will not fall.
-            </p>
                     <p>
                         The max positive displacement due to acceleration is around 0.17 while the negative is -0.23.
-                        So the passengers will not fall.
+                        We can conclude that the passengers will not fall.
                     </p>
 
-            <h4>Exercise 5</h4>
+                    <h5>Task 5: Experimenting with parameters & replacing if with when</h5>
 
-            <p>
-                D<sub>min</sub> and D<sub>max</sub> define the range in which no action is taken.
-                So the value will always oscillate within this range. On the second image we can see if we set the max to zero,
-                the function oscillates only under the target function.
-            </p>
                     <p>
                         D<sub>min</sub> and D<sub>max</sub> define the range in which no action is taken.
                         So the value will always oscillate within this range. On the second image we can see if we set
-                        the max,
+                        the max to zero,
                         the function oscillates only under the target function.
                     </p>
-
-            <img src="images/dminmax5-5.png" alt="min=-5 max=5">
-            <img src="images/dminmax50.png" alt="min=0 max=5">
-            <p>
-                g defines the force or slope with which the value oscillates.
-                If this value is higher it oscillates faster.
-                The first image depicts a low g value while the second one is much higher.
-            </p>
-            <img src="images/g500.png" alt="low g value">
-            <img src="images/g10000.png" alt="high g value">
-                    <h5>Task 5: Experimenting with parameters & replacing if with when</h5>
 
                     <img src="images/dminmax5-5.png" alt="min=-5 max=5">
                     <img src="images/dminmax50.png" alt="min=0 max=5">
                     <p>
                         g defines the force or slope with which the value oscillates.
-                        If this value is higher it oscillates faster as can be seen on both images above.
+                        If this value is higher it oscillates faster.
+                        The first image depicts a low g value while the second one is much higher.
                     </p>
                     <img src="images/g500.png" alt="low g value">
                     <img src="images/g10000.png" alt="high g value">
 
-                    <p>We have no if-statements technically, only piecewise constructors</p>
+                    <b>What happens if you change the if-statements to when-statements, or vice-versa?</b>
+
+                    <p>Our codebase doesn't contain if-statements technically, only piecewise constructors.
+                    Due to this, only a theoretical explanation will be given. </p>
 
                     <p> A when will only execute the code the moment the event becomes active,
                         meaning only when the value reaches the threshold it will execute the statement.
@@ -366,15 +337,6 @@
                         while using when we only set active once each time a threshold is exceeded.
                         Which could be more efficient.
                     </p>
-            <b>What happens if you change the if-statements to when-statements, or vice-versa?</b>
-
-            <p> A when will only execute the code the moment the event becomes active,
-                meaning only when the value reaches the threshold it will execute the statement.
-                If it were allowed to use when statements in this code fragment this wouldn't change anything.
-                Using the if method, each iteration we set active to true or false
-                while using when we only set active once each time a threshold is exceeded.
-                Which could be more efficient.
-            </p>
 
                     <blockquote>
                         active = if u > d_max then true elseif u < d_min then false else pre(active);
@@ -395,68 +357,40 @@
                     <img src="images/pid_acc.png" alt="trolley acceleration">
 
 
-                    <p> We can see that the passengers will almost fall using the integrated
-                        PID-controller as the displacement exceeds -1. The second image is added for completeness. </p>
-            <p> We can see that the passengers barely won't fall using the integrated
-                PID-controller as the displacement stays withing the allowed boundaries of [-0.35, 0.35].
-                The second image is added for completeness. Showing the ideal and actual velocity. </p>
+                     <p> We can see that the passengers barely won't fall using the integrated
+                        PID-controller as the displacement stays withing the allowed boundaries of [-0.35, 0.35].
+                        The second image is added for completeness. Showing the ideal and actual velocity. </p>
 
                     <h4>Task 7 & 8: Optimize parameters & report</h4>
                     <p>To find the optimal value we opted for an automated approach. For this we had to figure out two
                         things:</p>
                     <ul>
                         <li>The cost/evaluation function.</li>
-                        <li>A way to find the minimum.</li>
+                        <li>A way to find the minimum given this function.</li>
                     </ul>
-            <h4>Exercise 7 & 8</h4>
-                <p>To find the optimal value we opted for an automated approach. For this we had to figure out two things:</p>
-                <ul>
-                    <li>The cost/evaluation function.</li>
-                    <li>A way to find the minimum given this function.</li>
-                </ul>
 
-                    <p>As a cost function we used a simple least squares method
+                    <p>As a cost function we used a simple least squares method on the speed difference
                         with a check to reject samples where people fell.
                         Which can be seen in the method below.</p>
-                <p>As a cost function we used a simple least squares method on the speed difference
-                with a check to reject samples where people fell.
-                Which can be seen in the method below.</p>
 
-                <blockquote>
-                    def least_squares_speed(rows) -> Optional[float]:<br>
-                        &nbsp;&nbsp;accumulator = 0<br>
-                        &nbsp;&nbsp;for row in rows:<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;x_psgr = float(row['customPlant.x_psgr'])<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;v_trolley = float(row['customPlant.v_trolley'])<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;v_ideal = float(row['lookUp.v_ideal'])<br>
-                    <br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;if abs(x_psgr) > 0.35:<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return None<br>
-                    <br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;accumulator += (v_trolley - v_ideal) ** 2<br>
-                        &nbsp;&nbsp;return accumulator<br>
-                </blockquote>
                     <blockquote>
                         def least_squares_speed(rows) -> Optional[float]:<br>
-                        accumulator = 0<br>
-                        for row in rows:<br>
-                        x_psgr = float(row['customPlant.x_psgr'])<br>
-                        v_trolley = float(row['customPlant.v_trolley'])<br>
-                        v_ideal = float(row['lookUp.v_ideal'])<br>
+                        &nbsp;&nbsp;accumulator = 0<br>
+                        &nbsp;&nbsp;for row in rows:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;x_psgr = float(row['customPlant.x_psgr'])<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;v_trolley = float(row['customPlant.v_trolley'])<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;v_ideal = float(row['lookUp.v_ideal'])<br>
                         <br>
-                        if abs(x_psgr) > 0.35:<br>
-                        return None<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;if abs(x_psgr) > 0.35:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return None<br>
                         <br>
-                        accumulator += (v_trolley - v_ideal) ** 2<br>
-                        return accumulator<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;accumulator += (v_trolley - v_ideal) ** 2<br>
+                        &nbsp;&nbsp;return accumulator<br>
                     </blockquote>
 
                     <p>We also considered alternate cost functions,
                         which maybe also minimize x_psgr but we decided against
                         it because it would most likely make the trolley a lot slower.</p>
-                <p>We also considered alternate cost functions,
-                which maybe also minimize x_psgr but decided against it
-                because it would most likely make the trolley a lot slower.</p>
 
                     <p>To find the minimum we opted to implement a simple hill-climber.
                         To avoid getting stuck in local minima we use multiple starting positions.
@@ -464,78 +398,47 @@
 
                     <blockquote>
                         def hill_climb(start: Point, cost_fn):<br>
-                        c_value = evaluate(start, cost_fn)<br>
-                        c_sample = start<br>
-                        c_size = START_STEP_SIZE<br>
-                        c_step = 0<br>
-                        <br>
-                        while c_size > START_STEP_SIZE / 100:<br>
-                        c_step += 1<br>
-                        <br>
-                        neighbours = calc_neighbours(c_sample, c_size)<br>
-                        values = [evaluate(n, cost_fn) for n in neighbours]<br>
-                        index = np.argmin(values)<br>
-                        <br>
-                        # we add an EPS to avoid bouncing back and forward the whole time<br>
-                        if values[index] < c_value - EPS:<br>
-                        c_sample = neighbours[index]<br>
-                        c_value = values[index]<br>
-                        else:<br>
-                        c_size = c_size / 2<br>
-                        <br>
-                        print("step", c_step, ":", c_sample, "->", c_value)<br>
-                        return c_sample, c_value<br>
-                    </blockquote>
-                <blockquote>
-                    def hill_climb(start: Point, cost_fn):<br>
                         &nbsp;&nbsp;c_value = evaluate(start, cost_fn)<br>
                         &nbsp;&nbsp;c_sample = start<br>
                         &nbsp;&nbsp;c_size = START_STEP_SIZE<br>
                         &nbsp;&nbsp;c_step = 0<br>
-                    <br>
+                        <br>
                         &nbsp;&nbsp;while c_size > START_STEP_SIZE / 100:<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;c_step += 1<br>
-                    <br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;neighbours = calc_neighbours(c_sample, c_size)<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;values = [evaluate(n, cost_fn) for n in neighbours]<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;index = np.argmin(values)<br>
-                    <br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;# we add an EPS to avoid bouncing back and forward the whole time<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;if values[index] < c_value - EPS:<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_sample = neighbours[index]<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_value = values[index]<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;else:<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_size = c_size / 2<br>
-                    <br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;print("step", c_step, ":", c_sample, "->", c_value)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;c_step += 1<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;neighbours = calc_neighbours(c_sample, c_size)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;values = [evaluate(n, cost_fn) for n in neighbours]<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;index = np.argmin(values)<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;# we add an EPS to avoid bouncing back and forward the whole time<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;if values[index] < c_value - EPS:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_sample = neighbours[index]<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_value = values[index]<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_size = c_size / 2<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("step", c_step, ":", c_sample, "->", c_value)<br>
                         &nbsp;&nbsp;return c_sample, c_value<br>
-                </blockquote>
+                    </blockquote>
 
-                    <p>This elementary hill climber will start with quite big steps and
+                    <p>The entire Python script can be read <a href="script.py"> here</a>.</p>
+
+                    <p>
+                        This elementary hill climber will check it's direct neighbours
+                        (in all 3 directions, so 6 evaluations) with an offset of c_step
                         when none of its neighbours have a lower value
-                        (probably indicating that it is close to a local minimum) it will decrease its step size.
-                        The algorithm halts when a certain threshold of step size is reached meaning we have enough
-                        accuracy.</p>
-                <p>The entire script can be read <a href="script.py"> here</a>.</p>
+                        (probably indicating that it is close to a local minimum) it will decrease its step size
+                        further.
+                        The algorithm halts when a certain lower bound on the step size is reached meaning we have
+                        enough accuracy.
+                    </p>
 
-                <p>
-                This elementary hill climber will check it's direct neighbours
-                (in all 3 directions, so 6 evaluations) with an offset of c_step
-                when none of its neighbours have a lower value
-                (probably indicating that it is close to a local minimum) it will decrease its step size further.
-                The algorithm halts when a certain lower bound on the step size is reached meaning we have enough accuracy.
-                </p>
-
-                    <p>This algorithm is not smart at all and will obviously miss a lot of details.
-                        We used this simple approach to get an estimate.</p>
-                <p>This algorithm is not smart in any way and will obviously miss a lot of details.
-                We used this simple approach to get an estimate, to get better results and better performance
-                more complex algorithms should be used.</p>
+                    <p>This algorithm is not smart in any way and will obviously miss a lot of details.
+                        We used this simple approach to get an estimate, to get better results and better performance
+                        more complex algorithms should be used.</p>
 
                     <p>We then ran this function 100 times with random starting positions within the given range.
-                        Which gave us the following result.</p>
-                <p>We then ran this function 100 times with random starting positions within the given range.
-                This gave us the following optimal parameters.</p>
+                        This gave us the following optimal parameters.</p>
 
                     <blockquote>
                         k = 329.3795484078204<br>
@@ -546,8 +449,6 @@
 
                     <img src="images/optimal.png" alt="optimized solution">
                     <p>The csv for this image can be found <a href="optimal_pid.csv"> here</a></p>
-                <img src="images/optimal.png" alt="optimized solution">
-                <p>The csv for this image can be found <a href="optimal_pid.csv"> here</a>.</p>
 
                     <p>On the first section we see that the ideal speed is approached very nicely.
                         And on the second and third change it quickly accelerates and decelerates.</p>
@@ -556,7 +457,8 @@
                         In a real environment one would obviously add some safety margin as to avoid people falling.</p>
 
                     <p>It is important to note that this is using the dassl integrator.
-                        We also had to remove negative values from the range of $K_d$ as it made some assertion fail inside
+                        We also had to remove negative values from the range of $K_d$ as it made some assertion fail
+                        inside
                         modelica.</p>
                 </div>
 
