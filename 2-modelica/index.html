@@ -163,6 +163,95 @@
 
             <p> We can see that the passengers will barely not fall using the integrated
                 PID-controller as the displacement exceeds -1. The second image is added for completeness. </p>
+
+            <h4>Exercise 7 & 8</h4>
+                <p>To find the optimal value we opted for an automated approach. For this we had to figure out two things:</p>
+                <ul>
+                    <li>The cost/evaluation function.</li>
+                    <li>A way to find the minimum.</li>
+                </ul>
+
+                <p>As a cost function we used a simple least squares method
+                with a check to reject samples where people fell.
+                Which can be seen in the method below.</p>
+
+                <blockquote>
+                    def least_squares_speed(rows) -> Optional[float]:<br>
+                        accumulator = 0<br>
+                        for row in rows:<br>
+                            x_psgr = float(row['customPlant.x_psgr'])<br>
+                            v_trolley = float(row['customPlant.v_trolley'])<br>
+                            v_ideal = float(row['lookUp.v_ideal'])<br>
+                    <br>
+                            if abs(x_psgr) > 0.35:<br>
+                                return None<br>
+                    <br>
+                            accumulator += (v_trolley - v_ideal) ** 2<br>
+                        return accumulator<br>
+                </blockquote>
+
+                <p>We also considered alternate cost functions,
+                which maybe also minimize x_psgr but decided against
+                it because it would most likely make the trolley a lot slower.</p>
+
+                <p>To find the minimum we opted to implement a simple hill-climber.
+                To avoid getting stuck in local minima we use multiple starting positions.
+                The hill climb function looks like this.</p>
+
+                <blockquote>
+                    def hill_climb(start: Point, cost_fn):<br>
+                        c_value = evaluate(start, cost_fn)<br>
+                        c_sample = start<br>
+                        c_size = START_STEP_SIZE<br>
+                        c_step = 0<br>
+                    <br>
+                        while c_size > START_STEP_SIZE / 100:<br>
+                            c_step += 1<br>
+                    <br>
+                            neighbours = calc_neighbours(c_sample, c_size)<br>
+                            values = [evaluate(n, cost_fn) for n in neighbours]<br>
+                            index = np.argmin(values)<br>
+                    <br>
+                            # we add an EPS to avoid bouncing back and forward the whole time<br>
+                            if values[index] < c_value - EPS:<br>
+                                c_sample = neighbours[index]<br>
+                                c_value = values[index]<br>
+                            else:<br>
+                                c_size = c_size / 2<br>
+                    <br>
+                            print("step", c_step, ":", c_sample, "->", c_value)<br>
+                        return c_sample, c_value<br>
+                </blockquote>
+
+                <p>This elementary hill climber will start with quite big steps and
+                when none of its neighbours have a lower value
+                (probably indicating that it is close to a local minimum) it will decrease its step size.
+                The algorithm halts when a certain threshold of step size is reached meaning we have enough accuracy.</p>
+
+                <p>This algorithm is not smart at all and will obviously miss a lot of details.
+                We used this simple approach to get an estimate.</p>
+
+                <p>We then ran this function 100 times with random starting positions within the given range.
+                Which gave us the following result.</p>
+
+                <blockquote>
+                    k = 329.3795484078204<br>
+                    ti = 66.35465944290725<br>
+                    td = 0.07505208070216672<br>
+                </blockquote>
+                <p>Which gives a cost/value of 1707.4864946354312. The graph for these values looks like this.</p>
+
+                <img src="images/optimal.png" alt="optimized solution">
+                <p>The csv for this image can be found <a href="optimal_pid.csv"> here</a></p>
+
+                <p>On the first section we see that the ideal speed is approached very nicely.
+                And on the second and third change it quickly accelerates and decelerates.</p>
+
+                <p>The highest value for x_psgr is on the first change, it is exactly 0.349977.
+                In a real environment one would obviously add some safety margin as to avoid people falling.</p>
+
+                <p>It is important to note that this is using the DASSL integrator.
+                We also had to remove negative values from the range as it made some assertion fail inside modelica.</p>
 		</div>
 
             </div>
