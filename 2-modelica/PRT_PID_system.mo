@@ -9,7 +9,7 @@ model PRT_PID_system
     Placement(visible = true, transformation(origin = {-52, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   CustomPlant customPlant(A = 9.12, C_D = 0.6, c = 150, k = 300, m_psgr = 77, m_trolley = 2376, p = 1.2)  annotation(
     Placement(visible = true, transformation(origin = {50, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
-  Modelica.Blocks.Continuous.PID pid(Td = 61.0669477634099, Ti = 4.581656294293791, k = 322.8425502997668)  annotation(
+  Modelica.Blocks.Continuous.PID pid(Td = 0.07505208070216672, Ti = 66.35465944290725, k = 329.3795484078204)  annotation(
     Placement(visible = true, transformation(origin = {48, -28}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(negative.y, product.u2) annotation(

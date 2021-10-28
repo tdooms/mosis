@@ -1,15 +1,29 @@
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MoSIS</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    </head>
-    <body>
-        <section class="section">
-            <div class="container">
-            <div class="columns is-centered">
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+    >
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <div class="columns is-centered">
             <div class="column is-half">
 
                 <h1 class="title">Modelica assignment</h1>
@@ -26,237 +40,412 @@
                 </div>
                 <hr>
 
-            <div class="content">
-            <h4> Lotka-Volterra</h4>
-                <b> Does this system stabilize? Why (not)? How can you tell? </b>
-                <p>No, it is a cyclic system, so it will never stabilize.
-                    This is easy to see in the parametric graph,
-                    where it would converge(spiral inward) to a certain point if
-                    it were to stabilize at some point. </p>
+                <div class="content">
+                    <h4>Introduction</h4>
+                    <p>
+                        This report contains a lot of code snippets. These could be outdated, but the files
+                        corresponding to these snippets are always up-to date and contain the latest working version.
+                    </p>
+                    <h4>Lotka-Volterra</h4>
+                    <b> Does this system stabilize? Why (not)? How can you tell? </b>
+                    <p>No, it is a cyclic system, so it will never stabilize.
+                        This is easy to see in the parametric graph,
+                        where it would converge(spiral inward) to a certain point if
+                        it were to stabilize at some point. </p>
 
-                <p> Most integrators will converge (probably due to numerical error) after a very long time,
-                    Here is an example of the ircsko integrator using 10 000 years.</p>
+                    <p> Some integrators will converge (probably due to numerical error) after a very long time,
+                        For example the ircsko integrator when simulating for 10 000 years.</p>
 
-            <img src="images/lotka_convergence.png" alt="convergence">
+                    <img src="images/lotka_convergence.png" alt="convergence">
 
-            <p>We also tried playing with the integration parameters and select different methods.
-                This is al made using the block diagram implementation. </p>
+                    <p>We also tried playing with the integration parameters and select different methods.
+                        All these simulations were executed with the block diagram. </p>
 
-            <p> The following graphs are calculated with the Rungekutta integration method.</p>
-            <img src="images/lotka_100.png" alt="rungekutta">
-            <img src="images/lotka_parametric.png" alt="rungekutta">
+                    <p>The following graphs were obtained with the Rungekutta integration method.</p>
+                    <img src="images/lotka_100.png" alt="rungekutta">
+                    <img src="images/lotka_parametric.png" alt="rungekutta">
 
-            <p> The following graphs are calculated with the Dassl integration method.
-                The outlier is due to the start being higher for some reason.
-                Also, it is remarkable that the peaks are only 15 high instead of 25 for the previous one. </p>
-            <img src="images/lotka_dassl.png" alt="dassl">
-            <img src="images/lotka_dassl_param.png" alt="dassl">
+                    <p> The following graphs are calculated with the dassl integration method.
+                        The outlier is due to the start being higher for some reason and then never coming back to that
+                        point. Also, it is notable that the peaks of the prey are only 15 high compared to 25 for the
+                        rungekutta integration method.</p>
+                    <img src="images/lotka_dassl.png" alt="dassl">
+                    <img src="images/lotka_dassl_param.png" alt="dassl">
 
-            <p> Some integrators give very weird results, like SymSolvercc and Qss</p>
-            <img src="images/lotka_symsolver.png" alt="symsolver">
-            <img src="images/lotka_qss.png" alt="qss">
-
-
-            <p> These are the normal charts using the text model.
-                We will now try to alter some of these parameters.
-                We will do this by multiplying each of the parameters
-                by 10 and leaving the others unchanged. Here is the code.
-            </p>
-
-            <blockquote>
-                model LotkaVolterra<br>
-                  output Real x(start=10, fixed=true);<br>
-                  output Real y(start=10, fixed=true);<br>
-                  parameter Real alpha=1.5;<br>
-                  parameter Real beta=0.7;<br>
-                  parameter Real delta=0.2;<br>
-                  parameter Real gamma=0.2;<br>
-                equation<br>
-                  der(x) = alpha*x-beta*x*y;<br>
-                  der(y) = delta*x*y-gamma*y;<br>
-                end LotkaVolterra;<br>
-            </blockquote>
-
-            <img src="images/lotka_normal.png" alt="default parameters">
-            <img src="images/lotka_normal_param.png" alt="default parameters">
-
-            <p> These are the graphs with alpha = 15. We can clearly see that the frequency of the rising and falling of the predator and prey has increased significantly. The peaks of both predator and prey are visibly higher. The falloff in predator and prey is quick, and the spikes of the predator, indicated in red, are quite short. A remarkable part of this graph is that the preys never entirely die, i.e. reach almost 0.</p>
-            <img src="images/lotka_a15.png" alt="alpha = 15">
-            <img src="images/lotka_a15_param.png" alt="alpha = 15">
-
-            <p> These are the graphs with beta = 7. Both the parametric and time quantity plot do not seem periodic, but this could be because of the simulation time being too short. Nonetheless we can still see that the maximum attained values for both predators and preys will probably not exceed the initial values of 10 by much.</p>
-            <img src="images/lotka_b7.png" alt="beta = 7">
-            <img src="images/lotka_b7_param.png" alt="beta = 7">
-
-            <p> These are the graphs with delta = 2. Here again we can see that there is a period, but the period is quite large as with the parameter beta. But this time the predators do are significantly less in population than the preys.</p>
-            <img src="images/lotka_d2.png" alt="delta = 2">
-            <img src="images/lotka_d2_param.png" alt="delta = 2">
-
-            <p> These are the graphs with gamma = 2. The frequency has risen significantly when increasing this parameter, therefore will the population rise and fall quicker than with a lower gamma. The predators never go over 10 in numbers, which is in stark contrast with the preys which achieve numbers of up to 40.</p>
-            <img src="images/lotka_g2.png" alt="gamma = 2">
-            <img src="images/lotka_g2_param.png" alt="gamma = 2">
-
-			<h4>Look up model</h4>
-
-			<blockquote>
-            model step1<br>
-            output Real vel(start=0, fixed=true);<br>
-            equation<br>
-            vel = if (time &gt; 10) then 0 elseif (time &gt; 170) then 10 elseif (time &gt; 200) then 8 elseif (time &gt; 260) then 18 else 12;<br>
-            annotation(experiment(StopTime=500));<br>
-            end step1;<br>
-			</blockquote>
-
-            <h4>Exercise 4</h4>
-            <img src="images/ex4_acc.png" alt="trolley acceleration">
-            <img src="images/ex4_traction.png" alt="trolley traction">
-
-            <p>
-                The max positive displacement due to acceleration is around 0.17 while the negative is -0.23.
-                So the passengers will not fall.
-            </p>
-
-            <p>
-                D<sub>min</sub> and D<sub>max</sub> define the range in which no action is taken.
-                So the value will always oscillate within this range. On the second image we can see if we set the max,
-                the function oscillates only under the target function.
-            </p>
-
-            <h4>Exercise 5</h4>
-
-            <img src="images/dminmax5-5.png" alt="min=-5 max=5">
-            <img src="images/dminmax50.png" alt="min=0 max=5">
-            <p>
-                g defines the force or slope with which the value oscillates.
-                If this value is higher it oscillates faster as can be seen on the images.
-            </p>
-            <img src="images/g500.png" alt="low g value">
-            <img src="images/g10000.png" alt="high g value">
-
-            <p>We have no if-statements technically, only piecewise constructors</p>
-
-            <p> A when will only execute the code the moment the event becomes active,
-                meaning only when the value reaches the threshold it will execute the statement.
-                If it were allowed to use when statements in this code fragment this wouldn't change anything.
-                Using the if method, each iteration we set active to true or false
-                while using when we only set active once each time a threshold is exceeded.
-                Which could be more efficient.
-            </p>
-
-            <blockquote>
-                active = if u > d_max then true elseif u < d_min then false else pre(active);
-            </blockquote>
-
-                <p> Our other line calculating the force would behave differently
-                    if changed to when as the force would be 0 most of the time.
-                    The estimation would oscillate around d_max continuously as then the event is triggered over and over.
-                </p>
-
-                <blockquote>
-                    F = if active then g else 0;
-                </blockquote>
-
-            <h4>Exercise 6</h4>
-            <img src="images/pid_sim.png" alt="trolley velocities">
-            <img src="images/pid_acc.png" alt="trolley acceleration">
+                    <p> Some integrators give very weird results, like SymSolvercc and Qss</p>
+                    <img src="images/lotka_symsolver.png" alt="symsolver">
+                    <img src="images/lotka_qss.png" alt="qss">
 
 
-            <p> We can see that the passengers will barely not fall using the integrated
-                PID-controller as the displacement exceeds -1. The second image is added for completeness. </p>
+                    <p> These are the Lotka-Volterra charts using the text model.
+                        We will now try to alter some of these parameters.
+                        We will do this by multiplying each of the parameters
+                        by 10 and leaving the others unchanged. Here is the code.
+                    </p>
 
-            <h4>Exercise 7 & 8</h4>
-                <p>To find the optimal value we opted for an automated approach. For this we had to figure out two things:</p>
-                <ul>
-                    <li>The cost/evaluation function.</li>
-                    <li>A way to find the minimum.</li>
-                </ul>
+                    <blockquote>
+                        model LotkaVolterra<br>
+                        parameter Real alpha=1.5;<br>
+                        parameter Real beta=0.7;<br>
+                        parameter Real delta=0.2;<br>
+                        parameter Real gamma=0.2;<br>
+                        Modelica.Blocks.Interfaces.RealOutput x(start=10, fixed=true) annotation(<br>
+                        Placement(visible = true, transformation(origin = {110, 50}, extent = {{-10, -10}, {10, 10}},<br>
+                        rotation = 0), iconTransformation(origin = {110, 50}, extent = {{-10, -10}, {10, 10}}, rotation<br>
+                        = 0)));<br>
+                        Modelica.Blocks.Interfaces.RealOutput y(start=10, fixed=true) annotation(<br>
+                        Placement(visible = true, transformation(origin = {110, -48}, extent = {{-10, -10}, {10, 10}},<br>
+                        rotation = 0), iconTransformation(origin = {110, -50}, extent = {{-10, -10}, {10, 10}}, rotation<br>
+                        = 0)));<br>
+                        equation<br>
+                        der(x) = alpha*x-beta*x*y;<br>
+                        der(y) = delta*x*y-gamma*y;<br>
+                        annotation(<br>
+                        uses(Modelica(version = "3.2.3")));<br>
+                        end LotkaVolterra;><br>
+                    </blockquote>
+                    <p>
+                        We take the red graph or the x-variable as the prey and the blue graph or the y-variable as the
+                        predator. In the parametric plot the x-axis is the prey and the y-axis the predator.
+                    </p>
 
-                <p>As a cost function we used a simple least squares method
-                with a check to reject samples where people fell.
-                Which can be seen in the method below.</p>
+                    <img src="images/lotka_normal.png" alt="default parameters">
+                    <img src="images/lotka_normal_param.png" alt="default parameters">
 
-                <blockquote>
-                    def least_squares_speed(rows) -> Optional[float]:<br>
+                    <p> These are the graphs with alpha = 15. We can clearly see that the frequency of the rising and
+                        falling of the predator and prey has increased significantly. The peaks of both predator and
+                        prey are visibly higher. The falloff in predator and prey is quick, and the spikes of the
+                        prey are quite short-lived. If we take the parametric plot into account we see that only the
+                        prey will closely reach zero.
+                    </p>
+                    <img src="images/lotka_a15.png" alt="alpha = 15">
+                    <img src="images/lotka_a15_param.png" alt="alpha = 15">
+
+                    <p> These are the graphs with beta = 7. Both the parametric and time quantity plot do not seem
+                        periodic, but this could be because of the simulation time being too short. Nonetheless, we can
+                        still see that the maximum attained values for both predators and preys will probably not exceed
+                        the initial values of 10 by much. The population of the predators also decreases slower than
+                        the population of the prey, which drop 'instantly'.
+                    </p>
+                    <img src="images/lotka_b7.png" alt="beta = 7">
+                    <img src="images/lotka_b7_param.png" alt="beta = 7">
+
+                    <p> These are the graphs with delta = 2. Here again we can see that there is a period, but it is
+                        quite large looking as if it is the same as the parameter beta. On the other hand we have the
+                        preys whom are
+                        significantly less in population than the predators. Compared to the initial graph of the
+                        Lotka-Volterra equations we can see that the predators are significantly higher in numbers, in
+                        contrast to the prey who were higher in numbers. As we can see in this graph, the population
+                        also almost flat-lines.</p>
+                    <img src="images/lotka_d2.png" alt="delta = 2">
+                    <img src="images/lotka_d2_param.png" alt="delta = 2">
+
+                    <p> These are the graphs with gamma = 2. The frequency has risen significantly when increasing this
+                        parameter, therefore will the population rise and fall quicker than with a lower gamma. The
+                        predators never go over 10 in numbers, which is in stark contrast with the preys which achieve
+                        numbers of up to 40. None of the populations will reach or come close to 0 in the displayed
+                        curves.
+                    </p>
+                    <img src="images/lotka_g2.png" alt="gamma = 2">
+                    <img src="images/lotka_g2_param.png" alt="gamma = 2">
+
+                    <p>
+                        We can conclude that both parameters, delta and beta, decrease the cycle of the population
+                        quicker
+                        than the other two parameters, alpha and gamma. While beta doesn't seem to adapt the population
+                        totals, parameters alpha and delta seem to increase the population of the predators and only
+                        beta seem to increase the population of the preys.
+                    </p>
+                    <h4>PRT</h4>
+                    <h5>Part 1: Look-up model</h5>
+                    <img src="images/look_up.png" alt="gamma = 2">
+                    <p>The image associated with the look-up table for 300 seconds.</p>
+                    <blockquote>
+                        model step1<br>
+                        output Real vel(start=0, fixed=true);<br>
+                        equation<br>
+                        vel = if (time &gt; 10) then 0 elseif (time &gt; 170) then 10 elseif (time &gt; 200) then 8
+                        elseif (time &gt; 260) then 18 else 12;<br>
+                        annotation(experiment(StopTime=500));<br>
+                        end step1;<br>
+                    </blockquote>
+                    We needed to use a piecewise evaluation to make modelica give us the correct output, as described in
+                    the look-up table.
+
+                    <h5>Part 2: Plant model</h5>
+                    <blockquote>
+                        model CustomPlant<br/>
+                        Real v_psgr(start = 0);<br/>
+                        Real x_trolley(start = 0);<br/>
+                        <br/>
+                        parameter Real m_psgr(start = 1);<br/>
+                        parameter Real m_trolley(start = 1);<br/>
+                        <br/>
+                        parameter Real k(start = 0);<br/>
+                        parameter Real c(start = 0);<br/>
+                        parameter Real C_D(start = 0);<br/>
+                        parameter Real p(start = 0);<br/>
+                        parameter Real A(start = 0);<br/>
+                        <br/>
+                        input Modelica.Blocks.Interfaces.RealInput F_traction(start = 0) annotation(<br/>
+                        Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-20, -20}, {20,<br/>
+                        20}},<br/>
+                        rotation = 0), iconTransformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}},<br/>
+                        rotation<br/>
+                        = 0)));<br/>
+                        <br>
+                        output Modelica.Blocks.Interfaces.RealOutput v_trolley(start = 0) annotation(<br/>
+                        Placement(visible = true, transformation(origin = {110, 50}, extent = {{-10, -10}, {10,<br/>
+                        10}},<br/>
+                        rotation = 0), iconTransformation(origin = {110, 50}, extent = {{-10, -10}, {10, 10}},<br/>
+                        rotation<br/>
+                        = 0)));<br/>
+                        output Modelica.Blocks.Interfaces.RealOutput x_psgr(start = 0) annotation(<br/>
+                        Placement(visible = true, transformation(origin = {110, -50}, extent = {{-10, -10}, {10,<br/>
+                        10}},<br/>
+                        rotation = 0), iconTransformation(origin = {110, -50}, extent = {{-10, -10}, {10, 10}}, rotation<br/>
+                        = 0)));<br/>
+                        equation<br/>
+                        der(v_psgr) = (-k * x_psgr - c * v_psgr - m_psgr * ((F_traction -<br/>
+                        .5*p*v_trolley^2*C_D*A)/(m_trolley + m_psgr)))/m_psgr;<br/>
+                        <br/>
+                        der(v_trolley) = (F_traction - .5 * p * v_trolley^2 * C_D * A) / (m_trolley + m_psgr);<br/>
+                        der(x_psgr) = v_psgr;<br/>
+                        der(x_trolley) = v_trolley;<br/>
+                        end CustomPlant;<br/>
+                    </blockquote>
+                    <p>
+                        For this part the goal was to convert the equations we received into a plant, which had
+                        $F_{traction}$ as input parameter. There were 2 output parameters we should take into account
+                        for the plant model. These are the $v_{trolley}$ and $x_{psgr}$. Alongside these models we have
+                        some parameters that are fixed during the simulations, but can be adjusted as they are
+                        parameters defined as non-fixed in the model.
+                    </p>
+                    <p>
+                        First we will discuss the input parameter $F_{traction}$ in how this is modeled and made
+                        accessible through an interface in OMEdit. We've done this through the icon (which allows us to
+                        change the look of a custom model block) and diagram view (which contains the internal
+                        circuitry). The same has been done for $v_{trolley}$ and $x_{psgr}$. For the parameters, we used
+                        the text editor in OMEdit. The only thing we needed to change was to put the keyword parameter
+                        before the variable.
+                    </p>
+                    <p>
+                        The last part was creating the equations in the OMEdit tool. We did this in the text mode since
+                        it was simpler than creating a whole circuit which would be probably overly complicated. [insert
+                        explanation of the equations]
+                    </p>
+
+                    <h5>Part 3: Bang-Bang controller + PRT with Bang-Bang controller</h5>
+                    <img src="images/PRT_system_bang_bang.png" alt="bang bang PRT"/>
+                    <blockquote>
+                        model PRT_system<br>
+                        Modelica.Blocks.Math.Product product annotation(<br>
+                        Placement(visible = true, transformation(origin = {-10, 30}, extent = {{-10, -10}, {10,
+                        10}},<br>
+                        rotation = 180)));<br>
+                        Modelica.Blocks.Sources.Constant negative(k = -1) annotation(<br>
+                        Placement(visible = true, transformation(origin = {50, 50}, extent = {{-10, -10}, {10, 10}},<br>
+                        rotation = 180)));<br>
+                        Modelica.Blocks.Math.MultiSum multiSum(nu = 2) annotation(<br>
+                        Placement(visible = true, transformation(origin = {-4, -30}, extent = {{-6, -6}, {6, 6}},<br>
+                        rotation = 0)));<br>
+                        LookUp lookUp annotation(<br>
+                        Placement(visible = true, transformation(origin = {-50, -30}, extent = {{-10, -10}, {10,
+                        10}},<br>
+                        rotation = 0)));<br>
+                        CustomPlant customPlant(A = 9.12, C_D = 0.6, c = 150, k = 300, m_psgr = 77, m_trolley = 2376,
+                        p<br>
+                        = 1.2) annotation(<br>
+                        Placement(visible = true, transformation(origin = {50, 10}, extent = {{-10, -10}, {10, 10}},<br>
+                        rotation = 180)));<br>
+                        BangBangController bangBangController(d_max = 1, d_min = -1, g = 2000) annotation(<br>
+                        Placement(visible = true, transformation(origin = {30, -30}, extent = {{-10, -10}, {10,
+                        10}},<br>
+                        rotation = 0)));<br>
+                        equation<br>
+                        connect(negative.y, product.u2) annotation(<br>
+                        Line(points = {{39, 50}, {2, 50}, {2, 36}}, color = {0, 0, 127}));<br>
+                        connect(product.y, multiSum.u[1]) annotation(<br>
+                        Line(points = {{-21, 30}, {-31, 30}, {-31, -26.875}, {-11, -26.875}, {-11, -30}}, color = {0, 0,<br>
+                        127}));<br>
+                        connect(lookUp.v_ideal, multiSum.u[2]) annotation(<br>
+                        Line(points = {{-39, -30}, {-7, -30}}, color = {0, 0, 127}));<br>
+                        connect(bangBangController.F, customPlant.F_traction) annotation(<br>
+                        Line(points = {{41, -30}, {68, -30}, {68, 10}, {62, 10}}, color = {0, 0, 127}));<br>
+                        connect(multiSum.y, bangBangController.u) annotation(<br>
+                        Line(points = {{3.02, -30}, {18, -30}}, color = {0, 0, 127}));<br>
+                        connect(product.u1, customPlant.v_trolley) annotation(<br>
+                        Line(points = {{2, 24}, {20, 24}, {20, 5}, {40, 5}, {40, 6}}, color = {0, 0, 127}));<br>
+                        annotation(<br>
+                        experiment(StopTime = 300),<br>
+                        uses(Modelica(version = "3.2.3")));<br>
+                        end PRT_system;<br>
+                    </blockquote>
+                    <p>
+                        For this part we used the diagram tool, and modified the previous input and output ports of the
+                        plant,
+                        bangBangController and lookUp. In order to make them compatible with the circuit. Making this
+                        the
+                        graphical way, would make replacing and fixing individual blocks of the circuit much quicker.
+                        The
+                        PRT system is designed in the exact same way as shown in the task.
+                    </p>
+
+                    <h5>Part 4: Simulation</h5>
+                    <img src="images/ex4_acc.png" alt="trolley acceleration">
+                    <img src="images/ex4_traction.png" alt="trolley traction">
+
+                    <p>
+                        The max positive displacement due to acceleration is around 0.17 while the negative is -0.23.
+                        So the passengers will not fall.
+                    </p>
+
+                    <p>
+                        D<sub>min</sub> and D<sub>max</sub> define the range in which no action is taken.
+                        So the value will always oscillate within this range. On the second image we can see if we set
+                        the max,
+                        the function oscillates only under the target function.
+                    </p>
+
+                    <h5>Task 5: Experimenting with parameters & replacing if with when</h5>
+
+                    <img src="images/dminmax5-5.png" alt="min=-5 max=5">
+                    <img src="images/dminmax50.png" alt="min=0 max=5">
+                    <p>
+                        g defines the force or slope with which the value oscillates.
+                        If this value is higher it oscillates faster as can be seen on both images above.
+                    </p>
+                    <img src="images/g500.png" alt="low g value">
+                    <img src="images/g10000.png" alt="high g value">
+
+                    <p>We have no if-statements technically, only piecewise constructors</p>
+
+                    <p> A when will only execute the code the moment the event becomes active,
+                        meaning only when the value reaches the threshold it will execute the statement.
+                        If it were allowed to use when statements in this code fragment this wouldn't change anything.
+                        Using the if method, each iteration we set active to true or false
+                        while using when we only set active once each time a threshold is exceeded.
+                        Which could be more efficient.
+                    </p>
+
+                    <blockquote>
+                        active = if u > d_max then true elseif u < d_min then false else pre(active);
+                    </blockquote>
+
+                    <p> Our other line calculating the force would behave differently
+                        if changed to when as the force would be 0 most of the time.
+                        The estimation would oscillate around d_max continuously as at that moment the event is
+                        triggered again and again.
+                    </p>
+
+                    <blockquote>
+                        F = if active then g else 0;
+                    </blockquote>
+
+                    <h5>Task 6: PRT system with PID controller</h5>
+                    <img src="images/pid_sim.png" alt="trolley velocities">
+                    <img src="images/pid_acc.png" alt="trolley acceleration">
+
+
+                    <p> We can see that the passengers will almost fall using the integrated
+                        PID-controller as the displacement exceeds -1. The second image is added for completeness. </p>
+
+                    <h4>Task 7 & 8: Optimize parameters & report</h4>
+                    <p>To find the optimal value we opted for an automated approach. For this we had to figure out two
+                        things:</p>
+                    <ul>
+                        <li>The cost/evaluation function.</li>
+                        <li>A way to find the minimum.</li>
+                    </ul>
+
+                    <p>As a cost function we used a simple least squares method
+                        with a check to reject samples where people fell.
+                        Which can be seen in the method below.</p>
+
+                    <blockquote>
+                        def least_squares_speed(rows) -> Optional[float]:<br>
                         accumulator = 0<br>
                         for row in rows:<br>
-                            x_psgr = float(row['customPlant.x_psgr'])<br>
-                            v_trolley = float(row['customPlant.v_trolley'])<br>
-                            v_ideal = float(row['lookUp.v_ideal'])<br>
-                    <br>
-                            if abs(x_psgr) > 0.35:<br>
-                                return None<br>
-                    <br>
-                            accumulator += (v_trolley - v_ideal) ** 2<br>
+                        x_psgr = float(row['customPlant.x_psgr'])<br>
+                        v_trolley = float(row['customPlant.v_trolley'])<br>
+                        v_ideal = float(row['lookUp.v_ideal'])<br>
+                        <br>
+                        if abs(x_psgr) > 0.35:<br>
+                        return None<br>
+                        <br>
+                        accumulator += (v_trolley - v_ideal) ** 2<br>
                         return accumulator<br>
-                </blockquote>
+                    </blockquote>
 
-                <p>We also considered alternate cost functions,
-                which maybe also minimize x_psgr but decided against
-                it because it would most likely make the trolley a lot slower.</p>
+                    <p>We also considered alternate cost functions,
+                        which maybe also minimize x_psgr but we decided against
+                        it because it would most likely make the trolley a lot slower.</p>
 
-                <p>To find the minimum we opted to implement a simple hill-climber.
-                To avoid getting stuck in local minima we use multiple starting positions.
-                The hill climb function looks like this.</p>
+                    <p>To find the minimum we opted to implement a simple hill-climber.
+                        To avoid getting stuck in local minima we use multiple starting positions.
+                        The hill climb function looks like this.</p>
 
-                <blockquote>
-                    def hill_climb(start: Point, cost_fn):<br>
+                    <blockquote>
+                        def hill_climb(start: Point, cost_fn):<br>
                         c_value = evaluate(start, cost_fn)<br>
                         c_sample = start<br>
                         c_size = START_STEP_SIZE<br>
                         c_step = 0<br>
-                    <br>
+                        <br>
                         while c_size > START_STEP_SIZE / 100:<br>
-                            c_step += 1<br>
-                    <br>
-                            neighbours = calc_neighbours(c_sample, c_size)<br>
-                            values = [evaluate(n, cost_fn) for n in neighbours]<br>
-                            index = np.argmin(values)<br>
-                    <br>
-                            # we add an EPS to avoid bouncing back and forward the whole time<br>
-                            if values[index] < c_value - EPS:<br>
-                                c_sample = neighbours[index]<br>
-                                c_value = values[index]<br>
-                            else:<br>
-                                c_size = c_size / 2<br>
-                    <br>
-                            print("step", c_step, ":", c_sample, "->", c_value)<br>
+                        c_step += 1<br>
+                        <br>
+                        neighbours = calc_neighbours(c_sample, c_size)<br>
+                        values = [evaluate(n, cost_fn) for n in neighbours]<br>
+                        index = np.argmin(values)<br>
+                        <br>
+                        # we add an EPS to avoid bouncing back and forward the whole time<br>
+                        if values[index] < c_value - EPS:<br>
+                        c_sample = neighbours[index]<br>
+                        c_value = values[index]<br>
+                        else:<br>
+                        c_size = c_size / 2<br>
+                        <br>
+                        print("step", c_step, ":", c_sample, "->", c_value)<br>
                         return c_sample, c_value<br>
-                </blockquote>
+                    </blockquote>
 
-                <p>This elementary hill climber will start with quite big steps and
-                when none of its neighbours have a lower value
-                (probably indicating that it is close to a local minimum) it will decrease its step size.
-                The algorithm halts when a certain threshold of step size is reached meaning we have enough accuracy.</p>
+                    <p>This elementary hill climber will start with quite big steps and
+                        when none of its neighbours have a lower value
+                        (probably indicating that it is close to a local minimum) it will decrease its step size.
+                        The algorithm halts when a certain threshold of step size is reached meaning we have enough
+                        accuracy.</p>
 
-                <p>This algorithm is not smart at all and will obviously miss a lot of details.
-                We used this simple approach to get an estimate.</p>
+                    <p>This algorithm is not smart at all and will obviously miss a lot of details.
+                        We used this simple approach to get an estimate.</p>
 
-                <p>We then ran this function 100 times with random starting positions within the given range.
-                Which gave us the following result.</p>
+                    <p>We then ran this function 100 times with random starting positions within the given range.
+                        Which gave us the following result.</p>
 
-                <blockquote>
-                    k = 329.3795484078204<br>
-                    ti = 66.35465944290725<br>
-                    td = 0.07505208070216672<br>
-                </blockquote>
-                <p>Which gives a cost/value of 1707.4864946354312. The graph for these values looks like this.</p>
+                    <blockquote>
+                        k = 329.3795484078204<br>
+                        ti = 66.35465944290725<br>
+                        td = 0.07505208070216672<br>
+                    </blockquote>
+                    <p>Which gives a cost/value of 1707.4864946354312. The graph for these values looks like this.</p>
 
-                <img src="images/optimal.png" alt="optimized solution">
-                <p>The csv for this image can be found <a href="optimal_pid.csv"> here</a></p>
+                    <img src="images/optimal.png" alt="optimized solution">
+                    <p>The csv for this image can be found <a href="optimal_pid.csv"> here</a></p>
 
-                <p>On the first section we see that the ideal speed is approached very nicely.
-                And on the second and third change it quickly accelerates and decelerates.</p>
+                    <p>On the first section we see that the ideal speed is approached very nicely.
+                        And on the second and third change it quickly accelerates and decelerates.</p>
 
-                <p>The highest value for x_psgr is on the first change, it is exactly 0.349977.
-                In a real environment one would obviously add some safety margin as to avoid people falling.</p>
+                    <p>The highest value for x_psgr is on the first change, it is exactly 0.349977.
+                        In a real environment one would obviously add some safety margin as to avoid people falling.</p>
 
-                <p>It is important to note that this is using the DASSL integrator.
-                We also had to remove negative values from the range as it made some assertion fail inside modelica.</p>
-		</div>
+                    <p>It is important to note that this is using the dassl integrator.
+                        We also had to remove negative values from the range of $K_d$ as it made some assertion fail inside
+                        modelica.</p>
+                </div>
 
             </div>
-            </div>
-            </div>
-        </section>
-    </body>
+        </div>
+    </div>
+</section>
+</body>
 </html>
