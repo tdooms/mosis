@@ -11,7 +11,7 @@ CMD = "./PRT_PID_system"
 # What are you doing STEP_SIZE?
 # Step size is defined in terms of span(x_range) * STEP_SIZE
 START_STEP_SIZE = 0.1
-EPS = 1.0000001
+EPS = 1.01
 
 KP_RANGE = (300, 350)
 KI_RANGE = (0.5, 1.5)
@@ -28,6 +28,12 @@ class Point:
     ki: float
     kd: float
 
+
+@dataclass
+class KTPoint:
+    k: float
+    ti: float
+    td: float
 
 def print_headers():
     os.system(CMD)
@@ -51,6 +57,10 @@ def least_squares_speed(rows) -> Optional[float]:
 
 def get_step(x_range, step_size):
     return (x_range[1] - x_range[0]) * step_size
+
+
+def convert_kt(sample: Point):
+    return KTPoint(sample.kp, sample.kp / sample.ki, sample.kd / sample.kp)
 
 
 # avoid the previous one?
@@ -108,14 +118,20 @@ def evaluate(sample: Point, cost_fn) -> Optional[float]:
 
 # ------- main code ------- #
 if __name__ == "__main__":
-    os.chdir("/tmp/OpenModelica_basil/OMEdit/PRT_PID_system")
-    array = list()
-    # print(hill_climb(Point(kp=336.3962156124765, ki=1.2504978652402856,
-    #                        kd=-4.148098383305211), least_squares_speed))
-    for i in range(5):
-        new_point = hill_climb(Point(random.uniform(KP_RANGE[0], KP_RANGE[1]),
-                                     random.uniform(KI_RANGE[0], KI_RANGE[1]),
-                                     random.uniform(KD_RANGE[0], KD_RANGE[1])),
-                               least_squares_speed)
-        array.append(new_point)
-    print("\n", array)
+    os.chdir("/home/thomas/brol/PRT_PID_system/")
+
+    cur_min = float("infinity")
+    cur_sample = None
+
+    for i in range(100):
+        g_kp = random.uniform(KP_RANGE[0], KP_RANGE[1])
+        g_ki = random.uniform(KI_RANGE[0], KI_RANGE[1])
+        g_kd = random.uniform(KD_RANGE[0], KD_RANGE[1])
+
+        g_res, g_value = hill_climb(Point(g_kp, g_ki, g_kd), least_squares_speed)
+
+        if g_value < cur_min:
+            cur_sample = g_res
+            cur_min = g_value
+
+    print("\n", convert_kt(cur_sample), " -> ", cur_min)
