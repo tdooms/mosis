@@ -175,7 +175,8 @@
                         annotation(experiment(StopTime=500));<br>
                         end step1;<br>
                     </blockquote>
-                    <p>We needed to use a piecewise evaluation to make modelica give us the correct output, as described in
+                    <p>We needed to use a piecewise evaluation to make modelica give us the correct output, as described
+                        in
                         the look-up table. </p>
 
                     <h5>Part 2: Plant model</h5>
@@ -328,7 +329,7 @@
                     <b>What happens if you change the if-statements to when-statements, or vice-versa?</b>
 
                     <p>Our codebase doesn't contain if-statements technically, only piecewise constructors.
-                    Due to this, only a theoretical explanation will be given. </p>
+                        Due to this, only a theoretical explanation will be given. </p>
 
                     <p> A when will only execute the code the moment the event becomes active,
                         meaning only when the value reaches the threshold it will execute the statement.
@@ -357,7 +358,7 @@
                     <img src="images/pid_acc.png" alt="trolley acceleration">
 
 
-                     <p> We can see that the passengers barely won't fall using the integrated
+                    <p> We can see that the passengers barely won't fall using the integrated
                         PID-controller as the displacement stays withing the allowed boundaries of [-0.35, 0.35].
                         The second image is added for completeness. Showing the ideal and actual velocity. </p>
 
@@ -370,8 +371,40 @@
                     </ul>
 
                     <p>As a cost function we used a simple least squares method on the speed difference
-                        with a check to reject samples where people fell.
-                        Which can be seen in the method below.</p>
+                        with a check to reject samples where people fell. This part was entirely implemented
+                        in python, but we also made a modelica block. The modelica block takes x_psgr,
+                        v_ideal and v_trolley as input. We can see the model in the description below.
+                    </p>
+
+                    <blockquote>
+                        model CostFunction<br>
+                        Real cost(start=0);<br>
+                        Modelica.Blocks.Interfaces.RealInput v_ideal(start=0) annotation(<br>
+                        Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20,
+                        20}},<br>
+                        rotation = 0), iconTransformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}},
+                        rotation<br>
+                        = 0)));<br>
+                        Modelica.Blocks.Interfaces.RealInput x_psgr(start=0) annotation(<br>
+                        Placement(visible = true, transformation(origin = {-120, -60}, extent = {{-20, -20}, {20,
+                        20}},<br>
+                        rotation = 0), iconTransformation(origin = {-120, -60}, extent = {{-20, -20}, {20, 20}},<br>
+                        rotation = 0)));<br>
+                        Modelica.Blocks.Interfaces.RealInput v_trolley(start=0) annotation(<br>
+                        Placement(visible = true, transformation(origin = {-120, 60}, extent = {{-20, -20}, {20,
+                        20}},<br>
+                        rotation = 0), iconTransformation(origin = {-120, 60}, extent = {{-20, -20}, {20, 20}}, rotation<br>
+                        = 0)));<br>
+                        equation<br>
+                        <br>
+                        cost = if abs(x_psgr) < 0.35 then (v_ideal - v_trolley)^2 else 10000000000;<br>
+                        <br>
+                        annotation(<br>
+                        uses(Modelica(version = "3.2.3")));<br>
+                        end CostFunction;<br>
+                    </blockquote>
+
+                    <p>The cost function created in python can be seen below.</p>
 
                     <blockquote>
                         def least_squares_speed(rows) -> Optional[float]:<br>
@@ -449,7 +482,11 @@
 
                     <img src="images/optimal.png" alt="optimized solution">
                     <p>The csv for this image can be found <a href="optimal_pid.csv"> here</a></p>
+                    <p>If we look at the graph for the cost at moment, we get this graph. We see that it peaks at
+                        the points where there is sudden acceleration. This is because the speed changes drastically
+                        in the ideal speed.</p>
 
+                    <img src="images/cost_function_ideal.png" alt="optimized cost function"/>
                     <p>On the first section we see that the ideal speed is approached very nicely.
                         And on the second and third change it quickly accelerates and decelerates.</p>
 
