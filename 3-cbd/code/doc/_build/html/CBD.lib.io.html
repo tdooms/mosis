@@ -1,0 +1,650 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CBD.lib.io module &mdash; CBD Simulator  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CBD.lib.endpoints module" href="CBD.lib.endpoints.html" />
+    <link rel="prev" title="CBD.lib.std module" href="CBD.lib.std.html" /> 
+
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-167094275-1"></script>
+  <script src="_static/js/googleanalytics.min.js"></script>
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://catalyst-team.com/" aria-label="Catalyst"></a>
+
+      <div class="main-menu">
+        <ul>
+
+          <li>
+            <div class="ecosystem-dropdown">
+              <a id="dropdownMenuButtonEcosystem" data-toggle="ecosystem-dropdown">
+                Ecosystem
+              </a>
+              <div class="ecosystem-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://alchemy.host">
+                  <span class=dropdown-title>Alchemy</span>
+                  <p>Experiments logging & visualization</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://github.com/catalyst-team/catalyst">
+                  <span class=dropdown-title>Catalyst</span>
+                  <p>Accelerated deep learning R&D</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://github.com/catalyst-team/reaction">
+                  <span class=dropdown-title>Reaction</span>
+                  <p>Convenient deep learning models serving</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div class="projects-dropdown">
+              <a id="dropdownMenuButtonProjects" data-toggle="projects-dropdown">
+                Projects
+              </a>
+              <div class="projects-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://github.com/catalyst-team/codestyle">
+                  <span class=dropdown-title>Codestyle</span>
+                  <p>Joint R&D codestyle</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://github.com/catalyst-team/neuro">
+                  <span class=dropdown-title>Catalyst.Neuro</span>
+                  <p>Catalyst.Team and TReNDS collaborative project</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://github.com/catalyst-team/classification">
+                  <span class=dropdown-title>Classification</span>
+                  <p>Image classification pipeline with transfer learning</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://github.com/catalyst-team/detection">
+                  <span class=dropdown-title>Detection</span>
+                  <p>Object detection pipeline</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://github.com/catalyst-team/segmentation">
+                  <span class=dropdown-title>Segmentation</span>
+                  <p>Image semantic segmentation pipeline</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://github.com/catalyst-team/gan">
+                  <span class=dropdown-title>Catalyst.GAN</span>
+                  <p>GAN pipelines</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <a href="https://github.com/catalyst-team/dl-course">Deep learning course</a>
+          </li>
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+
+  </div>
+</div>
+
+
+<body class="catalyst-body">
+
+   
+
+    
+
+    <div class="table-of-contents-link-wrapper">
+      <span>Table of Contents</span>
+      <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+    </div>
+
+    <nav data-toggle="wy-nav-shift" class="catalyst-left-menu" id="catalyst-left-menu">
+      <div class="catalyst-side-scroll">
+        <div class="catalyst-menu catalyst-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          <div class="catalyst-left-menu-search">
+            
+
+            
+              
+              
+            
+
+            
+
+
+  
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+            
+          </div>
+
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">How to install the CBD framework?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">How to run a CBD simulation?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="issues.html">Common Issues and Solutions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Simple Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/SinGen.html">Sine Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/EvenNumberGen.html">Hierarchical Even Number Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/Fibonacci.html">Fibonacci Sequence Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/LCG.html">Linear Congruential Generator</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Advanced Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/RealTime.html">Realtime Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/LivePlot.html">Live Plotting of Data During the Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/Dashboard.html">TkInter Dashboard with Editable Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/ContinuousTime.html">Continuous Time Simulation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Internal Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="CBD.html">CBD package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <div class="catalyst-container">
+      <div class="catalyst-page-level-bar" id="catalyst-page-level-bar">
+        <div class="catalyst-breadcrumbs-wrapper">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="catalyst-breadcrumbs">
+    
+      <li>
+        <a href="index.html">
+          
+            Docs
+          
+        </a> &gt;
+      </li>
+
+        
+          <li><a href="CBD.html">CBD package</a> &gt;</li>
+        
+          <li><a href="CBD.lib.html">Standard CBD Library (BBL)</a> &gt;</li>
+        
+      <li>CBD.lib.io module</li>
+    
+    
+      <li class="catalyst-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+</div>
+        </div>
+
+        <div class="catalyst-shortcuts-wrapper" id="catalyst-shortcuts-wrapper">
+          Shortcuts
+        </div>
+      </div>
+
+      <section data-toggle="wy-nav-shift" id="catalyst-content-wrap" class="catalyst-content-wrap">
+        <div class="catalyst-content-left">
+          
+          <div class="rst-content">
+          
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+             <article itemprop="articleBody" id="catalyst-article" class="catalyst-article">
+              
+  <div class="section" id="module-CBD.lib.io">
+<span id="cbd-lib-io-module"></span><h1>CBD.lib.io module<a class="headerlink" href="#module-CBD.lib.io" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the library building blocks to handle
+input/output in the form of file interaction.</p>
+<dl class="class">
+<dt id="CBD.lib.io.Interpolation">
+<em class="property">class </em><code class="descclassname">CBD.lib.io.</code><code class="descname">Interpolation</code><a class="reference internal" href="_modules/CBD/lib/io.html#Interpolation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CBD.lib.io.Interpolation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Helper class to handle CSV interpolations.</p>
+<dl class="attribute">
+<dt id="CBD.lib.io.Interpolation.FIRST">
+<code class="descname">FIRST</code><em class="property"> = 0</em><a class="headerlink" href="#CBD.lib.io.Interpolation.FIRST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the first value to interpolate.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="CBD.lib.io.Interpolation.LAST">
+<code class="descname">LAST</code><em class="property"> = 1</em><a class="headerlink" href="#CBD.lib.io.Interpolation.LAST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the last value to interpolate.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="CBD.lib.io.Interpolation.LINEAR">
+<code class="descname">LINEAR</code><em class="property"> = 2</em><a class="headerlink" href="#CBD.lib.io.Interpolation.LINEAR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do a linear interpolation between the two values.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="CBD.lib.io.Interpolation.interpolate">
+<em class="property">static </em><code class="descname">interpolate</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>t</em>, <em>method=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/CBD/lib/io.html#Interpolation.interpolate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CBD.lib.io.Interpolation.interpolate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolates between two elements. When <code class="code docutils literal notranslate"><span class="pre">t</span></code> corresponds to <code class="code docutils literal notranslate"><span class="pre">a[0]</span></code>,
+<code class="code docutils literal notranslate"><span class="pre">a[1]</span></code> will always be returned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a</strong> (<em>tuple</em>) – A pair <code class="code docutils literal notranslate"><span class="pre">(time,</span> <span class="pre">value)</span></code>; representing the first element.</li>
+<li><strong>b</strong> (<em>tuple</em>) – A pair <code class="code docutils literal notranslate"><span class="pre">(time,</span> <span class="pre">value)</span></code>; representing the second element.</li>
+<li><strong>t</strong> (<em>float</em>) – The time at which the interpolation happens.</li>
+<li><strong>method</strong> (<em>int</em>) – The interpolation method to use.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AssertionError</span></code> – When <code class="code docutils literal notranslate"><span class="pre">a[0]</span> <span class="pre">&lt;=</span> <span class="pre">t</span> <span class="pre">&lt;</span> <span class="pre">b[0]</span></code> is not satisfied.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="CBD.lib.io.ReadCSV">
+<em class="property">class </em><code class="descclassname">CBD.lib.io.</code><code class="descname">ReadCSV</code><span class="sig-paren">(</span><em>block_name</em>, <em>file_name</em>, <em>hold=0</em>, <em>time_col='time'</em>, <em>repeat=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/CBD/lib/io.html#ReadCSV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CBD.lib.io.ReadCSV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="CBD.Core.html#CBD.Core.BaseBlock" title="CBD.Core.BaseBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">CBD.Core.BaseBlock</span></code></a></p>
+<p>Reads data from a CSV file and outputs it on the corresponding timestamps.
+The output ports are defined by the read CSV columns.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">It is required to have a column that represents the time. Furthermore,
+the dataset must be sorted w.r.t. this column.</p>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">When repeating, the last value of the CSV is used for time 0.0, hence it
+is prohibited to use time 0 in your CSV.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>block_name</strong> (<em>str</em>) – The name of the block.</li>
+<li><strong>file_name</strong> (<em>str</em>) – The name of the CSV to read.</li>
+<li><strong>hold</strong> (<a class="reference internal" href="#CBD.lib.io.Interpolation" title="CBD.lib.io.Interpolation"><em>Interpolation</em></a>) – How the data should be interpreted if the time falls
+in-between the records of the (sampled) CSV.</li>
+<li><strong>time_col</strong> (<em>str</em>) – The name of the column identifying the time.
+Defaults to <code class="code docutils literal notranslate"><span class="pre">&quot;time&quot;</span></code>.</li>
+<li><strong>repeat</strong> (<em>bool</em>) – When <code class="code docutils literal notranslate"><span class="pre">True</span></code>, the CSV will repeat when at end.
+Additionally, when the time is before the first time
+in the file, an interpolation is done between the last
+read and first read value. When <code class="code docutils literal notranslate"><span class="pre">False</span></code>, the
+first and last values will be outputted when lower/higher
+than the predefined range of times.
+Defaults to <code class="code docutils literal notranslate"><span class="pre">False</span></code>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><ul class="first last simple">
+<li><strong>columns</strong> (<em>iter</em>) – A <code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code> or a <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>,
+identifying all columns that need to be read. Must
+correspond to the columns that can be found in the
+file itself. When <code class="code docutils literal notranslate"><span class="pre">None</span></code> (default), all
+columns from the first line of the file will be used.
+In the case of a <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, it is expected the
+keys are the column names and the values refer to
+the data types of these columns.
+I.e. <code class="code docutils literal notranslate"><span class="pre">{</span> <span class="pre">&quot;time&quot;:</span> <span class="pre">float</span> <span class="pre">}</span></code> reads the <code class="code docutils literal notranslate"><span class="pre">time</span></code>
+column as floats.
+For <code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, the data is read
+as strings.</li>
+<li><strong>dtype</strong> – The default data type of the CSV. This does not override
+optional values set by the <code class="code docutils literal notranslate"><span class="pre">columns</span></code> argument when it’s
+a <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>. Defaults to <code class="code docutils literal notranslate"><span class="pre">float</span></code>.</li>
+<li><strong>dialect</strong> (<em>str</em>) – The dialect for parsing the data. Defaults to <code class="code docutils literal notranslate"><span class="pre">excel</span></code>.</li>
+<li><strong>nan</strong> (<em>Any</em>) – The value to insert when some fields are missing data.
+Defaults to <code class="code docutils literal notranslate"><span class="pre">None</span></code>.</li>
+<li><strong>**</strong> – For other values, take a look at the
+<a class="reference external" href="https://docs.python.org/3/library/csv.html#csv-fmt-params">CSV Dialect and Formatting Parameters</a>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="CBD.lib.io.ReadCSV.compute">
+<code class="descname">compute</code><span class="sig-paren">(</span><em>curIteration</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/CBD/lib/io.html#ReadCSV.compute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CBD.lib.io.ReadCSV.compute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes this block’s operation, based on its inputs and store it as an output
+signal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>curIteration</strong> (<em>int</em>) – The iteration at which we must compute this value.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="CBD.lib.io.WriteCSV">
+<em class="property">class </em><code class="descclassname">CBD.lib.io.</code><code class="descname">WriteCSV</code><span class="sig-paren">(</span><em>block_name</em>, <em>filename</em>, <em>columns</em>, <em>time_col='time'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/CBD/lib/io.html#WriteCSV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CBD.lib.io.WriteCSV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="CBD.Core.html#CBD.Core.BaseBlock" title="CBD.Core.BaseBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">CBD.Core.BaseBlock</span></code></a></p>
+<p>Outputs data to a CSV file.
+Every time a message is received, a new record is added to the file. At the
+end of the execution, when this block is destroyed, the file pointer will be
+closed (and removed).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>block_name</strong> (<em>str</em>) – The name of the block.</li>
+<li><strong>filename</strong> (<em>str</em>) – The name of the file to write to. All contents of this
+file will be cleared.</li>
+<li><strong>columns</strong> (<em>list</em>) – The (ordered) names of the columns in the file. These
+generally represent the input ports for this block.</li>
+<li><strong>time_col</strong> (<em>str</em>) – The name for the column to store the times. If this
+corresponds to a value listed in the <code class="code docutils literal notranslate"><span class="pre">columns</span></code>
+argument, that column will be used to keep track of the
+time. There will <strong>never</strong> be an input port called
+<code class="code docutils literal notranslate"><span class="pre">time_col</span></code>. If this value is not located in the
+<code class="code docutils literal notranslate"><span class="pre">columns</span></code> list, a new column is added to the
+front of the provided columns.
+Defaults to <code class="code docutils literal notranslate"><span class="pre">&quot;time&quot;</span></code>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first last">Take a look at the <a class="reference external" href="https://docs.python.org/3/library/csv.html#csv.DictWriter">csv.DictWriter</a>
+class for more info.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">When the time-value is not needed in the CSV, just ignore it when reading it out again.</p>
+</div>
+<dl class="method">
+<dt id="CBD.lib.io.WriteCSV.compute">
+<code class="descname">compute</code><span class="sig-paren">(</span><em>curIteration</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/CBD/lib/io.html#WriteCSV.compute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CBD.lib.io.WriteCSV.compute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes this block’s operation, based on its inputs and store it as an output
+signal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>curIteration</strong> (<em>int</em>) – The iteration at which we must compute this value.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+             </article>
+             
+            </div>
+            <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="CBD.lib.endpoints.html" class="btn btn-neutral float-right" title="CBD.lib.endpoints module" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
+      
+      
+        <a href="CBD.lib.std.html" class="btn btn-neutral" title="CBD.lib.std module" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+      
+    </div>
+  
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Randy Paredis.
+
+    </p>
+  </div>
+    
+      <div>
+        Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+      </div>
+     
+
+</footer>
+
+          </div>
+        </div>
+
+        <div class="catalyst-content-right" id="catalyst-content-right">
+          <div class="catalyst-right-menu" id="catalyst-right-menu">
+            <div class="catalyst-side-scroll" id="catalyst-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">CBD.lib.io module</a></li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  
+
+
+  
+
+     
+       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+         <script type="text/javascript" src="_static/jquery.js"></script>
+         <script type="text/javascript" src="_static/underscore.js"></script>
+         <script type="text/javascript" src="_static/doctools.js"></script>
+         <script type="text/javascript" src="_static/language_data.js"></script>
+         <script type="text/javascript" src="_static/math.js"></script>
+         <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+     
+
+  
+
+  <script type="text/javascript" src="_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="_static/js/vendor/bootstrap.min.js"></script>
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <footer class="site-footer" id="site-footer">
+    <div class="container footer-container">
+      <div class="footer-logo-wrapper">
+        <a href="https://catalyst-team.com/" class="footer-logo"></a>
+      </div>
+
+      <div class="footer-links-wrapper">
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://github.com/catalyst-team">Ecosystem</a></li>
+            <li><a class="nav-dropdown-item" href="https://alchemy.host">Alchemy</a></li>
+            <li><a class="nav-dropdown-item" href="https://github.com/catalyst-team/catalyst">Catalyst</a></li>
+            <li><a class="nav-dropdown-item" href="https://github.com/catalyst-team/reaction">Reaction</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://github.com/catalyst-team">Projects</a></li>
+            <li><a class="nav-dropdown-item" href="https://github.com/catalyst-team/codestyle">Codestyle</a></li>
+            <li><a class="nav-dropdown-item" href="https://github.com/catalyst-team/neuro">Catalyst.Neuro</a></li>
+            <li><a class="nav-dropdown-item" href="https://github.com/catalyst-team/classification">Classification</a></li>
+            <li><a class="nav-dropdown-item" href="https://github.com/catalyst-team/detection">Detection</a></li>
+            <li><a class="nav-dropdown-item" href="https://github.com/catalyst-team/segmentation">Segmentation</a></li>
+            <li><a class="nav-dropdown-item" href="https://github.com/catalyst-team/gan">Catalyst.GAN</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://catalyst-team.com/">Support</a></li>
+            <li><a href="https://github.com/catalyst-team/catalyst/issues" target="_blank">Github Issues</a></li>
+            <li><a href="https://github.com/catalyst-team/catalyst/blob/master/CONTRIBUTING.md" target="_blank">Contributing</a></li>
+            <li><a href="https://www.patreon.com/catalyst_team" target="_blank">Patreon</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col follow-us-col">
+          <div class="footer-social-icons">
+            <a href="https://t.me/catalyst_team" target="_blank" class="telegram"></a>
+            <a href="https://twitter.com/catalyst_core" target="_blank" class="twitter"></a>
+            <a href="https://join.slack.com/t/catalyst-team-core/shared_invite/zt-d9miirnn-z86oKDzFMKlMG4fgFdZafw" target="_blank" class="ods"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://catalyst-team.com/" aria-label="Catalyst"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="">Get Started</a>
+          </li>
+
+          <li>
+            <a href="https://github.com/catalyst-team/catalyst">Github</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      catalystAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.catalyst-article a span.pre").each(function(e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+</html>
