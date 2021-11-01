@@ -42,8 +42,8 @@ class NegatorBlock(BaseBlock):
 		BaseBlock.__init__(self, block_name, ["IN1"], ["OUT1"])
 
 	def compute(self, curIteration):
-		# TO IMPLEMENT
-		pass
+		signal = self.getInputSignal(curIteration)
+		self.appendToSignal(-signal.value)
 
 
 class InverterBlock(BaseBlock):
@@ -55,8 +55,8 @@ class InverterBlock(BaseBlock):
 		self._tolerance = tolerance
 
 	def compute(self, curIteration):
-		# TO IMPLEMENT
-		pass
+		signal = self.getInputSignal(curIteration)
+		self.appendToSignal(1.0 / signal.value)
 
 
 class AdderBlock(BaseBlock):
@@ -72,8 +72,9 @@ class AdderBlock(BaseBlock):
 		self.__numberOfInputs = numberOfInputs
 
 	def compute(self, curIteration):
-		# TO IMPLEMENT
-		pass
+		signal1 = self.getInputSignal(curIteration, input_port="IN1")
+		signal2 = self.getInputSignal(curIteration, input_port="IN2")
+		self.appendToSignal(signal1.value + signal2.value)
 
 	def getNumberOfInputs(self):
 		"""
@@ -90,8 +91,9 @@ class ProductBlock(BaseBlock):
 		self.__numberOfInputs = numberOfInputs
 
 	def compute(self, curIteration):
-		# TO IMPLEMENT
-		pass
+		signal1 = self.getInputSignal(curIteration, input_port="IN1")
+		signal2 = self.getInputSignal(curIteration, input_port="IN2")
+		self.appendToSignal(signal1.value * signal2.value)
 
 	def getNumberOfInputs(self):
 		"""
@@ -108,9 +110,9 @@ class ModuloBlock(BaseBlock):
 		BaseBlock.__init__(self, block_name, ["IN1", "IN2"], ["OUT1"])
 
 	def compute(self, curIteration):
-		# TO IMPLEMENT
-		# Use 'math.fmod' for validity with C w.r.t. negative values AND floats
-		pass
+		signal1 = self.getInputSignal(curIteration, input_port="IN1")
+		signal2 = self.getInputSignal(curIteration, input_port="IN2")
+		self.appendToSignal(math.fmod(signal1.value, signal2.value))
 
 
 class RootBlock(BaseBlock):
@@ -121,8 +123,9 @@ class RootBlock(BaseBlock):
 		BaseBlock.__init__(self, block_name, ["IN1", "IN2"], ["OUT1"])
 
 	def compute(self, curIteration):
-		# TO IMPLEMENT
-		pass
+		signal1 = self.getInputSignal(curIteration, input_port="IN1")
+		signal2 = self.getInputSignal(curIteration, input_port="IN2")
+		self.appendToSignal(signal1.value ** (1.0 / signal2.value))
 
 
 class PowerBlock(BaseBlock):
@@ -133,8 +136,9 @@ class PowerBlock(BaseBlock):
 		BaseBlock.__init__(self, block_name, ["IN1", "IN2"], ["OUT1"])
 
 	def compute(self, curIteration):
-		# TO IMPLEMENT
-		pass
+		signal1 = self.getInputSignal(curIteration, input_port="IN1")
+		signal2 = self.getInputSignal(curIteration, input_port="IN2")
+		self.appendToSignal(signal1.value ** signal2.value)
 
 
 class AbsBlock(BaseBlock):
@@ -145,8 +149,8 @@ class AbsBlock(BaseBlock):
 		BaseBlock.__init__(self, block_name, ["IN1"], ["OUT1"])
 
 	def compute(self, curIteration):
-		# TO IMPLEMENT
-		pass
+		signal = self.getInputSignal(curIteration, input_port="IN1")
+		self.appendToSignal(abs(signal.value))
 
 
 class IntBlock(BaseBlock):
@@ -209,8 +213,13 @@ class GenericBlock(BaseBlock):
 		return self.__block_operator
 
 	def compute(self, curIteration):
-		# TO IMPLEMENT
-		pass
+		"""
+			Get the function pointer from the built-in math library,
+			This way we don't have to do any if-statements
+		"""
+		operator = getattr(math, self.getBlockOperator())
+		signal = self.getInputSignal(curIteration).value
+		self.appendToSignal(operator(signal.value))
 
 	def __repr__(self):
 		repr = BaseBlock.__repr__(self)
@@ -243,8 +252,9 @@ class MaxBlock(BaseBlock):
 		self.__numberOfInputs = numberOfInputs
 
 	def compute(self, curIteration):
-		# TO IMPLEMENT
-		pass
+		signal1 = self.getInputSignal(curIteration, input_port="IN1")
+		signal2 = self.getInputSignal(curIteration, input_port="IN2")
+		self.appendToSignal(max(signal1.value, signal2.value))
 
 	def getNumberOfInputs(self):
 		"""
@@ -262,8 +272,9 @@ class MinBlock(BaseBlock):
 		self.__numberOfInputs = numberOfInputs
 
 	def compute(self, curIteration):
-		# TO IMPLEMENT
-		pass
+		signal1 = self.getInputSignal(curIteration, input_port="IN1")
+		signal2 = self.getInputSignal(curIteration, input_port="IN2")
+		self.appendToSignal(min(signal1.value, signal2.value))
 
 	def getNumberOfInputs(self):
 		"""
@@ -397,9 +408,7 @@ class DelayBlock(BaseBlock):
 		BaseBlock.__init__(self, block_name, ["IN1", "IC"], ["OUT1"])
 
 	def getDependencies(self, curIteration):
-		# TO IMPLEMENT: This is a helper function you can use to create the dependency graph
-		# Treat dependencies differently. For instance, at the first iteration (curIteration == 0), the block only depends on the IC;
-		return []
+		return [self._linksIn["IC"].block] if curIteration == 0 else []
 
 	def compute(self, curIteration):
 		if curIteration == 0:
