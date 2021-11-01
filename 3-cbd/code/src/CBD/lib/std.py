@@ -218,7 +218,7 @@ class GenericBlock(BaseBlock):
 			This way we don't have to do any if-statements
 		"""
 		operator = getattr(math, self.getBlockOperator())
-		signal = self.getInputSignal(curIteration).value
+		signal = self.getInputSignal(curIteration)
 		self.appendToSignal(operator(signal.value))
 
 	def __repr__(self):
