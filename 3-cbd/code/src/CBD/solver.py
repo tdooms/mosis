@@ -71,8 +71,20 @@ class LinearSolver(Solver):
         Returns:
             :class:`True` if the loop is linear, else :code:`False`.
         """
-		# TO IMPLEMENT
-		return False
+		# TODO: TO IMPLEMENT
+		for block in strongComponent:
+			if block.getBlockType() in ["AdderBlock", "NegatorBlock"]:
+				continue
+
+			unknown = len([x for x in block.getDependencies(0) if x in strongComponent])
+			if unknown > 1 and block.getBlockType() == "ProductBlock":
+				return False
+
+			if block.getBlockType() in ["InverterBlock", "LessThanBlock", "ModuloBlock", "RootBlock", "EqualsBlock",
+										"NotBlock", "OrBlock", "AndBlock", "SequenceBlock"]:
+				return False
+
+		return True
 
 	def constructInput(self, strongComponent, curIteration):
 		"""
