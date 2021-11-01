@@ -467,8 +467,30 @@ class IntegratorBlock(CBD):
 	"""
 	def __init__(self, block_name):
 		CBD.__init__(self, block_name, ["IN1", "delta_t", "IC"], ["OUT1"])
-		# TO IMPLEMENT
-		pass
+		# Blocks
+		self.addBlock(ConstantBlock(block_name="y0", value=0))
+
+		self.addBlock(AdderBlock(block_name="sum"))
+		self.addBlock(ProductBlock(block_name="multiply"))
+
+		self.addBlock(DelayBlock(block_name="delay"))
+		self.addBlock(DelayBlock(block_name="delayState"))
+
+		# Connections
+		self.addConnection("IC", "delayState", input_port_name="IC")
+
+		self.addConnection("y0", "delay", input_port_name="IC")
+		self.addConnection("IN1", "delay", input_port_name="IN1")
+
+		self.addConnection("delay", "multiply")
+		self.addConnection("delta_t", "multiply")
+
+		self.addConnection("delayState", "sum")
+		self.addConnection("multiply", "sum")
+
+		self.addConnection("sum", "delayState", input_port_name="IN1")
+
+		self.addConnection("sum", "OUT1")
 
 
 class Clock(CBD):
