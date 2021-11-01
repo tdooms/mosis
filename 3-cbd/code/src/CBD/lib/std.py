@@ -456,8 +456,41 @@ class DerivatorBlock(CBD):
 	"""
 	def __init__(self, block_name):
 		CBD.__init__(self, block_name, ["IN1", "delta_t", "IC"], ["OUT1"])
-		# TO IMPLEMENT
-		pass
+		# TODO understand
+		# Create the blocks
+		self.addBlock(ProductBlock(block_name="multIc"))
+		self.addBlock(ProductBlock(block_name="mult"))
+
+		self.addBlock(InverterBlock(block_name="inv"))
+
+		self.addBlock(NegatorBlock(block_name="neg1"))
+		self.addBlock(NegatorBlock(block_name="neg2"))
+
+		self.addBlock(AdderBlock(block_name="sum1"))
+		self.addBlock(AdderBlock(block_name="sum2"))
+
+		self.addBlock(DelayBlock(block_name="delay"))
+
+		# Connect the blocks
+		self.addConnection("IC", "multIc")
+		self.addConnection("delta_t", "multIc")
+
+		self.addConnection("multIc", "neg1")
+		self.addConnection("neg1", "sum1")
+		self.addConnection("IN1", "sum1")
+
+		self.addConnection("sum1", "delay", input_port_name="IC")
+		self.addConnection("IN1", "delay", input_port_name="IN1")
+
+		self.addConnection("delay", "neg2")
+		self.addConnection("neg2", "sum2")
+		self.addConnection("IN1", "sum2")
+
+		self.addConnection("delta_t", "inv")
+		self.addConnection("inv", "mult")
+		self.addConnection("sum2", "mult")
+
+		self.addConnection("mult", "OUT1")
 
 
 class IntegratorBlock(CBD):
@@ -467,6 +500,7 @@ class IntegratorBlock(CBD):
 	"""
 	def __init__(self, block_name):
 		CBD.__init__(self, block_name, ["IN1", "delta_t", "IC"], ["OUT1"])
+		# TODO understand
 		# Blocks
 		self.addBlock(ConstantBlock(block_name="y0", value=0))
 
