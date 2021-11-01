@@ -534,6 +534,7 @@ class CBD(BaseBlock):
             Whenever this function is not called, upon simulation start a clock
             is added with the default values.
         """
+        from CBD.lib.std import Clock, ConstantBlock
         self.addBlock(Clock("%s-clock" % prefix, start_time))
         self.addBlock(ConstantBlock("%s-delta" % prefix, delta_t))
         self.addConnection("%s-delta" % prefix, "%s-clock" % prefix, input_port_name='h')
@@ -542,6 +543,7 @@ class CBD(BaseBlock):
         """
         Add a block to the CBD model
         """
+        from CBD.lib.std import Clock
         assert isinstance(block, BaseBlock), "Can only add BaseBlock (subclass) instances to a CBD"
         block.setParent(self)
 
@@ -702,6 +704,3 @@ class CBD(BaseBlock):
             name = prefix + suffix
             uid += 1
         return name
-
-
-from .lib.std import Clock, ConstantBlock
