@@ -139,7 +139,11 @@ class LinearSolver(Solver):
 			elif block.getBlockType() == "OutputPortBlock" or block.getBlockType() == "WireBlock":
 				# M2 can stay 0
 				M1[i, i] = 1
-				M1[i, indexdict[block.getDependencies(0)[0]]] = - 1
+				dblock = block.getDependencies(0)[0]
+				if isinstance(dblock, CBD):
+					oport = block.getLinksIn()['IN1'].output_port
+					dblock = dblock.getBlockByName(oport).getLinksIn()['IN1'].block
+				M1[i, indexdict[dblock]] = -1
 			elif block.getBlockType() == "DelayBlock":
 				# If a delay is in a strong component, this is the first iteration
 				assert curIteration == 0

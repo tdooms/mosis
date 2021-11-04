@@ -17,15 +17,15 @@ class Scheduler:
 		ensure all strongly connected components are grouped together!
 
 	Args:
-		recompute_at (iter):    An iterable of numeric values, identifying the times at
+		recompute_at (iter):    An iterable of numeric values, identifying the iterations at
 								which the schedule must be recomputed. When :code:`True`,
 								the schedule will be recomputed every time. Defaults to
-								:code:`(0.0,)` (i.e. only at simulation start).
+								:code:`(0, 1)` (i.e. only at simulation start and iteration 1).
 		rates (dict):           A dictionary of :code:`block path -> rate`; indentifying how often
 								they should fire. The rate is a float, which will be compared
 								against the time. :code:`None` identifies the empty dictionary.
 	"""
-	def __init__(self, recompute_at=(0.0,), rates=None):
+	def __init__(self, recompute_at=(0, 1), rates=None):
 		self.recompte_at = recompute_at
 		self.rates = {} if rates is None else rates
 		self.__last_schedule = None
@@ -76,7 +76,7 @@ class Scheduler:
 		"""
 		self.rates[block_name] = rate
 
-	def obtain(self, depGraph, curIt, time, rtime):
+	def obtain(self, depGraph, curIt, time, r=None):
 		"""
 		Obtains the schedule at a specific iteration/time, optionally recomputing
 		the value if required.
@@ -85,13 +85,12 @@ class Scheduler:
 			depGraph (CBD.depGraph.DepGraph):   The dependency graph of the model.
 			curIt (int):                        The current iteration value.
 			time (float):                       The current simulation time.
-			rtime (float):                      The current relative time.
 		"""
 		if self.recompte_at is True:
 			return self.schedule(depGraph, curIt, time)
 		else:
-			for t in self.recompte_at:
-				if abs((t - rtime) - time) < 1e-6:
+			for it in self.recompte_at:
+				if it == curIt:
 					self.__last_schedule = self.schedule(depGraph, curIt, time)
 					break
 			if self.__last_schedule is None:  # Force computation of schedule
@@ -112,7 +111,7 @@ class Scheduler:
 
 class TopologicalScheduler(Scheduler):
 	"""
-	Does a topological sort of the dependency graph.
+	Does a topological sort of the dependency graph, using Tarjan's algorithm.
 
 	Note:
 		This code was previously located in the :class:`CBD.depGraph.DepGraph` and

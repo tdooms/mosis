@@ -771,7 +771,7 @@ class Fnc:
 					self.args[i] = "%s%s" % (a, fmt.format(time=t))
 			elif isinstance(a, Fnc):
 				if self.name in _MEMORY and i == 1:
-					a.apply_time(None, to, fmt, dt)
+					a.apply_time(0, to, fmt, dt)
 				else:
 					a.apply_time(time, to, fmt, dt)
 
