@@ -2,7 +2,7 @@
 # This file was automatically generated from drawio2cbd with the command:
 #   C:/Users/thoma/PycharmProjects/mosis/3-cbd/convert/__main__.py -e root -F CBD C:\Users\thoma\PycharmProjects\mosis\3-cbd\convert\factorio.drawio
 
-from factorio import *
+from factorial import *
 from CBD.simulator import Simulator
 from CBD.converters.latexify import CBD2Latex
 
