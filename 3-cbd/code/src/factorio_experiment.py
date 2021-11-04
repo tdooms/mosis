@@ -4,14 +4,16 @@
 
 from factorio import *
 from CBD.simulator import Simulator
+from CBD.converters.latexify import CBD2Latex
 
 
 cbd = root("root")
 
 # Run the Simulation
 sim = Simulator(cbd)
-print(sim.setVerbose())
+sim.setVerbose()
 sim.run(10)
 
 
-# TODO: Process Your Simulation Results
+latex = CBD2Latex(cbd, show_steps=True)
+print(latex.render())
