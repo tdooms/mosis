@@ -2,9 +2,9 @@
 # This file was automatically generated from drawio2cbd with the command:
 #   C:/Users/thoma/PycharmProjects/mosis/3-cbd/convert/__main__.py -e root -F CBD C:\Users\thoma\PycharmProjects\mosis\3-cbd\convert\factorio.drawio
 
+from BlockToLatex import block_to_latex
 from factorial import *
 from CBD.simulator import Simulator
-from CBD.converters.latexify import CBD2Latex
 
 
 cbd = root("root")
@@ -15,5 +15,4 @@ sim.setVerbose()
 sim.run(10)
 
 
-latex = CBD2Latex(cbd, show_steps=True)
-print(latex.render())
+block_to_latex(cbd)
