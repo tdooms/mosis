@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-11-06T16:53:24.888Z" agent="5.0 (X11)" etag="ria93AqMInwH4j0_o6-T" version="15.7.0" type="github">
+<mxfile host="app.diagrams.net" modified="2021-11-06T16:55:20.133Z" agent="5.0 (X11)" etag="ToYWIqdrkT8aMQ5FLJG-" version="15.7.0" type="github">
   <diagram id="REwxuUbI8tZii3K5UfA4" name="Page-1">
     <mxGraphModel dx="2500" dy="2056" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -637,7 +637,7 @@
             </mxGeometry>
           </mxCell>
         </object>
-        <object label="%value%" placeholders="1" value="0" block_name="" class_name="ConstantBlock" id="pTehlZL50KRKIpqK_xpU-238">
+        <object label="%value%" placeholders="1" value="0.075" block_name="td" class_name="ConstantBlock" id="pTehlZL50KRKIpqK_xpU-238">
           <mxCell style="ellipse;whiteSpace=wrap;html=1;comic=0;fillColor=#ffffff;fontSize=24;align=center;allowArrows=0;connectable=0;container=1;collapsible=0;recursiveResize=1;direction=west;resizable=0;metaEdit=1;" parent="pTehlZL50KRKIpqK_xpU-208" vertex="1">
             <mxGeometry x="140" width="80" height="80" as="geometry" />
           </mxCell>
@@ -704,7 +704,7 @@
             </mxGeometry>
           </mxCell>
         </object>
-        <object label="%value%" placeholders="1" value="0" block_name="" class_name="ConstantBlock" id="pTehlZL50KRKIpqK_xpU-250">
+        <object label="%value%" placeholders="1" value="329.38" block_name="k" class_name="ConstantBlock" id="pTehlZL50KRKIpqK_xpU-250">
           <mxCell style="ellipse;whiteSpace=wrap;html=1;comic=0;fillColor=#ffffff;fontSize=24;align=center;allowArrows=0;connectable=0;container=1;collapsible=0;recursiveResize=1;direction=west;resizable=0;metaEdit=1;" parent="pTehlZL50KRKIpqK_xpU-208" vertex="1">
             <mxGeometry x="140" y="190" width="80" height="80" as="geometry" />
           </mxCell>
@@ -719,7 +719,7 @@
         <mxCell id="pTehlZL50KRKIpqK_xpU-252" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="pTehlZL50KRKIpqK_xpU-208" source="pTehlZL50KRKIpqK_xpU-251" target="pTehlZL50KRKIpqK_xpU-244" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <object label="%value%" placeholders="1" value="0" block_name="" class_name="ConstantBlock" id="pTehlZL50KRKIpqK_xpU-253">
+        <object label="%value%" placeholders="1" value="66.35" block_name="ti" class_name="ConstantBlock" id="pTehlZL50KRKIpqK_xpU-253">
           <mxCell style="ellipse;whiteSpace=wrap;html=1;comic=0;fillColor=#ffffff;fontSize=24;align=center;allowArrows=0;connectable=0;container=1;collapsible=0;recursiveResize=1;direction=west;resizable=0;metaEdit=1;" parent="pTehlZL50KRKIpqK_xpU-208" vertex="1">
             <mxGeometry x="140" y="370" width="80" height="80" as="geometry" />
           </mxCell>
