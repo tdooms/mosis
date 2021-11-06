@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-11-06T15:38:12.295Z" agent="5.0 (X11)" etag="CUh7_R4OZQYQrzeXsnOu" version="15.7.0" type="github">
+<mxfile host="app.diagrams.net" modified="2021-11-06T15:39:21.907Z" agent="5.0 (X11)" etag="Qqz-H8N0Z0NT8Wr2YfRt" version="15.7.0" type="github">
   <diagram id="wvnQH-ytOZz0epC5SCsu" name="Page-1">
     <mxGraphModel dx="1422" dy="754" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -176,7 +176,7 @@
         <mxCell id="xnaQbwarpPeM3jdV9O5F-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="xnaQbwarpPeM3jdV9O5F-3" source="xnaQbwarpPeM3jdV9O5F-19" target="xnaQbwarpPeM3jdV9O5F-27" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <object label="%symbol%" placeholders="1" symbol="&amp;prod;" class_name="ProductBlock" block_name="mid_halver" id="xnaQbwarpPeM3jdV9O5F-33">
+        <object label="%symbol%" placeholders="1" symbol="&amp;prod;" class_name="ProductBlock" block_name="mult" id="xnaQbwarpPeM3jdV9O5F-33">
           <mxCell style="whiteSpace=wrap;html=1;aspect=fixed;comic=0;fillColor=#FFFFFF;fontSize=36;align=center;resizable=0;container=1;collapsible=0;points=[];allowArrows=0;spacingTop=-6;metaEdit=1;connectable=0;" parent="xnaQbwarpPeM3jdV9O5F-3" vertex="1">
             <mxGeometry x="426" y="310" width="80" height="80" as="geometry" />
           </mxCell>
@@ -258,7 +258,7 @@
             </mxGeometry>
           </mxCell>
         </object>
-        <object label="%symbol%" placeholders="1" symbol="&amp;prod;" class_name="ProductBlock" block_name="" id="GLEw3y-7KCI7Nk5yLTBt-4">
+        <object label="%symbol%" placeholders="1" symbol="&amp;prod;" class_name="ProductBlock" block_name="delta_halver" id="GLEw3y-7KCI7Nk5yLTBt-4">
           <mxCell style="whiteSpace=wrap;html=1;aspect=fixed;comic=0;fillColor=#FFFFFF;fontSize=36;align=center;resizable=0;container=1;collapsible=0;points=[];allowArrows=0;spacingTop=-6;metaEdit=1;connectable=0;" vertex="1" parent="xnaQbwarpPeM3jdV9O5F-3">
             <mxGeometry x="266" y="350" width="80" height="80" as="geometry" />
           </mxCell>
