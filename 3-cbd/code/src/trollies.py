@@ -106,7 +106,6 @@ class PlantBlock(CBD):
         self.addBlock(ProductBlock("dl0SNWZN4P_1slR8nIbx-32"))
         self.addBlock(ProductBlock("dl0SNWZN4P_1slR8nIbx-36"))
         self.addBlock(AdderBlock("dl0SNWZN4P_1slR8nIbx-47"))
-        self.addBlock(NegatorBlock("dl0SNWZN4P_1slR8nIbx-55"))
         self.addBlock(InverterBlock("dl0SNWZN4P_1slR8nIbx-62"))
         self.addBlock(ConstantBlock("m_psgr", value=(77)))
         self.addBlock(ConstantBlock("m_trolley", value=(2376)))
@@ -114,9 +113,11 @@ class PlantBlock(CBD):
         self.addBlock(ProductBlock("dl0SNWZN4P_1slR8nIbx-76"))
         self.addBlock(IntegratorBlock("dl0SNWZN4P_1slR8nIbx-83"))
         self.addBlock(ConstantBlock("dl0SNWZN4P_1slR8nIbx-92", value=(0)))
+        self.addBlock(DelayBlock("SUrsuHP45Jfv61e6sfla-10"))
+        self.addBlock(NegatorBlock("SUrsuHP45Jfv61e6sfla-24"))
 
         # Create the Connections
-        self.addConnection("IN1", "dl0SNWZN4P_1slR8nIbx-55", input_port_name='IN1')
+        self.addConnection("IN1", "dl0SNWZN4P_1slR8nIbx-47", input_port_name='IN2')
         self.addConnection("half", "dl0SNWZN4P_1slR8nIbx-14", output_port_name='OUT1', input_port_name='IN1')
         self.addConnection("p", "dl0SNWZN4P_1slR8nIbx-14", output_port_name='OUT1', input_port_name='IN2')
         self.addConnection("Cd", "dl0SNWZN4P_1slR8nIbx-18", output_port_name='OUT1', input_port_name='IN1')
@@ -125,19 +126,21 @@ class PlantBlock(CBD):
         self.addConnection("dl0SNWZN4P_1slR8nIbx-18", "dl0SNWZN4P_1slR8nIbx-26", output_port_name='OUT1', input_port_name='IN2')
         self.addConnection("dl0SNWZN4P_1slR8nIbx-26", "dl0SNWZN4P_1slR8nIbx-36", output_port_name='OUT1', input_port_name='IN1')
         self.addConnection("dl0SNWZN4P_1slR8nIbx-32", "dl0SNWZN4P_1slR8nIbx-36", output_port_name='OUT1', input_port_name='IN2')
-        self.addConnection("dl0SNWZN4P_1slR8nIbx-36", "dl0SNWZN4P_1slR8nIbx-47", output_port_name='OUT1', input_port_name='IN1')
-        self.addConnection("dl0SNWZN4P_1slR8nIbx-55", "dl0SNWZN4P_1slR8nIbx-47", output_port_name='OUT1', input_port_name='IN2')
         self.addConnection("m_psgr", "dl0SNWZN4P_1slR8nIbx-69", output_port_name='OUT1', input_port_name='IN1')
         self.addConnection("m_trolley", "dl0SNWZN4P_1slR8nIbx-69", output_port_name='OUT1', input_port_name='IN2')
         self.addConnection("dl0SNWZN4P_1slR8nIbx-69", "dl0SNWZN4P_1slR8nIbx-62", output_port_name='OUT1', input_port_name='IN1')
         self.addConnection("dl0SNWZN4P_1slR8nIbx-47", "dl0SNWZN4P_1slR8nIbx-76", output_port_name='OUT1', input_port_name='IN2')
         self.addConnection("dl0SNWZN4P_1slR8nIbx-62", "dl0SNWZN4P_1slR8nIbx-76", output_port_name='OUT1', input_port_name='IN1')
-        self.addConnection("dl0SNWZN4P_1slR8nIbx-83", "dl0SNWZN4P_1slR8nIbx-32", output_port_name='OUT1', input_port_name='IN1')
-        self.addConnection("dl0SNWZN4P_1slR8nIbx-83", "dl0SNWZN4P_1slR8nIbx-32", output_port_name='OUT1', input_port_name='IN2')
         self.addConnection("dl0SNWZN4P_1slR8nIbx-83", "OUT1", output_port_name='OUT1')
-        self.addConnection("dl0SNWZN4P_1slR8nIbx-76", "dl0SNWZN4P_1slR8nIbx-83", output_port_name='OUT1', input_port_name='IN1')
+        self.addConnection("dl0SNWZN4P_1slR8nIbx-83", "SUrsuHP45Jfv61e6sfla-10", output_port_name='OUT1', input_port_name='IN1')
         self.addConnection("dl0SNWZN4P_1slR8nIbx-92", "dl0SNWZN4P_1slR8nIbx-83", output_port_name='OUT1', input_port_name='IC')
+        self.addConnection("dl0SNWZN4P_1slR8nIbx-92", "SUrsuHP45Jfv61e6sfla-10", output_port_name='OUT1', input_port_name='IC')
         self.addConnection("IN2", "dl0SNWZN4P_1slR8nIbx-83", input_port_name='delta_t')
+        self.addConnection("SUrsuHP45Jfv61e6sfla-10", "dl0SNWZN4P_1slR8nIbx-32", output_port_name='OUT1', input_port_name='IN1')
+        self.addConnection("SUrsuHP45Jfv61e6sfla-10", "dl0SNWZN4P_1slR8nIbx-32", output_port_name='OUT1', input_port_name='IN2')
+        self.addConnection("dl0SNWZN4P_1slR8nIbx-36", "SUrsuHP45Jfv61e6sfla-24", output_port_name='OUT1', input_port_name='IN1')
+        self.addConnection("SUrsuHP45Jfv61e6sfla-24", "dl0SNWZN4P_1slR8nIbx-47", output_port_name='OUT1', input_port_name='IN1')
+        self.addConnection("dl0SNWZN4P_1slR8nIbx-76", "dl0SNWZN4P_1slR8nIbx-83", output_port_name='OUT1', input_port_name='IN1')
 
 
 class root(CBD):
@@ -151,14 +154,18 @@ class root(CBD):
         self.addBlock(PlantBlock("plant"))
         self.addBlock(PIDBlock("controller"))
         self.addBlock(ConstantBlock("delta_t", value=(1)))
+        self.addBlock(DelayBlock("SUrsuHP45Jfv61e6sfla-1"))
+        self.addBlock(ConstantBlock("SUrsuHP45Jfv61e6sfla-7", value=(0)))
 
         # Create the Connections
         self.addConnection("lookup", "sum", output_port_name='OUT1', input_port_name='IN2')
         self.addConnection("plant", "neg", output_port_name='OUT1', input_port_name='IN1')
-        self.addConnection("neg", "sum", output_port_name='OUT1', input_port_name='IN1')
         self.addConnection("controller", "plant", output_port_name='OUT1', input_port_name='IN1')
         self.addConnection("sum", "controller", output_port_name='OUT1', input_port_name='IN1')
         self.addConnection("delta_t", "controller", output_port_name='OUT1', input_port_name='IN2')
         self.addConnection("delta_t", "plant", output_port_name='OUT1', input_port_name='IN2')
+        self.addConnection("neg", "SUrsuHP45Jfv61e6sfla-1", output_port_name='OUT1', input_port_name='IN1')
+        self.addConnection("SUrsuHP45Jfv61e6sfla-1", "sum", output_port_name='OUT1', input_port_name='IN1')
+        self.addConnection("SUrsuHP45Jfv61e6sfla-7", "SUrsuHP45Jfv61e6sfla-1", output_port_name='OUT1', input_port_name='IC')
 
 
