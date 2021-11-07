@@ -536,7 +536,7 @@ class IntegratorBlock(CBD):
 	def simpson(self):
 		class SimpsonBlock(CBD):
 			def __init__(self, block_name):
-				super().__init__(block_name, input_ports=['IN1', 'delta_t', 'IC'], output_ports=['OUT1'])
+				super().__init__(block_name, input_ports=['IC', 'delta_t', 'IN1'], output_ports=['OUT1'])
 
 				# Create the Blocks
 				self.addBlock(DelayBlock("xqcI94YeRySnhTKOGUdH-113"))
@@ -581,7 +581,7 @@ class IntegratorBlock(CBD):
 
 		class TrapezoidBlock(CBD):
 			def __init__(self, block_name):
-				super().__init__(block_name, input_ports=['IN1', 'delta_t', 'IC'], output_ports=['OUT1'])
+				super().__init__(block_name, input_ports=['IC', 'delta_t', 'IN1'], output_ports=['OUT1'])
 
 				# Create the Blocks
 				self.addBlock(DelayBlock("xqcI94YeRySnhTKOGUdH-193"))
@@ -606,21 +606,21 @@ class IntegratorBlock(CBD):
 				self.addConnection("xqcI94YeRySnhTKOGUdH-213", "OUT1", output_port_name='OUT1')
 
 		# Create the Blocks
-		self.addBlock(TimeBlock("xqcI94YeRySnhTKOGUdH-15"))
 		self.addBlock(ModuloBlock("xqcI94YeRySnhTKOGUdH-17"))
 		self.addBlock(ConstantBlock("xqcI94YeRySnhTKOGUdH-21", value=(2)))
 		self.addBlock(EqualsBlock("xqcI94YeRySnhTKOGUdH-25"))
 		self.addBlock(ConstantBlock("xqcI94YeRySnhTKOGUdH-29", value=(0)))
 		self.addBlock(MultiplexerBlock("xqcI94YeRySnhTKOGUdH-33"))
-		self.addBlock(SimpsonBlock("trapezoid"))
-		self.addBlock(TrapezoidBlock("simpson"))
+		self.addBlock(TrapezoidBlock("trapezoid"))
+		self.addBlock(SimpsonBlock("simpson"))
 		self.addBlock(AdderBlock("xqcI94YeRySnhTKOGUdH-65"))
 		self.addBlock(DelayBlock("xqcI94YeRySnhTKOGUdH-71"))
 		self.addBlock(MultiplexerBlock("xqcI94YeRySnhTKOGUdH-83"))
 		self.addBlock(ConstantBlock("xqcI94YeRySnhTKOGUdH-91", value=(0)))
-		self.addBlock(TimeBlock("xqcI94YeRySnhTKOGUdH-221"))
 		self.addBlock(EqualsBlock("xqcI94YeRySnhTKOGUdH-225"))
 		self.addBlock(MultiplexerBlock("xqcI94YeRySnhTKOGUdH-231"))
+		self.addBlock(AddOneBlock("LFYGzvRloyAe_HxOVc6M-1"))
+		self.addBlock(DelayBlock("LFYGzvRloyAe_HxOVc6M-5"))
 
 		# Create the Connections
 		self.addConnection("IC", "simpson", input_port_name='IC')
@@ -630,16 +630,14 @@ class IntegratorBlock(CBD):
 		self.addConnection("IN1", "trapezoid", input_port_name='IN1')
 		self.addConnection("delta_t", "simpson", input_port_name='delta_t')
 		self.addConnection("delta_t", "trapezoid", input_port_name='delta_t')
-		self.addConnection("xqcI94YeRySnhTKOGUdH-15", "xqcI94YeRySnhTKOGUdH-17", output_port_name='OUT1',
-						   input_port_name='IN1')
-		self.addConnection("xqcI94YeRySnhTKOGUdH-21", "xqcI94YeRySnhTKOGUdH-17", output_port_name='OUT1',
-						   input_port_name='IN2')
 		self.addConnection("xqcI94YeRySnhTKOGUdH-17", "xqcI94YeRySnhTKOGUdH-25", output_port_name='OUT1',
 						   input_port_name='IN1')
 		self.addConnection("xqcI94YeRySnhTKOGUdH-29", "xqcI94YeRySnhTKOGUdH-25", output_port_name='OUT1',
 						   input_port_name='IN2')
 		self.addConnection("xqcI94YeRySnhTKOGUdH-29", "xqcI94YeRySnhTKOGUdH-225", output_port_name='OUT1',
 						   input_port_name='IN1')
+		self.addConnection("xqcI94YeRySnhTKOGUdH-29", "LFYGzvRloyAe_HxOVc6M-5", output_port_name='OUT1',
+						   input_port_name='IC')
 		self.addConnection("xqcI94YeRySnhTKOGUdH-25", "xqcI94YeRySnhTKOGUdH-33", output_port_name='OUT1',
 						   input_port_name='select')
 		self.addConnection("xqcI94YeRySnhTKOGUdH-25", "xqcI94YeRySnhTKOGUdH-83", output_port_name='OUT1',
@@ -655,8 +653,6 @@ class IntegratorBlock(CBD):
 						   input_port_name='IN1')
 		self.addConnection("xqcI94YeRySnhTKOGUdH-91", "xqcI94YeRySnhTKOGUdH-71", output_port_name='OUT1',
 						   input_port_name='IC')
-		self.addConnection("xqcI94YeRySnhTKOGUdH-221", "xqcI94YeRySnhTKOGUdH-225", output_port_name='OUT1',
-						   input_port_name='IN2')
 		self.addConnection("trapezoid", "xqcI94YeRySnhTKOGUdH-33", output_port_name='OUT1', input_port_name='IN1')
 		self.addConnection("simpson", "xqcI94YeRySnhTKOGUdH-33", output_port_name='OUT1', input_port_name='IN2')
 		self.addConnection("xqcI94YeRySnhTKOGUdH-33", "xqcI94YeRySnhTKOGUdH-231", output_port_name='OUT1',
@@ -665,6 +661,16 @@ class IntegratorBlock(CBD):
 						   input_port_name='IN2')
 		self.addConnection("xqcI94YeRySnhTKOGUdH-225", "xqcI94YeRySnhTKOGUdH-231", output_port_name='OUT1',
 						   input_port_name='select')
+		self.addConnection("xqcI94YeRySnhTKOGUdH-21", "xqcI94YeRySnhTKOGUdH-17", output_port_name='OUT1',
+						   input_port_name='IN2')
+		self.addConnection("LFYGzvRloyAe_HxOVc6M-1", "LFYGzvRloyAe_HxOVc6M-5", output_port_name='OUT1',
+						   input_port_name='IN1')
+		self.addConnection("LFYGzvRloyAe_HxOVc6M-5", "LFYGzvRloyAe_HxOVc6M-1", output_port_name='OUT1',
+						   input_port_name='IN1')
+		self.addConnection("LFYGzvRloyAe_HxOVc6M-5", "xqcI94YeRySnhTKOGUdH-225", output_port_name='OUT1',
+						   input_port_name='IN2')
+		self.addConnection("LFYGzvRloyAe_HxOVc6M-5", "xqcI94YeRySnhTKOGUdH-17", output_port_name='OUT1',
+						   input_port_name='IN1')
 
 
 
