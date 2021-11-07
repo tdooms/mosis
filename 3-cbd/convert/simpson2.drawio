@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-11-07T12:35:55.424Z" agent="5.0 (X11)" etag="Pg81c7lT_x4gEw8IMFhk" version="15.7.0" type="github">
+<mxfile host="app.diagrams.net" modified="2021-11-07T12:53:43.968Z" agent="5.0 (X11)" etag="iGD-ZdW96G2a0ibi2KIB" version="15.7.0" type="github">
   <diagram id="XtuM_MhQtjAeWzvySU1G" name="Page-1">
     <mxGraphModel dx="1673" dy="1987" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -240,7 +240,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <object label="%symbol%" class_name="TrapezoidBlock" block_name="" symbol="&amp;int;" placeholders="1" id="xqcI94YeRySnhTKOGUdH-43">
+        <object label="%symbol%" class_name="SimpsonBlock" block_name="trapezoid" symbol="&amp;int;" placeholders="1" id="xqcI94YeRySnhTKOGUdH-43">
           <mxCell style="shape=stencil(7ZVNDoMgEIVPw95IF24b294DFSuRggGq7e3LjzYSS6NRdybGMM7jyzi8CQCmskINBnFUAXgBcZxE+qXDzg+RbHCu3LcWCYIyil1GKsFr3JFC9QTCKiyIMll4BdFZa8zzXcA054xpGuFMepKJEMS3kHakylBe3wV/suIfbVA3yBQ60f1UD3sevDUterkf7Fvy9iJd6lIqJWxEhftgEx972qncZCvuZticcomXbbWGC/jDd2XAciNRyQWeb8qSUOoGKVjxYeTDyOuOe6eDWd/AWXM3SOeOiYUGplAvbNrdfTbzAQ==);whiteSpace=wrap;html=1;aspect=fixed;resizable=0;container=1;collapsible=0;spacingLeft=5;connectable=0;allowArrows=0;fontSize=36;spacingTop=7;metaEdit=1;" vertex="1" parent="xqcI94YeRySnhTKOGUdH-3">
             <mxGeometry x="213.8486842105263" y="260" width="80" height="80" as="geometry" />
           </mxCell>
@@ -273,7 +273,7 @@
             </mxGeometry>
           </mxCell>
         </object>
-        <object label="%symbol%" class_name="SimpsonBlock" block_name="" symbol="&amp;int;" placeholders="1" id="xqcI94YeRySnhTKOGUdH-48">
+        <object label="%symbol%" class_name="TrapezoidBlock" block_name="simpson" symbol="&amp;int;" placeholders="1" id="xqcI94YeRySnhTKOGUdH-48">
           <mxCell style="shape=stencil(7ZVNDoMgEIVPw95IF24b294DFSuRggGq7e3LjzYSS6NRdybGMM7jyzi8CQCmskINBnFUAXgBcZxE+qXDzg+RbHCu3LcWCYIyil1GKsFr3JFC9QTCKiyIMll4BdFZa8zzXcA054xpGuFMepKJEMS3kHakylBe3wV/suIfbVA3yBQ60f1UD3sevDUterkf7Fvy9iJd6lIqJWxEhftgEx972qncZCvuZticcomXbbWGC/jDd2XAciNRyQWeb8qSUOoGKVjxYeTDyOuOe6eDWd/AWXM3SOeOiYUGplAvbNrdfTbzAQ==);whiteSpace=wrap;html=1;aspect=fixed;resizable=0;container=1;collapsible=0;spacingLeft=5;connectable=0;allowArrows=0;fontSize=36;spacingTop=7;metaEdit=1;" vertex="1" parent="xqcI94YeRySnhTKOGUdH-3">
             <mxGeometry x="213.8486842105263" y="375" width="80" height="80" as="geometry" />
           </mxCell>
@@ -429,8 +429,8 @@
         <mxCell id="xqcI94YeRySnhTKOGUdH-90" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="xqcI94YeRySnhTKOGUdH-3" source="xqcI94YeRySnhTKOGUdH-72" target="xqcI94YeRySnhTKOGUdH-85">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="722" y="55" />
-              <mxPoint x="722" y="100" />
+              <mxPoint x="748" y="55" />
+              <mxPoint x="748" y="100" />
               <mxPoint x="592" y="100" />
               <mxPoint x="592" y="155" />
             </Array>
@@ -770,7 +770,7 @@
         <mxCell id="xqcI94YeRySnhTKOGUdH-147" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="xqcI94YeRySnhTKOGUdH-103" source="xqcI94YeRySnhTKOGUdH-134" target="xqcI94YeRySnhTKOGUdH-144">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <object label="%symbol%" placeholders="1" symbol="&amp;prod;" class_name="ProductBlock" block_name="" id="xqcI94YeRySnhTKOGUdH-148">
+        <object label="%symbol%" placeholders="1" symbol="&amp;prod;" class_name="ProductBlock" block_name="div_by_6" id="xqcI94YeRySnhTKOGUdH-148">
           <mxCell style="whiteSpace=wrap;html=1;aspect=fixed;comic=0;fillColor=#FFFFFF;fontSize=36;align=center;resizable=0;container=1;collapsible=0;points=[];allowArrows=0;spacingTop=-6;metaEdit=1;connectable=0;" vertex="1" parent="xqcI94YeRySnhTKOGUdH-103">
             <mxGeometry x="446" y="276.5" width="80" height="80" as="geometry" />
           </mxCell>
@@ -796,7 +796,7 @@
             </mxGeometry>
           </mxCell>
         </object>
-        <object label="%symbol%" placeholders="1" symbol="&amp;prod;" class_name="ProductBlock" block_name="" id="xqcI94YeRySnhTKOGUdH-156">
+        <object label="%symbol%" placeholders="1" symbol="&amp;prod;" class_name="ProductBlock" block_name="middle" id="xqcI94YeRySnhTKOGUdH-156">
           <mxCell style="whiteSpace=wrap;html=1;aspect=fixed;comic=0;fillColor=#FFFFFF;fontSize=36;align=center;resizable=0;container=1;collapsible=0;points=[];allowArrows=0;spacingTop=-6;metaEdit=1;connectable=0;" vertex="1" parent="xqcI94YeRySnhTKOGUdH-103">
             <mxGeometry x="447" y="141" width="80" height="80" as="geometry" />
           </mxCell>
@@ -880,7 +880,7 @@
         <mxCell id="xqcI94YeRySnhTKOGUdH-172" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="xqcI94YeRySnhTKOGUdH-103" source="xqcI94YeRySnhTKOGUdH-170" target="xqcI94YeRySnhTKOGUdH-158">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <object label="%symbol%" placeholders="1" symbol="&amp;sum;" class_name="AdderBlock" block_name="" id="xqcI94YeRySnhTKOGUdH-173">
+        <object label="%symbol%" placeholders="1" symbol="&amp;sum;" class_name="AdderBlock" block_name="sum2" id="xqcI94YeRySnhTKOGUdH-173">
           <mxCell style="whiteSpace=wrap;html=1;aspect=fixed;comic=0;fillColor=#FFFFFF;fontSize=36;align=center;resizable=0;container=1;collapsible=0;points=[];allowArrows=0;spacingTop=-6;metaEdit=1;connectable=0;" vertex="1" parent="xqcI94YeRySnhTKOGUdH-103">
             <mxGeometry x="284" y="10" width="80" height="80" as="geometry" />
           </mxCell>
@@ -906,7 +906,7 @@
             </mxGeometry>
           </mxCell>
         </object>
-        <object label="%symbol%" placeholders="1" symbol="&amp;sum;" class_name="AdderBlock" block_name="" id="xqcI94YeRySnhTKOGUdH-177">
+        <object label="%symbol%" placeholders="1" symbol="&amp;sum;" class_name="AdderBlock" block_name="sum1" id="xqcI94YeRySnhTKOGUdH-177">
           <mxCell style="whiteSpace=wrap;html=1;aspect=fixed;comic=0;fillColor=#FFFFFF;fontSize=36;align=center;resizable=0;container=1;collapsible=0;points=[];allowArrows=0;spacingTop=-6;metaEdit=1;connectable=0;" vertex="1" parent="xqcI94YeRySnhTKOGUdH-103">
             <mxGeometry x="446" y="25" width="80" height="80" as="geometry" />
           </mxCell>
@@ -962,7 +962,7 @@
             </mxGeometry>
           </mxCell>
         </object>
-        <object label="%symbol%" placeholders="1" symbol="&amp;prod;" class_name="ProductBlock" block_name="" id="xqcI94YeRySnhTKOGUdH-186">
+        <object label="%symbol%" placeholders="1" symbol="&amp;prod;" class_name="ProductBlock" block_name="final_product" id="xqcI94YeRySnhTKOGUdH-186">
           <mxCell style="whiteSpace=wrap;html=1;aspect=fixed;comic=0;fillColor=#FFFFFF;fontSize=36;align=center;resizable=0;container=1;collapsible=0;points=[];allowArrows=0;spacingTop=-6;metaEdit=1;connectable=0;" vertex="1" parent="xqcI94YeRySnhTKOGUdH-103">
             <mxGeometry x="607" y="173.5" width="80" height="80" as="geometry" />
           </mxCell>
