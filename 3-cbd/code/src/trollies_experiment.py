@@ -1,14 +1,15 @@
 #!/usr/bin/python3
 # This file was automatically generated from drawio2cbd with the command:
-#   C:/Users/thoma/PycharmProjects/mosis/3-cbd/convert/__main__.py -e lookup -F CBD C:\Users\thoma\PycharmProjects\mosis\3-cbd\convert\trollieeeees.drawio
+#   /home/thomas/PycharmProjects/mosis/3-cbd/convert/__main__.py -F CBD -e root -sSrgv trollies.drawio
 
 from trollies import *
 from CBD.simulator import Simulator
 
 
-cbd = lookup("lookup")
+cbd = root("root")
 
 # Run the Simulation
 sim = Simulator(cbd)
-sim.setVerbose()
-sim.run(300)
+sim.run(10)
+
+# TODO: Process Your Simulation Results

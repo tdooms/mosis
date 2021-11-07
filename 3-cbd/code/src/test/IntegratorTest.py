@@ -15,6 +15,7 @@ class IntegratorTestCase(unittest.TestCase):
     def _run(self, num_steps=1, delta_t=1.0):
         self.sim.setDeltaT(delta_t)
         self.sim.setTerminationTime(num_steps * delta_t)
+        self.sim.setVerbose()
         self.sim.run()
 
     def _getSignal(self, blockname, output_port=None):
