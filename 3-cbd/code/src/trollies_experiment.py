@@ -9,8 +9,8 @@ import matplotlib.pyplot as plt
 from CBD.preprocessing.butcher import ButcherTableau as BT
 from CBD.preprocessing.rungekutta import RKPreprocessor
 
-RUNGE_KUTTA = False
-DELTA = 0.01
+RUNGE_KUTTA = True
+DELTA = 0.3
 
 
 class Trollies(CBD):

@@ -60,10 +60,12 @@
 
                     <img src="images/trollies.drawio.svg" alt="">
 
+                    <div class="block"> </div>
                     <h4> Forward Euler </h4>
                     <p> Not much to explain here, just a simple accumulator and then the formula. </p>
                     <img src="images/forward.drawio.svg" alt="">
 
+                    <div class="block"> </div>
                     <h4> Simpson integrator </h4>
 
                     <p> This is the most complicated of them all probably,
@@ -98,10 +100,12 @@
                         or the output of itself based on the amount of points. </p>
                     <img src="images/simpson2.drawio.svg" alt="">
 
+                    <div class="block"> </div>
                     <h2> Trapezoid </h2>
                     <p> The trapezoid block is quite trivial and already covered elsewhere.</p>
                     <img src="images/trapezoid.drawio.svg" alt="">
 
+                    <div class="block"> </div>
                     <h4> Factorial </h4>
                     <p> The factorial block is just a block that remembers both the
                         total up until now and the current tick.
@@ -109,19 +113,48 @@
                     <p> We rotated the +1 for extra style points.</p>
                     <img src="images/factorial.drawio.svg" alt="">
 
+                    <h2> LaTeX verification/errors </h2>
+                    <p>#!!!!!!!!!!!!!!111111 TODO LINK !!!!!!!!!!!!!!1#</p>
+
                     <h2> Experimenting with constant delta_t </h2>
-                    <p>
-                        We start with picking a standard delta_t and see the results we would expect.
-                    </p>
+                    <p> These experiments are done using the forward Euler method. </p>
+
+                    <p>We start with picking a standard delta_t and see the results we would expect.</p>
                     <img src="images/delta0_3.png" alt="">
+
+                    <p> Using very small delta's does not result in noticeable changes. </p>
+                    <img src="images/delta0_01.png" alt="">
 
                     <p> When going up in delta we see the velocity getting quite erratic.</p>
                     <img src="images/delta5.png" alt="">
 
                     <p> At very high delta's the behaviour gets very chaotic oscillating dramatically around the lookup speed.</p>
+                    <p> We also notice that the lookup table is getting very weird as the lines are not vertical anymore. </p>
                     <img src="images/delta7_2.png" alt="">
-                    <p> Above these values the numeric stability </p>
 
+                    <p> Even higher delta's do cause numerical instability causing the graph to spiral out of control </p>
+
+                    <h2> Assignment structure </h2>
+                    <p> Our file structure consists of 3 main folders, code, convert and images. </p>
+
+                    <p> The code contains the whole codebase provided to us
+                        along with some modifications in the CDB/lib/std and such.
+                        The models that we used can also be found there.
+                    </p>
+
+                    <p> The convert folder contains the draw.io -> python library that was given to us.
+                        All our draw.io files can be found there.
+                    </p>
+
+                    <p> Lastly the image folder contains all the images found in the report. </p>
+
+                    <p> When changing the integration method, we don't see any noticeable differences.
+                        The order is, backward Euler, Simpson and Trapezoid.
+                    </p>
+
+                    <img src="images/delta_bwe.png" alt="">
+                    <img src="images/delta_simp.png" alt="">
+                    <img src="images/delta_trap.png" alt="">
                 </div>
 
             </div>
