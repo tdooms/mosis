@@ -145,7 +145,7 @@ class PlantBlock(CBD):
 
 class root(CBD):
     def __init__(self, block_name):
-        super().__init__(block_name, input_ports=[], output_ports=[])
+        super().__init__(block_name, input_ports=['delta_t'], output_ports=[])
 
         # Create the Blocks
         self.addBlock(LookupBlock("lookup"))
@@ -153,7 +153,6 @@ class root(CBD):
         self.addBlock(NegatorBlock("neg"))
         self.addBlock(PlantBlock("plant"))
         self.addBlock(PIDBlock("controller"))
-        self.addBlock(ConstantBlock("delta_t", value=(1)))
         self.addBlock(DelayBlock("SUrsuHP45Jfv61e6sfla-1"))
         self.addBlock(ConstantBlock("SUrsuHP45Jfv61e6sfla-7", value=(0)))
 
@@ -162,10 +161,10 @@ class root(CBD):
         self.addConnection("plant", "neg", output_port_name='OUT1', input_port_name='IN1')
         self.addConnection("controller", "plant", output_port_name='OUT1', input_port_name='IN1')
         self.addConnection("sum", "controller", output_port_name='OUT1', input_port_name='IN1')
-        self.addConnection("delta_t", "controller", output_port_name='OUT1', input_port_name='IN2')
-        self.addConnection("delta_t", "plant", output_port_name='OUT1', input_port_name='IN2')
         self.addConnection("neg", "SUrsuHP45Jfv61e6sfla-1", output_port_name='OUT1', input_port_name='IN1')
         self.addConnection("SUrsuHP45Jfv61e6sfla-1", "sum", output_port_name='OUT1', input_port_name='IN1')
         self.addConnection("SUrsuHP45Jfv61e6sfla-7", "SUrsuHP45Jfv61e6sfla-1", output_port_name='OUT1', input_port_name='IC')
+        self.addConnection("delta_t", "controller", input_port_name='IN2')
+        self.addConnection("delta_t", "plant", input_port_name='IN2')
 
 

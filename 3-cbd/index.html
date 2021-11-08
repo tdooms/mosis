@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MoSIS</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+    >
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-half">
+
+                <h1 class="title">Modelica assignment</h1>
+
+                <div class="columns">
+                    <div class="column is-narrow">
+                        <p> Thomas Dooms </p>
+                        <p> Basil Rommens </p>
+                    </div>
+                    <div class="column is-narrow">
+                        <p>S<b>0181389</b></p>
+                        <p>S<b>0185714</b></p>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="content">
+                    <h2> Causal block diagrams </h2>
+                    <h4> Complete PID/plant </h4>
+                    <p> The PIDBlock is just a simple implementation of a PID controller,
+                        the block consists of the derivation, integral and proportional component,
+                        multiplied by their respective parameter and summed together at the end.</p>
+
+                    <p> The plant block is a little more complicated due to all the parameters.
+                        These are all multiplied or divided or negated as necessary.
+                        The most important part is the loop back into the integral.
+                    </p>
+
+                    <p> The lookup is just a simple mutliplex chain based on the time.</p>
+
+                    <p>The root block just ties everything together
+                        in the same way as the previous assignment.
+                    </p>
+
+                    <img src="images/trollies.drawio.svg" alt="">
+
+                    <h4> Forward Euler </h4>
+                    <p> Not much to explain here, just a simple accumulator and then the formula. </p>
+                    <img src="images/forward.drawio.svg" alt="">
+
+                    <h4> Simpson integrator </h4>
+
+                    <p> This is the most complicated of them all probably,
+                        we will start with explaining the Simpson block.
+                        It is important to notice that this is an incomplete standalone block,
+                        meaning it generates wrong outputs for iteration 0 and 1.
+                    </p>
+                    <p>
+                        The logic itself is quite simple starting with a chain of 2 delay blocks representing
+                        F(a), F((b - a) / 2) and f(b), the middle factor is
+                        then multiplied by 4 and the whole thing is divided by 6 as the formula dictates.
+                    </p>
+                    <p>One interesting detail is the other delay block,
+                        my first thought was to be smart about it and not
+                        just multiply delta_t by 2 for the interval, but then we
+                        realised the formula won't work for dynamic delta_t.
+                        We decided to leave it in because that way it can more
+                        easily be checked if that precondition is satisfied.
+                    </p>
+
+
+                    <p> The root then contains the logic for deciding
+                        which integration method should be used and/or accumulated to the total result.
+                        The bottom part just calculates both integrals,
+                        the top part then computes whether there is an even or odd amount of points.
+                        Based on that we multiplex trapezoid on even and simpson on odd points.
+                        The exception is on step 1 where we just return IC.
+                    </p>
+
+                    <p> The right part contains logic about 'forgetting' the trapezoid calculation.
+                        We can see that sometimes the delay block is set equal to the sum,
+                        or the output of itself based on the amount of points. </p>
+                    <img src="images/simpson2.drawio.svg" alt="">
+
+                    <h2> Trapezoid </h2>
+                    <p> The trapezoid block is quite trivial and already covered elsewhere.</p>
+                    <img src="images/trapezoid.drawio.svg" alt="">
+
+                    <h4> Factorial </h4>
+                    <p> The factorial block is just a block that remembers both the
+                        total up until now and the current tick.
+                    </p>
+                    <p> We rotated the +1 for extra style points.</p>
+                    <img src="images/factorial.drawio.svg" alt="">
+
+                    <h2> Experimenting with constant delta_t </h2>
+                    <p>
+                        We start with picking a standard delta_t and see the results we would expect.
+                    </p>
+                    <img src="images/delta0_3.png" alt="">
+
+                    <p> When going up in delta we see the velocity getting quite erratic.</p>
+                    <img src="images/delta5.png" alt="">
+
+                    <p> At very high delta's the behaviour gets very chaotic oscillating dramatically around the lookup speed.</p>
+                    <img src="images/delta7_2.png" alt="">
+                    <p> Above these values the numeric stability </p>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
