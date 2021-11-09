@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from trollies import *
 from CBD.simulator import Simulator
 
-DELTA = 0.3
+DELTA = 0.1
 
 
 class Trollies(CBD):
@@ -30,7 +30,7 @@ cbd = Trollies("Trollies")
 
 sim = Simulator(cbd)
 sim.setDeltaT(DELTA)
-sim.run(300)
+sim.run(50)
 
 
 root = cbd.getBlockByName("root")

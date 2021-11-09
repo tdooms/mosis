@@ -155,6 +155,20 @@
                     <img src="images/delta_bwe.png" alt="">
                     <img src="images/delta_simp.png" alt="">
                     <img src="images/delta_trap.png" alt="">
+
+                    <h2> Adaptive step size </h2>
+
+                    <p> We already showed that making delta smaller doesn't really change the graph after a certain point.
+                        To be very sure though we ran a last experiment on a subset of the time frame using a tiny delta and a small delta.
+                        The first image is using delta = 0.001 and the second is using 0.1
+                    </p>
+
+                    <img src="images/small_delta0_001.png" alt="">
+                    <img src="images/small_delta0_1.png" alt="">
+
+                    <p> Again we see no noticeable difference. One important detail of using adaptive step size is computation cost.
+                        Being smart about this variable can cut simulation costs by orders of magnitude in many cases.
+                    </p>
                 </div>
 
             </div>
