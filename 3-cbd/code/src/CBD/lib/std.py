@@ -456,7 +456,6 @@ class DerivatorBlock(CBD):
 	"""
 	def __init__(self, block_name):
 		CBD.__init__(self, block_name, ["IN1", "delta_t", "IC"], ["OUT1"])
-		# TODO understand
 		# Create the blocks
 		self.addBlock(ProductBlock(block_name="multiply_ic"))
 		self.addBlock(ProductBlock(block_name="multiply"))
