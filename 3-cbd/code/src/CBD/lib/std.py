@@ -672,7 +672,6 @@ class IntegratorBlock(CBD):
 						   input_port_name='IN1')
 
 
-
 	def trapezoid(self):
 		self.addBlock(ConstantBlock("y0", value=(0)))
 		self.addBlock(AdderBlock("accumulator"))
@@ -698,7 +697,7 @@ class IntegratorBlock(CBD):
 		self.addConnection("delta_halver", "mult", output_port_name='OUT1', input_port_name='IN2')
 		self.addConnection("halver", "delta_halver", output_port_name='OUT1', input_port_name='IN2')
 
-	def __init__(self, block_name, method="simpson"):
+	def __init__(self, block_name, method="backward_euler"):
 		CBD.__init__(self, block_name, ["IN1", "delta_t", "IC"], ["OUT1"])
 		getattr(self, method)()
 

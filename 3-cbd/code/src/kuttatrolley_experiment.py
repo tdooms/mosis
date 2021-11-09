@@ -5,12 +5,14 @@
 import matplotlib.pyplot as plt
 
 from trollies import *
+from CBD.preprocessing.butcher import ButcherTableau as BT
+from CBD.preprocessing.rungekutta import RKPreprocessor
 from CBD.simulator import Simulator
 
 DELTA = 0.3
 
 
-class Trollies(CBD):
+class KuttaTrollies(CBD):
     def __init__(self, name="Trollies"):
         CBD.__init__(self, name, input_ports=[], output_ports=[])
 
@@ -25,11 +27,11 @@ class Trollies(CBD):
         self.addConnection("delta_t", "root", input_port_name="delta_t")
 
 
+tableau = BT.RKF45()
+RKP = RKPreprocessor(tableau, atol=2e-5, hmin=0.1, safety=.84)
 
-cbd = Trollies("Trollies")
-
-sim = Simulator(cbd)
-sim.setDeltaT(DELTA)
+cbd = KuttaTrollies("Trollies")
+sim = RKP.preprocess(cbd)
 sim.run(300)
 
 
