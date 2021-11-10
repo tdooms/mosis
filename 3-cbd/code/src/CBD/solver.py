@@ -15,6 +15,7 @@ class Solver:
     Args:
         logger (Logger):    The logger to use.
     """
+
     def __init__(self, logger):
         self._logger = logger
 
@@ -58,9 +59,12 @@ class LinearSolver(Solver):
     """
     Solves linear algebraic loops.
     """
+
     def checkValidity(self, path, component):
         if not self.__isLinear(component):
-            self._logger.fatal("Cannot solve non-linear algebraic loop.\nSelf: {}\nComponents: {}".format(path, component))
+            self._logger.fatal(
+                "Cannot solve non-linear algebraic loop.\nSelf: {}\nComponents: {}".format(
+                    path, component))
 
     def __isLinear(self, strongComponent):
         """Determines if an algebraic loop describes a linear equation or not.
@@ -71,19 +75,21 @@ class LinearSolver(Solver):
         Returns:
             :class:`True` if the loop is linear, else :code:`False`.
         """
-        # TODO: TO IMPLEMENT
+        NON_LINEAR_BLOCKS = ["InverterBlock", "LessThanBlock", "ModuloBlock",
+                             "RootBlock", "EqualsBlock", "NotBlock", "OrBlock",
+                             "AndBlock", "SequenceBlock"]
+        LINEAR_BLOCKS = ["AdderBlock", "NegatorBlock"]
+
         for block in strongComponent:
-            if block.getBlockType() in ["AdderBlock", "NegatorBlock"]:
+            block_type = block.getBlockType()
+
+            if block_type in LINEAR_BLOCKS:
                 continue
 
-            unknown = len([x for x in block.getDependencies(0) if x in strongComponent])
-            if unknown > 1 and block.getBlockType() == "ProductBlock":
-                return False
-
-            if block.getBlockType() in ["InverterBlock", "LessThanBlock",
-                                        "ModuloBlock", "RootBlock",
-                                        "EqualsBlock", "NotBlock", "OrBlock",
-                                        "AndBlock", "SequenceBlock"]:
+            dependent_count = len([dependent_block for dependent_block in
+                                   block.getDependencies(0) if
+                                   dependent_block in strongComponent])
+            if (dependent_count > 1 and block_type == "ProductBlock") or block_type in NON_LINEAR_BLOCKS:
                 return False
 
         return True
@@ -225,6 +231,7 @@ class Matrix:
     Note:
         Internally, the matrix is segmented into chunks of 500.000.000 items.
     """
+
     def __init__(self, rows, cols):
         self.rows = rows
         self.cols = cols
