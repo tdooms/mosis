@@ -18,7 +18,6 @@
     <script type="text/javascript" id="MathJax-script" async
             src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
     </script>
-    >
 </head>
 <body>
 <section class="section">
@@ -41,136 +40,353 @@
                 <hr>
 
                 <div class="content">
-                    <h2> Causal block diagrams </h2>
-                    <h4> Complete PID/plant </h4>
-                    <p> The PIDBlock is just a simple implementation of a PID controller,
-                        the block consists of the derivation, integral and proportional component,
-                        multiplied by their respective parameter and summed together at the end.</p>
+                    <section>
+                        <h2> LaTeX verification/errors </h2>
+                        <p>The link to the pdf, which explains all the wrong things happening in the latex generation,
+                            can be found <a href="images/cbd.pdf">here</a></p>
+                    </section>
 
-                    <p> The plant block is a little more complicated due to all the parameters.
-                        These are all multiplied or divided or negated as necessary.
-                        The most important part is the loop back into the integral.
-                    </p>
+                    <section>
+                        <h2> Task 1: Missing implementations </h2>
+                        All the implementations for the different blocks are listed below, but also in the
+                        <var>CBD.lib.std</var> module. We explain each block written here right below the code for the
+                        block.
+                        <blockquote>
+                            signal = self.getInputSignal(curIteration)<br>
+                            self.appendToSignal(-signal.value)<br>
+                        </blockquote>
+                        NegatorBlock: This will take the current input signal and makes it negative.
+                        <div class="block"></div>
+                        <blockquote>
+                            signal = self.getInputSignal(curIteration)<br>
+                            self.appendToSignal(1.0 / signal.value)<br>
+                        </blockquote>
+                        InverterBlock: This will invert the current input signal and output that.
+                        <div class="block"></div>
+                        <blockquote>
+                            signal1 = self.getInputSignal(curIteration, input_port="IN1")<br>
+                            signal2 = self.getInputSignal(curIteration, input_port="IN2")<br>
+                            self.appendToSignal(signal1.value + signal2.value)<br>
+                        </blockquote>
+                        AdderBlock: This will add 2 different input signals, we didn't account for more than 2 input
+                        signals, as the tests didn't fail. We've also never had the need to use more than 2 inputs.
+                        <div class="block"></div>
+                        <blockquote>
+                            signal1 = self.getInputSignal(curIteration, input_port="IN1")<br>
+                            signal2 = self.getInputSignal(curIteration, input_port="IN2")<br>
+                            self.appendToSignal(signal1.value * signal2.value)<br>
+                        </blockquote>
+                        ProductBlock: This will multiply 2 different input signals. We don't multiply more than 2
+                        signals, for the same reason as the AdderBlock.
+                        <div class="block"></div>
+                        <blockquote>
+                            signal1 = self.getInputSignal(curIteration, input_port="IN1")<br>
+                            signal2 = self.getInputSignal(curIteration, input_port="IN2")<br>
+                            self.appendToSignal(math.fmod(signal1.value, signal2.value))<br>
+                        </blockquote>
+                        ModuloBlock: We take the first input signal and decide what value it should be when taking it
+                        modulo the second input signal.
+                        <div class="block"></div>
+                        <blockquote>
+                            signal1 = self.getInputSignal(curIteration, input_port="IN1")<br>
+                            signal2 = self.getInputSignal(curIteration, input_port="IN2")<br>
+                            self.appendToSignal(signal1.value ** (1.0 / signal2.value))<br>
+                        </blockquote>
+                        RootBlock: This will take the signal2 root of the first input signal.
+                        <div class="block"></div>
+                        <blockquote>
+                            signal1 = self.getInputSignal(curIteration, input_port="IN1")<br>
+                            signal2 = self.getInputSignal(curIteration, input_port="IN2")<br>
+                            self.appendToSignal(signal1.value ** signal2.value)<br>
+                        </blockquote>
+                        PowerBlock: This block takes both signals and takes the first input signal as the base and the
+                        second as the exponent.
+                        <div class="block"></div>
+                        <blockquote>
+                            signal = self.getInputSignal(curIteration, input_port="IN1")<br>
+                            self.appendToSignal(abs(signal.value))<br>
+                        </blockquote>
+                        AbsBlock: Takes the absolute value of the input signal.
+                        <div class="block"></div>
+                        <blockquote>
+                            operator = getattr(math, self.getBlockOperator())<br>
+                            signal = self.getInputSignal(curIteration)<br>
+                            self.appendToSignal(operator(signal.value))<br>
+                        </blockquote>
+                        GenericBlock: This will take one input signal and put the blockoperators result as a function on
+                        this signal.
+                        <div class="block"></div>
+                        <blockquote>
+                            signal1 = self.getInputSignal(curIteration, input_port="IN1")<br>
+                            signal2 = self.getInputSignal(curIteration, input_port="IN2")<br>
+                            self.appendToSignal(max(signal1.value, signal2.value))<br>
+                        </blockquote>
+                        MaxBlock: This will channel the max valued signal to the output. Again we only have 2 input
+                        signals.
+                        <div class="block"></div>
+                        <blockquote>
+                            signal1 = self.getInputSignal(curIteration, input_port="IN1")<br>
+                            signal2 = self.getInputSignal(curIteration, input_port="IN2")<br>
+                            self.appendToSignal(min(signal1.value, signal2.value))<br>
+                        </blockquote>
+                        MinBlock: This will channel the min valued signal to the output. Again we only have 2 input
+                        signals.
+                        <div class="block"></div>
+                        <blockquote>
+                            if curIteration == 0:<br>
+                            self.appendToSignal(self.getInputSignal(curIteration, "IC").value)<br>
+                            else:<br>
+                            self.appendToSignal(self.getInputSignal(curIteration - 1).value)<br>
+                        </blockquote>
+                        DelayBlock: At last, we implemented the DelayBlock. This block just returns the signal of the
+                        previous
+                        iteration. In iteration 0 it will return the value of the IC input port.
+                        <div class="block"></div>
+                    </section>
 
-                    <p> The lookup is just a simple mutliplex chain based on the time.</p>
+                    <section>
+                        <h2> Task 2: Linear Solver </h2>
+                        <p>
+                            The code for the <var>__isLinear</var> method can be found in
+                            <var>CBD.solver.LinearSolver</var> and is written down below. We divided the blocks into 2
+                            types. The <var>LINEAR_BLOCKS</var> determined if a block would is allowed for a linear
+                            equation if so then we can continue to check the other blocks in the strongly connected
+                            component (scc). The other type was <var>NON_LINEAR_BLOCKS</var>. This type is all the
+                            blocks which would make the scc a non-linear equation.
+                        </p>
+                        <p>
+                            We also have a special block, which is the product block. When we encounter this block, we
+                            need to check it's predecessors (the blocks from which the inputs comes), if more than one
+                            of the incoming blocks is also in the strong component, then this entire equation can't be
+                            linear.
+                        </p>
+                        <blockquote>
+                            NON_LINEAR_BLOCKS = ["InverterBlock", "LessThanBlock", "ModuloBlock",<br>
+                            "RootBlock", "EqualsBlock", "NotBlock", "OrBlock",<br>
+                            "AndBlock", "SequenceBlock"]<br>
+                            LINEAR_BLOCKS = ["AdderBlock", "NegatorBlock"]<br>
+                            <br>
+                            for block in strongComponent:<br>
+                            block_type = block.getBlockType()<br>
+                            <br>
+                            if block_type in LINEAR_BLOCKS:<br>
+                            continue<br>
+                            <br>
+                            dependent_count = len([dependent_block for dependent_block in<br>
+                            block.getDependencies(0) if<br>
+                            dependent_block in strongComponent])<br>
+                            if (dependent_count > 1 and block_type == "ProductBlock") or block_type in
+                            NON_LINEAR_BLOCKS:<br>
+                            return False<br>
+                            <br>
+                            return True<br>
+                        </blockquote>
+                    </section>
 
-                    <p>The root block just ties everything together
-                        in the same way as the previous assignment.
-                    </p>
+                    <section>
+                        <h2> Task 3: Derivator and Integrator </h2>
+                        <h4>Derivator block</h4>
+                        <p>
+                            When we aren't in iteration 0, we use the formula for calculating the derivative in a point
+                            with delta_t. Just as the limit definition states. This happens by the bottom part of the
+                            block, without the top 3 blocks. These top 3 blocks are used to get the IC value as output
+                            on iteration 0. Because we do not have 2 function values yet.
+                        </p>
+                        <img src="images/derivator.drawio.svg" alt="derivator"/>
 
-                    <img src="images/trollies.drawio.svg" alt="">
+                        <div class="block"></div>
 
-                    <div class="block"> </div>
-                    <h4> Forward Euler </h4>
-                    <p> Not much to explain here, just a simple accumulator and then the formula. </p>
-                    <img src="images/forward.drawio.svg" alt="">
+                        <h4> Backward Euler </h4>
+                        <p>
+                            In order to perform the backward euler rule, we initially take the IC as output, we do this
+                            by summing the IC with 0. Because this is the backward euler rule, we always need to take
+                            the previous function value and multiply it with the current delta_t to retrieve the
+                            estimated integral for a delta_t interval at that function value. We get this value from the
+                            first delay block, which generates the previous function-value as output.
+                        </p>
+                        <img src="images/integrator.drawio.svg" alt="backward euler"/>
 
-                    <div class="block"> </div>
-                    <h4> Simpson integrator </h4>
+                        <div class="block"></div>
+                    </section>
 
-                    <p> This is the most complicated of them all probably,
-                        we will start with explaining the Simpson block.
-                        It is important to notice that this is an incomplete standalone block,
-                        meaning it generates wrong outputs for iteration 0 and 1.
-                    </p>
-                    <p>
-                        The logic itself is quite simple starting with a chain of 2 delay blocks representing
-                        F(a), F((b - a) / 2) and f(b), the middle factor is
-                        then multiplied by 4 and the whole thing is divided by 6 as the formula dictates.
-                    </p>
-                    <p>One interesting detail is the other delay block,
-                        my first thought was to be smart about it and not
-                        just multiply delta_t by 2 for the interval, but then we
-                        realised the formula won't work for dynamic delta_t.
-                        We decided to leave it in because that way it can more
-                        easily be checked if that precondition is satisfied.
-                    </p>
+                    <section>
+                        <h2> Task 4: Factorial </h2>
+                        <p> The factorial block is just a block that remembers both the
+                            total up until now and the current tick.
+                        </p>
+                        <p> We rotated the +1 for extra style points.</p>
+                        <img src="images/factorial.drawio.svg" alt="">
+                    </section>
+
+                    <section>
+                        <h2> Task 5: More integration methods </h2>
+                        <div class="block"></div>
+                        <h4> Simpson integrator </h4>
+
+                        <p> This is the most complicated integrator block of all,
+                            we will start with explaining the Simpson block.
+                            It is important to notice that this is an incomplete standalone block,
+                            meaning it generates wrong outputs for iteration 0 and 1.
+                        </p>
+                        <p>
+                            The logic itself is quite simply starting with a chain of 2 delay blocks representing
+                            F(a), F((b - a) / 2) and F(b), the middle factor is
+                            then multiplied by 4 and the whole thing is divided by 6 as the formula dictates.
+                        </p>
+                        <p>One interesting detail is the other delay block,
+                            our first thought was to be smart about it and not
+                            just multiply delta_t by 2 for the interval, but then we
+                            realised the formula won't work for dynamic delta_t.
+                            We decided to leave it in, because that way it can more
+                            easily be checked if that precondition is satisfied.
+                        </p>
 
 
-                    <p> The root then contains the logic for deciding
-                        which integration method should be used and/or accumulated to the total result.
-                        The bottom part just calculates both integrals,
-                        the top part then computes whether there is an even or odd amount of points.
-                        Based on that we multiplex trapezoid on even and simpson on odd points.
-                        The exception is on step 1 where we just return IC.
-                    </p>
+                        <p> The root then contains the logic for deciding
+                            which integration method should be used and/or accumulated to the total result.
+                            The bottom part just calculates both integrals,
+                            the top part then computes whether there is an even or odd amount of points.
+                            Based on that we multiplex trapezoid on even and simpson on odd points.
+                            The exception is on step 1 where we just return IC.
+                        </p>
 
-                    <p> The right part contains logic about 'forgetting' the trapezoid calculation.
-                        We can see that sometimes the delay block is set equal to the sum,
-                        or the output of itself based on the amount of points. </p>
-                    <img src="images/simpson2.drawio.svg" alt="">
+                        <p> The right part contains logic about 'forgetting' the trapezoid calculation.
+                            We can see that sometimes the delay block is set equal to the sum,
+                            or the output of itself based on the amount of points. </p>
+                        <img src="images/simpson2.drawio.svg" alt="">
 
-                    <div class="block"> </div>
-                    <h2> Trapezoid </h2>
-                    <p> The trapezoid block is quite trivial and already covered elsewhere.</p>
-                    <img src="images/trapezoid.drawio.svg" alt="">
+                        <div class="block"></div>
 
-                    <div class="block"> </div>
-                    <h4> Factorial </h4>
-                    <p> The factorial block is just a block that remembers both the
-                        total up until now and the current tick.
-                    </p>
-                    <p> We rotated the +1 for extra style points.</p>
-                    <img src="images/factorial.drawio.svg" alt="">
+                        <h4> Trapezoid </h4>
+                        <p> The trapezoid block is quite trivial and already covered elsewhere.</p>
+                        <img src="images/trapezoid.drawio.svg" alt="">
 
-                    <h2> LaTeX verification/errors </h2>
-                    <p>The link to the pdf, which explains all the wrong happening in the latex generation, can be found <a href="images/cbd.pdf">here</a></p>
+                        <div class="block"></div>
 
-                    <h2> Experimenting with constant delta_t </h2>
-                    <p> These experiments are done using the forward Euler method. </p>
+                        <h4> Forward Euler </h4>
+                        <p> Not much to explain here, a simple accumulator and then the formula. </p>
+                        <img src="images/forward.drawio.svg" alt="">
+                    </section>
 
-                    <p>We start with picking a standard delta_t and see the results we would expect.</p>
-                    <img src="images/delta0_3.png" alt="">
+                    <section>
+                        <h2> Task 6: PRT system </h2>
+                        <h4>Building the system</h4>
+                        <p> The PIDBlock is just a simple implementation of a PID controller,
+                            the block consists of the derivation, integral and proportional component,
+                            multiplied by their respective parameter and summed together at the end.</p>
 
-                    <p> Using very small delta's does not result in noticeable changes. </p>
-                    <img src="images/delta0_01.png" alt="">
+                        <p> The plant block is a little more complicated due to all the parameters.
+                            These are all multiplied or divided or negated when necessary.
+                            The most important part is the loop back into the integral.
+                        </p>
 
-                    <p> When going up in delta we see the velocity getting quite erratic.</p>
-                    <img src="images/delta5.png" alt="">
+                        <p> The lookup is just a simple mutliplex chain based on the time.</p>
 
-                    <p> At very high delta's the behaviour gets very chaotic oscillating dramatically around the lookup speed.</p>
-                    <p> We also notice that the lookup table is getting very weird as the lines are not vertical anymore. </p>
-                    <img src="images/delta7_2.png" alt="">
+                        <p>The root block ties everything together
+                            in the same way as the previous assignment.
+                        </p>
+                        <img src="images/trollies.drawio.svg" alt="">
 
-                    <p> Even higher delta's do cause numerical instability causing the graph to spiral out of control </p>
+                        <div class="block"></div>
 
-                    <h2> Assignment structure </h2>
-                    <p> Our file structure consists of 3 main folders, code, convert and images. </p>
 
-                    <p> The code contains the whole codebase provided to us
-                        along with some modifications in the CDB/lib/std and such.
-                        The models that we used can also be found there.
-                    </p>
+                        <h2> Experimenting with constant delta_t </h2>
+                        <p> These experiments are done using the forward Euler method. </p>
 
-                    <p> The convert folder contains the draw.io -> python library that was given to us.
-                        All our draw.io files can be found there.
-                    </p>
+                        <p>We start by picking a standard delta_t and see the results we would expect.</p>
+                        <img src="images/delta0_3.png" alt="">
 
-                    <p> Lastly the image folder contains all the images found in the report. </p>
+                        <div class="block"></div>
 
-                    <p> When changing the integration method, we don't see any noticeable differences.
-                        The order is, backward Euler, Simpson and Trapezoid.
-                    </p>
 
-                    <img src="images/delta_bwe.png" alt="">
-                    <img src="images/delta_simp.png" alt="">
-                    <img src="images/delta_trap.png" alt="">
+                        <p> Using very small delta's does not result in noticeable changes. </p>
+                        <img src="images/delta0_01.png" alt="">
 
-                    <h2> Adaptive step size </h2>
+                        <div class="block"></div>
 
-                    <p> We already showed that making delta smaller doesn't really change the graph after a certain point.
-                        To be very sure though we ran a last experiment on a subset of the time frame using a tiny delta and a small delta.
-                        The first image is using delta = 0.001 and the second is using 0.1
-                    </p>
 
-                    <img src="images/small_delta0_001.png" alt="">
-                    <img src="images/small_delta0_1.png" alt="">
+                        <p> When going up in delta we see the velocity getting quite erratic.</p>
+                        <img src="images/delta5.png" alt="">
 
-                    <p> Again we see no noticeable difference. One important detail of using adaptive step size is computation cost.
-                        Being smart about this variable can cut simulation costs by orders of magnitude in many cases.
-                    </p>
+                        <div class="block"></div>
+
+
+                        <p> At very high delta's the behaviour gets very chaotic oscillating dramatically around the
+                            lookup
+                            speed.</p>
+                        <p> We also notice that the lookup table is getting very weird as the lines are not vertical
+                            anymore. </p>
+                        <img src="images/delta7_2.png" alt="">
+
+                        <div class="block"></div>
+
+
+                        <p> Even higher delta's do cause numerical instability causing the graph to spiral out of
+                            control </p>
+
+                        <p> When changing the integration method, we don't see any noticeable differences.
+                            The order is, backward Euler, Simpson and Trapezoid.
+                        </p>
+
+                        <img src="images/delta_bwe.png" alt="">
+                        <p>Backward euler</p>
+
+                        <div class="block"></div>
+
+                        <img src="images/delta_simp.png" alt="">
+                        <p>Simpson</p>
+
+                        <div class="block"></div>
+
+                        <img src="images/delta_trap.png" alt="">
+                        <p>Trapezoid</p>
+                    </section>
+
+                    <section>
+                        <h2> Task 7: Runge-Kutta </h2>
+                        <p> We already showed that making delta smaller doesn't really change the graph after a certain
+                            point.
+                            To be very sure though we ran a last experiment on a subset of the time frame using a tiny
+                            delta
+                            and a small delta.
+                            The first image is using delta_t = 0.001 and the second is using 0.1
+                        </p>
+
+                        <img src="images/small_delta0_001.png" alt="">
+                        delta_t = 0.001
+
+                        <div class="block"></div>
+
+                        <img src="images/small_delta0_1.png" alt="">
+                        delta_t = 0.1
+
+                        <div class="block"></div>
+
+
+                        <p> Again we see no noticeable difference. One important detail of using adaptive step size is
+                            computation cost.
+                            Being smart about this variable can cut simulation costs by orders of magnitude in many
+                            cases.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2> Assignment structure </h2>
+                        <p> Our file structure consists of 3 main folders, code, convert and images. </p>
+
+                        <p> The code contains the whole codebase provided to us
+                            along with some modifications in the CBD/lib/std.py and CBD/solver.py. We also added
+                            integrator.py for additional implementations of the integrator block. The models that we
+                            used can also be found in the std.py file.
+                        </p>
+
+                        <p> The convert folder contains the draw.io -> python library that was given to us.
+                            All our draw.io files can be found there.
+                        </p>
+
+                        <p> Lastly, the image folder contains all the images found in the report. </p>
+                    </section>
                 </div>
-
             </div>
         </div>
     </div>
