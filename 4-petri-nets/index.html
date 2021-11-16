@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MoSIS</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-half">
+
+                <h1 class="title">Petri-Net Assignment</h1>
+
+                <div class="columns">
+                    <div class="column is-narrow">
+                        <p> Thomas Dooms </p>
+                        <p> Basil Rommens </p>
+                    </div>
+                    <div class="column is-narrow">
+                        <p>S<b>0181389</b></p>
+                        <p>S<b>0185714</b></p>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="content">
+                    <h2> Railroad system </h2>
+
+                    <p>To construct the railroad in TAPAAL we first have to understand how the tracks are laid out,
+                        How we understand it is depicted in this image.</p>
+
+                    <img src="images/tracks.png" alt="">
+
+                    <p>The next step is to define our tracks as states and our trolleys as tokens,
+                        the transitions would indicate where the trolley can go to.</p>
+
+                    <p> The lights can be modelled as two oscillating states,
+                        every step this transition then needs to be fired.
+                        We can then use this token as an input of the transition to the track with the light.
+                        We then need to return this token of course to keep the light going. </p>
+
+
+                    <h4> Insert image here </h4>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
