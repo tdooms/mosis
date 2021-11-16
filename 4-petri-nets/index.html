@@ -58,6 +58,27 @@
 
 
                     <h4> Insert image here </h4>
+                    <h2> Traces </h2>
+                    <p>We can also generate interesting traces with our model.
+                        One of them is a trolley traveling for at least 2 tracks before passing through
+                        a light that is red when the trolley arrives there. Here is the trace and the initial setup. </p>
+
+                    <img src="images/2track_red.png" alt="">
+                    <img src="images/2track_red_initial.png" alt="">
+
+                    <p> Another trace is for a trolley that travels in a single "8"-shape over the network,
+                        without ever seeing a red light. Again here are the traces and initial setups.</p>
+
+                    <img src="images/full8.png" alt="">
+                    <img src="images/full8_initial.png" alt="">
+
+                    <h2> Reachability/Coverability </h2>
+
+                    <p>
+                        The reachability graph for this model will be finite as there are a finite amount of valid states.
+                        There are a finite amount of states and there are either 0 or 1 tokens in a state.
+                        We can in fact calculate an upper bound which is 2^n with n being the number of states.
+                    </p>
 
                 </div>
 
