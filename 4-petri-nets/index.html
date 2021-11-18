@@ -80,6 +80,35 @@
                         We can in fact calculate an upper bound which is 2^n with n being the number of states.
                     </p>
 
+                    <p> Below are, respectively, the reachability and coverability graphs.
+                        Both are finite as expected.
+                        The first pair is generated from a setup where no trolley is present.
+                        We can see the clock token going around and the light switching at the end of this sequence.
+                        After two lights have changed we return to the original.
+                        We can also notice that the reachability and coverability graph are identical.
+                        This is due to the fact that the amount of tokens is bounded (by 1). </p>
+
+                    <img src="images/reachability.svg" alt="">
+                    <img src="images/coverability.svg" alt="">
+
+                    <p> To make this graph infinite we could add one or more transitions to
+                        'duplicate' trolleys. This would cause the amount of trolleys on each
+                        track to increase by one every lap, thus never returning to the same state.
+                        This of course violates the constraint that every track can only hold a single trolley.
+                    </p>
+
+                    <h2> File structure </h2>
+                    <p> The images generated for this assignment can be found in the image folder.
+                        Next the models contain the TAPAAL files, the first model is without a
+                        clock and the second one with one. Lastly the generated dot files by the
+                        python script can be found in the dot folder.
+                    </p>
+
+                    <h2> Invariant analysis </h2>
+                    <h2> Boundedness </h2>
+                    <h2> Liveness </h2>
+                    <h2> Safety </h2>
+
                 </div>
 
             </div>
