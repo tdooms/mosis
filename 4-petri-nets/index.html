@@ -49,32 +49,31 @@
                     </ul>
                     <h2> Railroad system </h2>
 
-                    <p>To construct the railroad in TAPAAL we first have to understand how the tracks are laid out,
-                        How we understand it is depicted in this image.</p>
+                    <p>To construct the railroad in TAPAAL we first have to understand how the tracks are laid out, How
+                        we understand it is depicted in this image.
+                    </p>
 
                     <img src="images/tracks.png" alt="">
 
-                    <p>The next step is to define our tracks as states and our trolleys as tokens,
-                        the transitions would indicate where the trolley can go to.</p>
+                    <p>The next step is to define our tracks as states and our trolleys as tokens, the transitions would
+                        indicate where the trolley can go to.</p>
 
-                    <p> The lights can be modelled as two oscillating states,
-                        every step this transition then needs to be fired.
-                        We can then use this token as an input of the transition to the track with the light.
+                    <p> The lights can be modelled as two oscillating states, every step this transition then needs to
+                        be fired. We can then use this token as an input of the transition to the track with the light.
                         We then need to return this token of course to keep the light going. </p>
 
 
                     <h4> Insert image here </h4>
                     <h2> Traces </h2>
-                    <p>We can also generate interesting traces with our model.
-                        One of them is a trolley traveling for at least 2 tracks before passing through
-                        a light that is red when the trolley arrives there. Here is the trace and the initial
-                        setup. </p>
+                    <p>We can also generate interesting traces with our model. One of them is a trolley traveling for at
+                        least 2 tracks before passing through a light that is red when the trolley arrives there. Here
+                        is the trace and the initial setup. </p>
 
                     <img src="images/2track_red.png" alt="">
                     <img src="images/2track_red_initial.png" alt="">
 
-                    <p> Another trace is for a trolley that travels in a single "8"-shape over the network,
-                        without ever seeing a red light. Again here are the traces and initial setups.</p>
+                    <p> Another trace is for a trolley that travels in a single "8"-shape over the network, without ever
+                        seeing a red light. Again here are the traces and initial setups.</p>
 
                     <img src="images/full8.png" alt="">
                     <img src="images/full8_initial.png" alt="">
@@ -83,41 +82,37 @@
 
                     <p>
                         The reachability graph for this model will be finite as there are a finite amount of valid
-                        states.
-                        There are a finite amount of states and there are either 0 or 1 tokens in a state.
-                        We can in fact calculate an upper bound which is 2^n with n being the number of states.
+                        states. There are a finite amount of states and there are either 0 or 1 tokens in a state. We
+                        can in fact calculate an upper bound which is 2^n with n being the number of states.
                     </p>
 
-                    <p> Below are, respectively, the reachability and coverability graphs.
-                        Both are finite as expected.
-                        The first pair is generated from a setup where no trolley is present.
-                        We can see the clock token going around and the light switching at the end of this sequence.
-                        After two lights have changed we return to the original. </p>
+                    <p> Below are, respectively, the reachability and coverability graphs. Both are finite as expected.
+                        The first pair is generated from a setup where no trolley is present. We can see the clock token
+                        going around and the light switching at the end of this sequence. After two lights have changed
+                        we return to the original. </p>
 
-                    <p> We can also notice that the reachability and coverability graph are identical.
-                        This is due to the fact that the amount of tokens is bounded (by 1).
-                        Because of this we will omit the coverability graph. </p>
+                    <p> We can also notice that the reachability and coverability graph are identical. This is due to
+                        the fact that the amount of tokens is bounded (by 1). Because of this we will omit the
+                        coverability graph. </p>
 
                     <img src="images/reachability.svg" alt="">
 
-                    <p> We can also simulate two trolleys, starting on S1 and S6
-                        Here the graph is not cyclic because we encounter a deadlock,
-                        we will probably discuss this setup more in a later exercise.
+                    <p> We can also simulate two trolleys, starting on S1 and S6 Here the graph is not cyclic because we
+                        encounter a deadlock, we will probably discuss this setup more in a later exercise.
                     </p>
 
                     <img src="images/reachability_s1s6.svg" alt="">
 
-                    <p> To make this graph infinite we could add one or more transitions to
-                        'duplicate' trolleys. This would cause the amount of trolleys on each
-                        track to increase by one every lap, thus never returning to the same state.
-                        This of course violates the constraint that every track can only hold a single trolley.
+                    <p> To make this graph infinite we could add one or more transitions to 'duplicate' trolleys. This
+                        would cause the amount of trolleys on each track to increase by one every lap, thus never
+                        returning to the same state. This of course violates the constraint that every track can only
+                        hold a single trolley.
                     </p>
 
                     <h2> File structure </h2>
-                    <p> The images generated for this assignment can be found in the image folder.
-                        Next the models contain the TAPAAL files, the first model is without a
-                        clock and the second one with one. Lastly the generated dot files by the
-                        python script can be found in the dot folder.
+                    <p> The images generated for this assignment can be found in the image folder. Next the models
+                        contain the TAPAAL files, the first model is without a clock and the second one with one. Lastly
+                        the generated dot files by the python script can be found in the dot folder.
                     </p>
 
                     <h2> Invariant analysis </h2>
@@ -228,8 +223,76 @@
                     </p>
                     <h2> Liveness </h2>
                     <h2> Fairness </h2>
+                    <p> To achieve fairness we introduced the clock. The intention of this clock is to reduce the amount
+                    of possible transition to 1 so there is no non-determinism. Having multiple possible transitions is
+                    only allowed in cases of true randomness i.e. the split for the trolley. </p>
+
+                    <p> Because the number of states is constant but the number of trolleys is variable we decided to
+                        update every state and move the trolley if it has one. Immediately the problem arises that when
+                        updating state 1 and moving the trolley to state 2, it is still possible to update state 2 later
+                        on and move the trolley twice. To avoid this we need a certain ordering where we go in a
+                        backwards direction so that when we update a state it can only contain untouched trolleys.
+                        The problem with this approach is that the track-graph has cycles and is not topologically
+                        sortable. So just updating every state, in any order, will not work. We notice this problem
+                        arises either at the split or join, so in our solution we solved this problem by introducing a
+                        buffer state which is updated last. we also have some logic to ensure ##TODO##!!!
+                    </p>
+
+                    <p> It is important to notice we use a slightly alternate approach to the clock than described in
+                        the lecture notes. We opted to, instead of splitting and joining the clock token to have a
+                        cycle (read clock) granting the token to a certain transition and then returning it and going
+                        forward in the cycle.
+                    </p>
+
+                    <p>##TODO##!!!</p>
+
                     <h2> Safety </h2>
+                    <p> We believe trolleys cannot crash after the first complete lap. The explanation follows.</p>
+
+                    <p>
+                        For the remainder of this exercise it's important to note in which cases trolleys can crash:
+                    </p>
+
+                    <ul>
+                        <li> Crashing into the trolley in front that is waiting for a red light.</li>
+                        <li> Merging together onto the same track. </li>
+                    </ul>
+
+                    <p> In the simulation, when a trolley is right behind another one, it can happen that for that
+                        certain tick, the trolleys will be on the same square because one has been updated and the other
+                        one hasn't. We assume that this is an invalid 'in between' state and will not count those kinds
+                        of collisions.
+                    </p>
+
+                    <p> Now if everything is working let us discuss the theoretical cases of trolleys in our system.</p>
+
+                    <p>Let's start by examining the case where every track is occupied by a trolley. The trollies
+                        waiting for the red light will be rear ended by the other trolleys as they just move forward.
+                        As the period of the track is 6, meaning every rotation will be 6 steps and the period of the
+                        lights is 2 we can infer that a trolley either always has a green light or always a red light.
+                    </p>
+
+                    <p>
+                        Because of the light being green only half the time the maximal throughput of a track is only
+                        50%. This means that if we were to have only the upper part of the circuit we could maximally
+                        fit 3 trolleys because it is 6 tracks long. The following image illustrates why we need space
+                        between the trollies.
+                    </p>
+
+                    <img src="images/6trollies.png" alt="">
+
+                    <div class="table-container">
+                        <table class="table is-bordered is-striped is-narrow is-hoverable">
+                            <tr> <td></td> <td class="has-text-centered"> * </td> <td></td></tr>
+                            <tr> <td></td> <td class="has-text-centered"> * </td> <td></td></tr>
+                            <tr> <td class="has-text-centered"> * </td> <td> </td> <td class="has-text-centered"> * </td></tr>
+                        </table>
+                    </div>
+
+
+
                 </div>
+
             </div>
         </div>
     </div>
