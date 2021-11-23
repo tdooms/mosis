@@ -79,6 +79,9 @@
 
                     <h4> Insert image here </h4>
                     <h2> Traces </h2>
+                    <b> A trolley traveling for at least 2 tracks before passing through a light that is red when the
+                        trolley arrives there.</b>
+
                     <p> We can also generate interesting traces with our model. One of them is a trolley traveling for at
                         least 2 tracks before passing through a light that is red when the trolley arrives there. Here
                         is the trace and the initial setup. </p>
@@ -89,6 +92,8 @@
                     <p>
                         We carefully change the initial state of the light such that it has to stop before the red light.
                     </p>
+
+                    <b> A trolley that travels in a single "8"-shape over the network, without ever seeing a red light. </b>
 
                     <p> Another trace is for a trolley that travels in a single "8"-shape over the network, without ever
                         seeing a red light. Again here are the traces and initial setups.</p>
@@ -101,17 +106,22 @@
                     <p> This trace is very long as we need to check a lot of states. </p>
 
                     <h2> Reachability/Coverability </h2>
-
+                    <b> Argue why your solution would (not) produce an infinite reachability graph. </b>
                     <p>
                         The reachability graph for this model will be finite as there are a finite amount of valid
                         states. There are a finite amount of states and there are either 0 or 1 tokens in a state. We
                         can in fact calculate an upper bound which is 2<sup>n</sup> with n being the number of states.
                     </p>
 
+                    <b> Generate the reachability graph and discuss any patterns you identify. If your reachability
+                        graph is infinite, generate the graph for a representative subset of your model instead.</b>
+
                     <p> Below are, respectively, the reachability and coverability graphs. Both are finite as expected.
                         The first pair is generated from a setup where no trolley is present. We can see the clock token
                         going around and the light switching at the end of this sequence. After two lights have changed
                         we return to the original. </p>
+
+                    <b> Generate the coverability graph and discuss any patterns you identify. </b>
 
                     <p> We can also notice that the reachability and coverability graph are identical. This is due to
                         the fact that the amount of tokens is bounded (by 1). Because of this we will omit the
@@ -124,6 +134,9 @@
                     </p>
 
                     <img src="images/reachability_s1s6.svg" alt="">
+
+                    <b> Can you add/remove a place/transition such that the reachability graph becomes finite if it was
+                        infinite (or vice-versa)? Your new model does not have to conform to the requirements. </b>
 
                     <p> To make this graph infinite we could add one or more transitions to 'duplicate' trolleys. This
                         would cause the amount of trolleys on each track to increase by one every lap, thus never
@@ -277,13 +290,17 @@
 
                     <p> This has to succeed and indeed it does. </p>
 
-                    <p> We can alter the track to make </p>
-
+                    <p> We can alter the track to make every L4 transition L3 by adding a branching dead-end to the
+                        track in some station. Checking L3 can be done by checking if there is some sequence on which
+                        no deadlock occurs, or in temporal logic: EF !deadlock must be true.
+                    </p>
 
                     <h2> Fairness </h2>
+
                     <p> To achieve fairness we introduced the clock. The intention of this clock is to reduce the amount
-                    of possible transition to 1 so there is no non-determinism. Having multiple possible transitions is
-                    only allowed in cases of true randomness i.e. the split for the trolley. </p>
+                        of possible transition to 1 so there is no non-determinism. Having multiple possible transitions
+                        is only allowed in cases of true randomness i.e. the split for the trolley.
+                    </p>
 
                     <p> Because the number of states is constant but the number of trolleys is variable we decided to
                         update every state and move the trolley if it has one. Immediately the problem arises that when
@@ -310,6 +327,8 @@
                         cannot make progress it will halt the whole system. </p>
 
                     <h2> Safety </h2>
+                    <b>Can two trolleys crash? Why (not)?</b>
+
                     <p> We believe trolleys cannot crash after the first complete lap. The explanation follows.</p>
 
                     <p>
@@ -329,6 +348,8 @@
 
                     <p> Now that we have a basic understanding of collisions let us discuss the theoretical cases of
                         trolleys in our system. </p>
+
+                    <b> Can you find an acceptable initial marking such that there is a trolley collision? </b>
 
                     <p> Let's start by examining the case where every track is occupied by a trolley. The trollies
                         waiting for the red light will be rear ended by the other trolleys as they just move forward.
@@ -380,20 +401,30 @@
 
                     <img src="images/reachability3.svg" alt="">
 
+                    <b>Provide a trace in which the trolley do crash. If they can't, prove (using queries,
+                        logic reasoning, already obtained results...) that this is impossible in your net.</b>
+
                     <p> If we have 4 trollies, that are all separated by one track but without the transform first, we
-                        see an imminent crash. </p>
+                        see an imminent crash.
+                    </p>
 
                     <img src="images/crash_4trolley.png" alt="">
                     <img src="images/crash_4trolley_initial.png" alt="">
 
+                    <b> Can you find a way to add a single transition/place such that there is a possibility for
+                        crashes?
+                    </b>
+
                     <p> Adding a transition that skips a single track won't result in any additional crashes after the
                         first lap because then taking the 'shortcut' will result in just waiting behind the following
-                        red light and gaining nothing. </p>
+                        red light and gaining nothing.
+                    </p>
 
                     <p> We could make the system a lot more random/dangerous by adding a simple transition that skips
                         two tracks. For example a separate track from middle-left to middle-right. In case of two
                         trolleys, this would result in a 50/50 chance of crashing every lap. It may also be possible
-                        they never crash due to cheer luck. </p>
+                        they never crash due to cheer luck.
+                    </p>
                 </div>
             </div>
         </div>
