@@ -43,10 +43,24 @@
                 <div class="content">
                     <h2> Assumptions</h2>
                     <ul>
-                        <li>Because there always needs to be a transition of a trolley, we assume that when a trolley
-                            is behind a red light. Therefore, we can never go to a next state.
+                        <li>
+                            Due to the rules of how fairness is described in the assignment, we assume that every
+                            trolley needs to do a transition before changing the lights and going to the next state.
+                            If a trolley is behind a red light and cannot proceed, the simulation is not able to
+                            continue (fairly).
+                        </li>
+                        <li>
+                            Due to this assumption we will describe the simulation theoretically, as the simulation can
+                            continue and practically, i.e. how our Petri net works.
                         </li>
                     </ul>
+
+                    <h2> File structure </h2>
+                    <p> The images generated for this assignment can be found in the image folder. Next the models
+                        contain the TAPAAL files, the first model is without a clock and the second one with one. Lastly
+                        the generated dot files by the python script can be found in the dot folder.
+                    </p>
+
                     <h2> Railroad system </h2>
 
                     <p>To construct the railroad in TAPAAL we first have to understand how the tracks are laid out, How
@@ -65,25 +79,33 @@
 
                     <h4> Insert image here </h4>
                     <h2> Traces </h2>
-                    <p>We can also generate interesting traces with our model. One of them is a trolley traveling for at
+                    <p> We can also generate interesting traces with our model. One of them is a trolley traveling for at
                         least 2 tracks before passing through a light that is red when the trolley arrives there. Here
                         is the trace and the initial setup. </p>
 
-                    <img src="images/2track_red.png" alt="">
-                    <img src="images/2track_red_initial.png" alt="">
+                    <img src="images/2tracks_red.png" alt="">
+                    <img src="images/2tracks_red_initial.png" alt="">
+
+                    <p>
+                        We carefully change the initial state of the light such that it has to stop before the red light.
+                    </p>
 
                     <p> Another trace is for a trolley that travels in a single "8"-shape over the network, without ever
                         seeing a red light. Again here are the traces and initial setups.</p>
 
-                    <img src="images/full8.png" alt="">
-                    <img src="images/full8_initial.png" alt="">
+                    <img src="images/8loop_1.png" alt="">
+                    <img src="images/8loop_2.png" alt="">
+                    <img src="images/8loop_3.png" alt="">
+                    <img src="images/8loop_initial.png" alt="">
+
+                    <p> This trace is very long as we need to check a lot of states. </p>
 
                     <h2> Reachability/Coverability </h2>
 
                     <p>
                         The reachability graph for this model will be finite as there are a finite amount of valid
                         states. There are a finite amount of states and there are either 0 or 1 tokens in a state. We
-                        can in fact calculate an upper bound which is 2^n with n being the number of states.
+                        can in fact calculate an upper bound which is 2<sup>n</sup> with n being the number of states.
                     </p>
 
                     <p> Below are, respectively, the reachability and coverability graphs. Both are finite as expected.
@@ -109,22 +131,16 @@
                         hold a single trolley.
                     </p>
 
-                    <h2> File structure </h2>
-                    <p> The images generated for this assignment can be found in the image folder. Next the models
-                        contain the TAPAAL files, the first model is without a clock and the second one with one. Lastly
-                        the generated dot files by the python script can be found in the dot folder.
-                    </p>
-
                     <h2> Invariant analysis </h2>
                     <p><b>Generate the P-invariants for the model and explain what they mean in terms of the
                         railroad.</b></p>
-                    <p>
+                    <blockquote>
                         M(T1_T9_active) + M(T3_active) = 1
                         M(TAPN1.S1) + M(TAPN1.S2) + M(TAPN1.S3) + M(TAPN1.S4) + M(TAPN1.S5) + M(TAPN1.S6) + M(TAPN1.S7)
                         + M(TAPN1.S8) + M(TAPN1.S9) + M(TAPN1.buffer_3) + M(TAPN1.buffer_7) = 2
                         M(C1) + M(C12) + M(TAPN1.C10) + M(TAPN1.C11) + M(TAPN1.C2) + M(TAPN1.C3) + M(TAPN1.C4) +
                         M(TAPN1.C5) + M(TAPN1.C6) + M(TAPN1.C7) + M(TAPN1.C8) + M(TAPN1.C9) = 1
-                    </p>
+                    </blockquote>
                     <p><b>Which invariants did you expect? Which ones are surprising? Why?</b></p>
                     <p>
                         First and foremost, the invariant related to the clock variables makes the most sense. This is
@@ -135,11 +151,11 @@
                     </p>
                     <p><b>Can you add a single place or transition to the model that changes these invariants (for the
                         better or the worse)? Your new model does not have to conform to the requirements.</b></p>
-                    <p>
+                    <blockquote>
                         M(T1_T9_active) + M(T3_active) = 1
                         M(TAPN1.S1) + M(TAPN1.S2) + M(TAPN1.S3) + M(TAPN1.S4) + M(TAPN1.S5) + M(TAPN1.S6) + M(TAPN1.S7)
                         + M(TAPN1.S8) + M(TAPN1.S9) + M(TAPN1.buffer_3) + M(TAPN1.buffer_7) = 2
-                    </p>
+                    </blockquote>
                     <p>
                         We used the infinite petri net solution in order to remove the invariant of the clock. It
                         doesn't necessarily make the invariants better or worse, but just reduces it to 2. Because the
@@ -149,13 +165,13 @@
                     <p><b>Use one or multiple queries to check the boundedness of your net. You may use logic, reasoning
                         and the already obtained P-invariants to simplify/minimize your queries. Is the result what you
                         expected? Why (not)?</b></p>
-                    <p>
+                    <blockquote>
                         AG (TAPN1.S1 <= 2 and TAPN1.S2 <= 2 and TAPN1.S3 <= 2 and TAPN1.S4 <= 2 and TAPN1.S5 <= 2 and
                         TAPN1.S6 <= 2 and TAPN1.S7 <= 2 and TAPN1.S8 <= 2 and TAPN1.S9 <= 2 and C1 <= 2 and TAPN1.C2 <=
                         2 and TAPN1.C3 <= 2 and TAPN1.C4 <= 2 and TAPN1.C5 <= 2 and TAPN1.C6 <= 2 and TAPN1.C7 <= 2 and
                         TAPN1.C8 <= 2 and TAPN1.C9 <= 2 and TAPN1.C10 <= 2 and TAPN1.C11 <= 2 and C12 <= 2 and
                         TAPN1.buffer_3 <= 2 and TAPN1.buffer_7 <= 2 and T1_T9_active <= 2 and T3_active <= 2)
-                    </p>
+                    </blockquote>
                     <p>
                         For this part we suppose that we always use one token for the clock, two tokens to represent the
                         trollies that go around and one token for managing the lights. The initial placement of the
@@ -181,13 +197,13 @@
                     <h2> Deadlock </h2>
                     <p><b>Use a query to find whether or not there is a deadlock in your net. What fireings cause this
                         to happen? What does this mean for the railroad?</b></p>
-                    <p>
+                    <blockquote>
                         AF !(TAPN1.ICT2 or TAPN1.ICT3 or TAPN1.ICT4 or TAPN1.ICT5 or TAPN1.ICT6 or TAPN1.ICT7 or
                         TAPN1.ICT8 or TAPN1.ICT9 or TAPN1.ICT10 or TAPN1.ICT12 or TAPN1.S6_buffer or TAPN1.buffer_3_S3
                         or TAPN1.buffer_S7 or TAPN1.buffer_7_S8 or TAPN1.S8_buffer_7 or light.switch_1_9 or
                         light.switch_3 or TAPN1.S2_S1 or TAPN1.S3_S2 or TAPN1.S1_S4 or TAPN1.S4_S5 or TAPN1.S5_S6 or
                         TAPN1.S6_S9 or TAPN1.S7_S4 or TAPN1.S9_S8)
-                    </p>
+                    </blockquote>
                     <p>
                         In order to detect a deadlock in the system, we should have a situation where no transition is
                         able to fire. Therefore, we use need to check if there is a trace where this is the case. This
@@ -222,6 +238,48 @@
                         <!--TODO check for the coverability graph if this is also true.-->
                     </p>
                     <h2> Liveness </h2>
+                    <p> To get some interesting results we will try to find an example of every form of liveness. We
+                        will start from L4 to L1, we skip L0 as it's trivial compared to the other examples.
+                    </p>
+
+                    <p> Starting with L4 we take an example with 3 trollies that can drive infinitely. To satisfy
+                        L4-liveness we need to ensure it can always fire aka never deadlock. This is our query:
+                    </p>
+
+                    <blockquote>
+                        EF !(TAPN1.ICT2 or TAPN1.ICT3 or TAPN1.ICT4 or TAPN1.ICT5 or TAPN1.ICT6 or TAPN1.ICT7 or
+                        TAPN1.ICT8 or TAPN1.ICT9 or TAPN1.ICT10 or TAPN1.ICT12 or TAPN1.S6_buffer or TAPN1.buffer_3_S3
+                        or TAPN1.buffer_S7 or TAPN1.buffer_7_S8 or TAPN1.S8_buffer_7 or light.switch_1_9 or
+                        light.switch_3 or TAPN1.S2_S1 or TAPN1.S3_S2 or TAPN1.S1_S4 or TAPN1.S4_S5 or TAPN1.S5_S6 or
+                        TAPN1.S6_S9 or TAPN1.S7_S4 or TAPN1.S9_S8)
+                    </blockquote>
+
+                    <p> This query checks for deadlocks, if it doesn't find any it returns false, so we want it to
+                        'fail'. After running it we indeed see it does.
+                    </p>
+
+                    <p> In our net we can't have L3-liveness without L4-liveness, or formally there is no strictly
+                        L3-live transitions. This is due to the fact that everything is a loop without the possibility
+                        to branch into a dead state (More on this point in the safety exercise).
+                    </p>
+
+                    <p> To check the L1-liveness we need a similar query but just checking if there exists a single step
+                        for which there is no deadlock.
+                    </p>
+
+                    <blockquote>
+                        EX (TAPN1.ICT2 or TAPN1.ICT3 or TAPN1.ICT4 or TAPN1.ICT5 or TAPN1.ICT6 or TAPN1.ICT7 or
+                        TAPN1.ICT8 or TAPN1.ICT9 or TAPN1.ICT10 or TAPN1.ICT12 or TAPN1.S6_buffer or TAPN1.buffer_3_S3
+                        or TAPN1.buffer_S7 or TAPN1.buffer_7_S8 or TAPN1.S8_buffer_7 or light.switch_1_9 or
+                        light.switch_3 or TAPN1.S2_S1 or TAPN1.S3_S2 or TAPN1.S1_S4 or TAPN1.S4_S5 or TAPN1.S5_S6 or
+                        TAPN1.S6_S9 or TAPN1.S7_S4 or TAPN1.S9_S8)
+                    </blockquote>
+
+                    <p> This has to succeed and indeed it does. </p>
+
+                    <p> We can alter the track to make </p>
+
+
                     <h2> Fairness </h2>
                     <p> To achieve fairness we introduced the clock. The intention of this clock is to reduce the amount
                     of possible transition to 1 so there is no non-determinism. Having multiple possible transitions is
@@ -244,7 +302,12 @@
                         forward in the cycle.
                     </p>
 
-                    <p>##TODO##!!!</p>
+                    <p> Due to the fact that we use this clock which has a single token permitting a certain transition
+                        to fire and because the only way the token can return to a certain position is to complete an
+                        entire loop, we argue that our circuit is fair. </p>
+
+                    <p> The downside to this fairness, as described in the deadlocking section is that when a state
+                        cannot make progress it will halt the whole system. </p>
 
                     <h2> Safety </h2>
                     <p> We believe trolleys cannot crash after the first complete lap. The explanation follows.</p>
@@ -259,17 +322,24 @@
                     </ul>
 
                     <p> In the simulation, when a trolley is right behind another one, it can happen that for that
-                        certain tick, the trolleys will be on the same square because one has been updated and the other
-                        one hasn't. We assume that this is an invalid 'in between' state and will not count those kinds
-                        of collisions.
+                        certain tick, those two trolleys will be on the same square because one has been updated and the
+                        other one hasn't. We assume that this is an invalid 'in between' state and will not count those
+                        kinds of collisions.
                     </p>
 
-                    <p> Now if everything is working let us discuss the theoretical cases of trolleys in our system.</p>
+                    <p> Now that we have a basic understanding of collisions let us discuss the theoretical cases of
+                        trolleys in our system. </p>
 
-                    <p>Let's start by examining the case where every track is occupied by a trolley. The trollies
+                    <p> Let's start by examining the case where every track is occupied by a trolley. The trollies
                         waiting for the red light will be rear ended by the other trolleys as they just move forward.
+                        We can conclude that trollies starting at a red light must never have a trolley behind them.
+                    </p>
+
+                    <p>
                         As the period of the track is 6, meaning every rotation will be 6 steps and the period of the
-                        lights is 2 we can infer that a trolley either always has a green light or always a red light.
+                        lights is 2 we can infer that a trolley either always has a green light or first a single red
+                        light continued by only green lights. This is the reason we need a single first lap to see if
+                        there is a crash because afterwards they will all drive in harmony having only green lights.
                     </p>
 
                     <p>
@@ -281,18 +351,50 @@
 
                     <img src="images/6trollies.png" alt="">
 
+                    <p>
+                        Due to the fact that every 'lap' only 3 trollies can pass through a red light, we are
+                        bottlenecked by the middel red light. This leaves us to conclude that the optimal configuration
+                        (without crashing) is 3 trollies all separated by one station as illustrated below.
+                    </p>
+
                     <div class="table-container">
                         <table class="table is-bordered is-striped is-narrow is-hoverable">
-                            <tr> <td></td> <td class="has-text-centered"> * </td> <td></td></tr>
-                            <tr> <td></td> <td class="has-text-centered"> * </td> <td></td></tr>
+                            <tr> <td></td> <td class="has-text-centered"> either here </td> <td></td></tr>
                             <tr> <td class="has-text-centered"> * </td> <td> </td> <td class="has-text-centered"> * </td></tr>
+                            <tr> <td> </td> <td class="has-text-centered"> or here </td> <td></td></tr>
                         </table>
                     </div>
 
+                    <p> Generally we could state that if we were to apply a 'fold' transform to the tracks such that
+                        trollies op the bottom track would be on the top track, and they all have distance one after
+                        this transformation, the system is safe.
+                    </p>
 
+                    <p>We can now look at if our system matches the theoretic analysis.</p>
 
+                    <img src="images/no_crash_3trolley.png" alt="">
+
+                    <p> We can run this simulation forever, this is the start of the trace file.
+                        We can prove that runs forever a little more rigorously using the reachability graph.
+                    </p>
+
+                    <img src="images/reachability3.svg" alt="">
+
+                    <p> If we have 4 trollies, that are all separated by one track but without the transform first, we
+                        see an imminent crash. </p>
+
+                    <img src="images/crash_4trolley.png" alt="">
+                    <img src="images/crash_4trolley_initial.png" alt="">
+
+                    <p> Adding a transition that skips a single track won't result in any additional crashes after the
+                        first lap because then taking the 'shortcut' will result in just waiting behind the following
+                        red light and gaining nothing. </p>
+
+                    <p> We could make the system a lot more random/dangerous by adding a simple transition that skips
+                        two tracks. For example a separate track from middle-left to middle-right. In case of two
+                        trolleys, this would result in a 50/50 chance of crashing every lap. It may also be possible
+                        they never crash due to cheer luck. </p>
                 </div>
-
             </div>
         </div>
     </div>
