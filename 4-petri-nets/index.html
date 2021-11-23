@@ -77,7 +77,7 @@
                         We then need to return this token of course to keep the light going. </p>
 
 
-                    <h4> Insert image here </h4>
+                    <img src="images/lights.png" height="549" width="419"/>
                     <h2> Traces </h2>
                     <b> A trolley traveling for at least 2 tracks before passing through a light that is red when the
                         trolley arrives there.</b>
@@ -122,7 +122,7 @@
                         trolley is present. We can see the clock token going around and the light switching at the end
                         of this sequence. After two lights have changed we return to the original. </p>
 
-                    <img src="images/reachabilitys6.svg" alt="">
+                    <img src="images/reachability_S6.svg" alt="">
 
                     <b> Generate the coverability graph and discuss any patterns you identify. </b>
 
@@ -130,10 +130,10 @@
                         the fact that the amount of tokens is bounded (by 1). Because of this we will omit the
                         coverability graph. </p>
 
-                    <img src="images/coverability6.svg" alt="">
+                    <img src="images/coverability_S6.svg" alt="">
 
                     <p> We can also simulate two trolleys, starting on S1 and S6 Here the graph is not cyclic because we
-                        encounter a deadlock, we will probably discuss this setup more in a later exercise.
+                        encounter a deadlock, we will discuss this setup in a later exercise.
                     </p>
 
                     <img src="images/reachability_s1s6.svg" alt="">
@@ -251,7 +251,6 @@
                         We can identify this deadlock in the reachability graph by looking at the state which has no
                         outgoing transitions. This means that there are no possible transitions to depart from when the
                         petri-net is in that marking. The same counts for the coverability graph.
-                        <!--TODO check for the coverability graph if this is also true.-->
                     </p>
                     <h2> Liveness </h2>
                     <p> To get some interesting results we will try to find an example of every form of liveness. We
@@ -315,7 +314,13 @@
                         The problem with this approach is that the track-graph has cycles and is not topologically
                         sortable. So just updating every state, in any order, will not work. We notice this problem
                         arises either at the split or join, so in our solution we solved this problem by introducing a
-                        buffer state which is updated last. we also have some logic to ensure ##TODO##!!!
+                        buffer state which is updated last.
+                    </p>
+                    <p>
+                        We achieve this by introducing a new arc to a buffer state, which will be filled if there is
+                        a token that goes to that buffer state. We also need to note that a buffer state is a
+                        temporary replacement of the next station. Therefore, we let the clock pass the transitions that
+                        go to this station for which we built a buffer.
                     </p>
 
                     <p> It is important to notice we use a slightly alternate approach to the clock than described in
