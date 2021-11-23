@@ -6,7 +6,7 @@
   <shared-place initialMarking="0" invariant="&lt; inf" name="C12"/>
   <shared-transition name="T34" player="0" urgent="false"/>
   <shared-transition name="T35" player="0" urgent="false"/>
-  <net active="true" id="TAPN1" type="P/T net">
+  <net active="true" id="clock_circuit" type="P/T net">
     <place displayName="true" id="S1" initialMarking="0" invariant="&lt; inf" name="S1" nameOffsetX="0" nameOffsetY="0" positionX="465" positionY="195"/>
     <place displayName="true" id="S3" initialMarking="0" invariant="&lt; inf" name="S3" nameOffsetX="0" nameOffsetY="0" positionX="795" positionY="195"/>
     <place displayName="true" id="S4" initialMarking="0" invariant="&lt; inf" name="S4" nameOffsetX="0" nameOffsetY="0" positionX="465" positionY="390"/>
@@ -19,7 +19,7 @@
     <place displayName="true" id="T3_active" initialMarking="1" invariant="&lt; inf" name="T3_active" nameOffsetX="0" nameOffsetY="0" positionX="576" positionY="325"/>
     <place displayName="true" id="T1_T9_active" initialMarking="0" invariant="&lt; inf" name="T1_T9_active" nameOffsetX="0" nameOffsetY="0" positionX="673" positionY="534"/>
     <place displayName="true" id="C1" initialMarking="1" invariant="&lt; inf" name="C1" nameOffsetX="0" nameOffsetY="0" positionX="465" positionY="765"/>
-    <place displayName="true" id="C2" initialMarking="0" invariant="&lt; inf" name="C2" nameOffsetX="0" nameOffsetY="0" positionX="570" positionY="780"/>
+    <place displayName="true" id="C2" initialMarking="0" invariant="&lt; inf" name="C2" nameOffsetX="0" nameOffsetY="0" positionX="630" positionY="780"/>
     <place displayName="true" id="C3" initialMarking="0" invariant="&lt; inf" name="C3" nameOffsetX="0" nameOffsetY="0" positionX="1005" positionY="480"/>
     <place displayName="true" id="C8" initialMarking="0" invariant="&lt; inf" name="C8" nameOffsetX="0" nameOffsetY="0" positionX="855" positionY="60"/>
     <place displayName="true" id="C7" initialMarking="0" invariant="&lt; inf" name="C7" nameOffsetX="0" nameOffsetY="0" positionX="435" positionY="75"/>
@@ -65,11 +65,11 @@
     </arc>
     <arc id="A2" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="S9" target="S9_S8" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="795" yCoord="615"/>
-      <arcpath arcPointType="false" id="1" xCoord="737" yCoord="616"/>
+      <arcpath arcPointType="false" id="1" xCoord="737" yCoord="621"/>
     </arc>
     <arc id="A3" inscription="1" nameOffsetX="0" nameOffsetY="0" source="S9_S8" target="S8" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="727" yCoord="617"/>
-      <arcpath arcPointType="false" id="1" xCoord="659" yCoord="615"/>
+      <arcpath arcPointType="false" id="0" xCoord="727" yCoord="621"/>
+      <arcpath arcPointType="false" id="1" xCoord="659" yCoord="616"/>
     </arc>
     <arc id="A4" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="S8" target="S8_buffer_7" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="630" yCoord="615"/>
@@ -84,7 +84,7 @@
       <arcpath arcPointType="false" id="1" xCoord="479" yCoord="419"/>
     </arc>
     <arc id="A8" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="S4" target="S4_S5" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="494" yCoord="406"/>
+      <arcpath arcPointType="false" id="0" xCoord="495" yCoord="405"/>
       <arcpath arcPointType="false" id="1" xCoord="534" yCoord="405"/>
     </arc>
     <arc id="A9" inscription="1" nameOffsetX="0" nameOffsetY="0" source="S4_S5" target="S5" type="normal" weight="1">
@@ -93,7 +93,7 @@
     </arc>
     <arc id="A10" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="S5" target="S5_S6" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="660" yCoord="405"/>
-      <arcpath arcPointType="false" id="1" xCoord="723" yCoord="405"/>
+      <arcpath arcPointType="false" id="1" xCoord="724" yCoord="400"/>
     </arc>
     <arc id="A11" inscription="1" nameOffsetX="0" nameOffsetY="0" source="S5_S6" target="S6" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="733" yCoord="405"/>
@@ -113,7 +113,7 @@
     </arc>
     <arc id="A16" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="S2" target="S2_S1" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="630" yCoord="210"/>
-      <arcpath arcPointType="false" id="1" xCoord="568" yCoord="211"/>
+      <arcpath arcPointType="false" id="1" xCoord="568" yCoord="216"/>
     </arc>
     <arc id="A17" inscription="1" nameOffsetX="0" nameOffsetY="0" source="S2_S1" target="S1" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="558" yCoord="216"/>
@@ -121,7 +121,7 @@
     </arc>
     <arc id="A18" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="S1" target="S1_S4" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="479" yCoord="224"/>
-      <arcpath arcPointType="false" id="1" xCoord="478" yCoord="304"/>
+      <arcpath arcPointType="false" id="1" xCoord="483" yCoord="305"/>
     </arc>
     <arc id="A19" inscription="1" nameOffsetX="0" nameOffsetY="0" source="S1_S4" target="S4" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="478" yCoord="314"/>
@@ -132,12 +132,12 @@
       <arcpath arcPointType="false" id="1" xCoord="705" yCoord="225"/>
     </arc>
     <arc id="A21" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="T3_active" target="S4_S5" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="582" yCoord="352"/>
+      <arcpath arcPointType="false" id="0" xCoord="581" yCoord="351"/>
       <arcpath arcPointType="false" id="1" xCoord="544" yCoord="405"/>
     </arc>
     <arc id="A23" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="T1_T9_active" target="S9_S8" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="696" yCoord="561"/>
-      <arcpath arcPointType="false" id="1" xCoord="728" yCoord="611"/>
+      <arcpath arcPointType="false" id="0" xCoord="695" yCoord="561"/>
+      <arcpath arcPointType="false" id="1" xCoord="727" yCoord="616"/>
     </arc>
     <arc id="A24" inscription="1" nameOffsetX="0" nameOffsetY="0" source="S4_S5" target="T3_active" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="544" yCoord="410"/>
@@ -148,7 +148,7 @@
       <arcpath arcPointType="false" id="1" xCoord="688" yCoord="534"/>
     </arc>
     <arc id="A26" inscription="1" nameOffsetX="0" nameOffsetY="0" source="S9_S8" target="T1_T9_active" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="727" yCoord="617"/>
+      <arcpath arcPointType="false" id="0" xCoord="727" yCoord="621"/>
       <arcpath arcPointType="false" id="1" xCoord="695" yCoord="562"/>
     </arc>
     <arc id="A45" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="C1" target="S8_buffer_7" type="timed" weight="1">
@@ -156,8 +156,8 @@
       <arcpath arcPointType="false" id="1" xCoord="568" yCoord="630"/>
     </arc>
     <arc id="A46" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="C2" target="S9_S8" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="594" yCoord="783"/>
-      <arcpath arcPointType="false" id="1" xCoord="727" yCoord="621"/>
+      <arcpath arcPointType="false" id="0" xCoord="652" yCoord="781"/>
+      <arcpath arcPointType="false" id="1" xCoord="733" yCoord="631"/>
     </arc>
     <arc id="I47" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="S8" target="ICT2" type="tapnInhibitor" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="636" yCoord="627"/>
@@ -169,11 +169,11 @@
     </arc>
     <arc id="A49" inscription="1" nameOffsetX="0" nameOffsetY="0" source="ICT2" target="C2" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="615" yCoord="690"/>
-      <arcpath arcPointType="false" id="1" xCoord="589" yCoord="780"/>
+      <arcpath arcPointType="false" id="1" xCoord="640" yCoord="780"/>
     </arc>
     <arc id="A50" inscription="1" nameOffsetX="0" nameOffsetY="0" source="S8_buffer_7" target="C2" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="568" yCoord="630"/>
-      <arcpath arcPointType="false" id="1" xCoord="583" yCoord="780"/>
+      <arcpath arcPointType="false" id="1" xCoord="638" yCoord="781"/>
     </arc>
     <arc id="A32" inscription="1" nameOffsetX="0" nameOffsetY="0" source="S9_S8" target="C3" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="738" yCoord="611"/>
@@ -196,7 +196,7 @@
       <arcpath arcPointType="false" id="1" xCoord="840" yCoord="645"/>
     </arc>
     <arc id="A44" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="C2" target="ICT3" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="598" yCoord="787"/>
+      <arcpath arcPointType="false" id="0" xCoord="657" yCoord="786"/>
       <arcpath arcPointType="false" id="1" xCoord="834" yCoord="660"/>
     </arc>
     <arc id="A47" inscription="1" nameOffsetX="0" nameOffsetY="0" source="ICT3" target="C3" type="normal" weight="1">
@@ -213,15 +213,15 @@
     </arc>
     <arc id="A48" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="C9" target="ICT10" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="296" yCoord="550"/>
-      <arcpath arcPointType="false" id="1" xCoord="384" yCoord="630"/>
+      <arcpath arcPointType="false" id="1" xCoord="385" yCoord="625"/>
     </arc>
     <arc id="I48" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="S3" target="ICT9" type="tapnInhibitor" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="824" yCoord="206"/>
-      <arcpath arcPointType="false" id="1" xCoord="969" yCoord="175"/>
+      <arcpath arcPointType="false" id="1" xCoord="969" yCoord="171"/>
     </arc>
     <arc id="A54" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="C8" target="ICT9" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="881" yCoord="85"/>
-      <arcpath arcPointType="false" id="1" xCoord="970" yCoord="165"/>
+      <arcpath arcPointType="false" id="1" xCoord="970" yCoord="164"/>
     </arc>
     <arc id="I50" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="S2" target="ICT8" type="tapnInhibitor" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="645" yCoord="195"/>
@@ -233,7 +233,7 @@
     </arc>
     <arc id="I53" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="S1" target="ICT7" type="tapnInhibitor" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="466" yCoord="203"/>
-      <arcpath arcPointType="false" id="1" xCoord="319" yCoord="135"/>
+      <arcpath arcPointType="false" id="1" xCoord="319" yCoord="140"/>
     </arc>
     <arc id="A68" inscription="1" nameOffsetX="0" nameOffsetY="0" source="S1_S4" target="C7" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="473" yCoord="304"/>
@@ -297,7 +297,7 @@
     </arc>
     <arc id="I64" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="S6" target="ICT4" type="tapnInhibitor" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="822" yCoord="413"/>
-      <arcpath arcPointType="false" id="1" xCoord="879" yCoord="450"/>
+      <arcpath arcPointType="false" id="1" xCoord="880" yCoord="445"/>
     </arc>
     <arc id="A65" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="C3" target="ICT4" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="1005" yCoord="490"/>
@@ -412,36 +412,36 @@
     <transition angle="0" displayName="true" id="switch_1_9" infiniteServer="false" name="switch_1_9" nameOffsetX="0" nameOffsetY="0" player="0" positionX="570" positionY="300" priority="0" urgent="false"/>
     <transition angle="0" displayName="true" id="switch_3" infiniteServer="false" name="switch_3" nameOffsetX="0" nameOffsetY="0" player="0" positionX="585" positionY="450" priority="0" urgent="false"/>
     <arc id="A0" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="T3_active" target="switch_1_9" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="483" yCoord="385"/>
-      <arcpath arcPointType="false" id="1" xCoord="583" yCoord="319"/>
+      <arcpath arcPointType="false" id="0" xCoord="479" yCoord="381"/>
+      <arcpath arcPointType="false" id="1" xCoord="579" yCoord="315"/>
     </arc>
     <arc id="A1" inscription="1" nameOffsetX="0" nameOffsetY="0" source="switch_1_9" target="T1_T9_active" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="593" yCoord="319"/>
-      <arcpath arcPointType="false" id="1" xCoord="691" yCoord="385"/>
+      <arcpath arcPointType="false" id="0" xCoord="589" yCoord="315"/>
+      <arcpath arcPointType="false" id="1" xCoord="687" yCoord="381"/>
     </arc>
     <arc id="A2" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="T1_T9_active" target="switch_3" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="692" yCoord="403"/>
-      <arcpath arcPointType="false" id="1" xCoord="608" yCoord="469"/>
+      <arcpath arcPointType="false" id="0" xCoord="688" yCoord="399"/>
+      <arcpath arcPointType="false" id="1" xCoord="604" yCoord="465"/>
     </arc>
     <arc id="A3" inscription="1" nameOffsetX="0" nameOffsetY="0" source="switch_3" target="T3_active" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="598" yCoord="469"/>
-      <arcpath arcPointType="false" id="1" xCoord="483" yCoord="401"/>
+      <arcpath arcPointType="false" id="0" xCoord="594" yCoord="465"/>
+      <arcpath arcPointType="false" id="1" xCoord="479" yCoord="397"/>
     </arc>
     <arc id="A4" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="C12" target="switch_3" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="590" yCoord="604"/>
-      <arcpath arcPointType="false" id="1" xCoord="604" yCoord="484"/>
+      <arcpath arcPointType="false" id="0" xCoord="586" yCoord="600"/>
+      <arcpath arcPointType="false" id="1" xCoord="600" yCoord="480"/>
     </arc>
     <arc id="A5" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="C12" target="switch_1_9" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="589" yCoord="604"/>
-      <arcpath arcPointType="false" id="1" xCoord="589" yCoord="334"/>
+      <arcpath arcPointType="false" id="0" xCoord="585" yCoord="600"/>
+      <arcpath arcPointType="false" id="1" xCoord="585" yCoord="330"/>
     </arc>
     <arc id="A6" inscription="1" nameOffsetX="0" nameOffsetY="0" source="switch_3" target="C1" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="604" yCoord="454"/>
-      <arcpath arcPointType="false" id="1" xCoord="604" yCoord="184"/>
+      <arcpath arcPointType="false" id="0" xCoord="600" yCoord="450"/>
+      <arcpath arcPointType="false" id="1" xCoord="600" yCoord="180"/>
     </arc>
     <arc id="A7" inscription="1" nameOffsetX="0" nameOffsetY="0" source="switch_1_9" target="C1" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="589" yCoord="304"/>
-      <arcpath arcPointType="false" id="1" xCoord="602" yCoord="183"/>
+      <arcpath arcPointType="false" id="0" xCoord="585" yCoord="300"/>
+      <arcpath arcPointType="false" id="1" xCoord="598" yCoord="179"/>
     </arc>
   </net>
   <query active="true" algorithmOption="CERTAIN_ZERO" approximationDenominator="0" capacity="3" discreteInclusion="false" enableOverApproximation="false" enableUnderApproximation="false" extrapolationOption="AUTOMATIC" gcd="false" hashTableSize="MB_16" inclusionPlaces="*NONE*" name="Boundedness" overApproximation="false" pTrie="false" reduction="true" reductionOption="VerifyPN" searchOption="HEURISTIC" symmetry="false" timeDarts="false" traceOption="NONE" type="CTL" useQueryReduction="true" useSiphonTrapAnalysis="false" useStubbornReduction="true" useTarOption="false" useTarjan="true">
@@ -457,7 +457,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.S1</place>
+                <place>clock_circuit.S1</place>
                               
               </tokens-count>
                             
@@ -469,7 +469,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.S1</place>
+                <place>clock_circuit.S1</place>
                               
               </tokens-count>
                             
@@ -481,7 +481,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.S3</place>
+                <place>clock_circuit.S3</place>
                               
               </tokens-count>
                             
@@ -493,7 +493,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.S4</place>
+                <place>clock_circuit.S4</place>
                               
               </tokens-count>
                             
@@ -505,7 +505,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.S5</place>
+                <place>clock_circuit.S5</place>
                               
               </tokens-count>
                             
@@ -517,7 +517,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.S6</place>
+                <place>clock_circuit.S6</place>
                               
               </tokens-count>
                             
@@ -529,7 +529,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.S7</place>
+                <place>clock_circuit.S7</place>
                               
               </tokens-count>
                             
@@ -541,7 +541,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.S8</place>
+                <place>clock_circuit.S8</place>
                               
               </tokens-count>
                             
@@ -553,7 +553,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.S9</place>
+                <place>clock_circuit.S9</place>
                               
               </tokens-count>
                             
@@ -577,7 +577,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.C3</place>
+                <place>clock_circuit.C3</place>
                               
               </tokens-count>
                             
@@ -589,7 +589,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.C4</place>
+                <place>clock_circuit.C4</place>
                               
               </tokens-count>
                             
@@ -601,7 +601,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.C5</place>
+                <place>clock_circuit.C5</place>
                               
               </tokens-count>
                             
@@ -613,7 +613,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.C6</place>
+                <place>clock_circuit.C6</place>
                               
               </tokens-count>
                             
@@ -625,7 +625,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.C7</place>
+                <place>clock_circuit.C7</place>
                               
               </tokens-count>
                             
@@ -637,7 +637,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.C8</place>
+                <place>clock_circuit.C8</place>
                               
               </tokens-count>
                             
@@ -649,7 +649,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.C9</place>
+                <place>clock_circuit.C9</place>
                               
               </tokens-count>
                             
@@ -661,7 +661,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.C10</place>
+                <place>clock_circuit.C10</place>
                               
               </tokens-count>
                             
@@ -673,7 +673,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.C11</place>
+                <place>clock_circuit.C11</place>
                               
               </tokens-count>
                             
@@ -685,7 +685,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.C11</place>
+                <place>clock_circuit.C11</place>
                               
               </tokens-count>
                             
@@ -697,7 +697,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.buffer_3</place>
+                <place>clock_circuit.buffer_3</place>
                               
               </tokens-count>
                             
@@ -709,7 +709,7 @@
                             
               <tokens-count>
                                 
-                <place>TAPN1.buffer_7</place>
+                <place>clock_circuit.buffer_7</place>
                               
               </tokens-count>
                             
@@ -749,7 +749,7 @@
           
     </formula>
   </query>
-  <query active="true" algorithmOption="CERTAIN_ZERO" approximationDenominator="0" capacity="4" discreteInclusion="false" enableOverApproximation="false" enableUnderApproximation="false" extrapolationOption="null" gcd="false" hashTableSize="null" inclusionPlaces="*NONE*" name="Deadlock" overApproximation="false" pTrie="false" reduction="true" reductionOption="VerifyPN" searchOption="HEURISTIC" symmetry="false" timeDarts="false" traceOption="NONE" type="CTL" useQueryReduction="true" useSiphonTrapAnalysis="false" useStubbornReduction="true" useTarOption="false" useTarjan="true">
+  <query active="true" algorithmOption="CERTAIN_ZERO" approximationDenominator="0" capacity="4" discreteInclusion="false" enableOverApproximation="false" enableUnderApproximation="false" extrapolationOption="AUTOMATIC" gcd="false" hashTableSize="MB_16" inclusionPlaces="*NONE*" name="Deadlock" overApproximation="false" pTrie="false" reduction="true" reductionOption="VerifyPN" searchOption="HEURISTIC" symmetry="false" timeDarts="false" traceOption="NONE" type="CTL" useQueryReduction="true" useSiphonTrapAnalysis="false" useStubbornReduction="true" useTarOption="false" useTarjan="true">
     <formula>
             
       <exists-path>
@@ -762,91 +762,91 @@
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT2</transition>
+                <transition>clock_circuit.ICT2</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT3</transition>
+                <transition>clock_circuit.ICT3</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT4</transition>
+                <transition>clock_circuit.ICT4</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT5</transition>
+                <transition>clock_circuit.ICT5</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT6</transition>
+                <transition>clock_circuit.ICT6</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT7</transition>
+                <transition>clock_circuit.ICT7</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT8</transition>
+                <transition>clock_circuit.ICT8</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT9</transition>
+                <transition>clock_circuit.ICT9</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT10</transition>
+                <transition>clock_circuit.ICT10</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT12</transition>
+                <transition>clock_circuit.ICT12</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S6_buffer</transition>
+                <transition>clock_circuit.S6_buffer</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.buffer_3_S3</transition>
+                <transition>clock_circuit.buffer_3_S3</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.buffer_S7</transition>
+                <transition>clock_circuit.buffer_S7</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.buffer_7_S8</transition>
+                <transition>clock_circuit.buffer_7_S8</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S8_buffer_7</transition>
+                <transition>clock_circuit.S8_buffer_7</transition>
                               
               </is-fireable>
                             
@@ -864,49 +864,49 @@
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S2_S1</transition>
+                <transition>clock_circuit.S2_S1</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S3_S2</transition>
+                <transition>clock_circuit.S3_S2</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S1_S4</transition>
+                <transition>clock_circuit.S1_S4</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S4_S5</transition>
+                <transition>clock_circuit.S4_S5</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S5_S6</transition>
+                <transition>clock_circuit.S5_S6</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S6_S9</transition>
+                <transition>clock_circuit.S6_S9</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S7_S4</transition>
+                <transition>clock_circuit.S7_S4</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S9_S8</transition>
+                <transition>clock_circuit.S9_S8</transition>
                               
               </is-fireable>
                           
@@ -931,91 +931,91 @@
                         
             <is-fireable>
                             
-              <transition>TAPN1.ICT2</transition>
+              <transition>clock_circuit.ICT2</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.ICT3</transition>
+              <transition>clock_circuit.ICT3</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.ICT4</transition>
+              <transition>clock_circuit.ICT4</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.ICT5</transition>
+              <transition>clock_circuit.ICT5</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.ICT6</transition>
+              <transition>clock_circuit.ICT6</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.ICT7</transition>
+              <transition>clock_circuit.ICT7</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.ICT8</transition>
+              <transition>clock_circuit.ICT8</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.ICT9</transition>
+              <transition>clock_circuit.ICT9</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.ICT10</transition>
+              <transition>clock_circuit.ICT10</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.ICT12</transition>
+              <transition>clock_circuit.ICT12</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.S6_buffer</transition>
+              <transition>clock_circuit.S6_buffer</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.buffer_3_S3</transition>
+              <transition>clock_circuit.buffer_3_S3</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.buffer_S7</transition>
+              <transition>clock_circuit.buffer_S7</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.buffer_7_S8</transition>
+              <transition>clock_circuit.buffer_7_S8</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.S8_buffer_7</transition>
+              <transition>clock_circuit.S8_buffer_7</transition>
                           
             </is-fireable>
                         
@@ -1033,49 +1033,49 @@
                         
             <is-fireable>
                             
-              <transition>TAPN1.S2_S1</transition>
+              <transition>clock_circuit.S2_S1</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.S3_S2</transition>
+              <transition>clock_circuit.S3_S2</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.S1_S4</transition>
+              <transition>clock_circuit.S1_S4</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.S4_S5</transition>
+              <transition>clock_circuit.S4_S5</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.S5_S6</transition>
+              <transition>clock_circuit.S5_S6</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.S6_S9</transition>
+              <transition>clock_circuit.S6_S9</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.S7_S4</transition>
+              <transition>clock_circuit.S7_S4</transition>
                           
             </is-fireable>
                         
             <is-fireable>
                             
-              <transition>TAPN1.S9_S8</transition>
+              <transition>clock_circuit.S9_S8</transition>
                           
             </is-fireable>
                       
@@ -1100,91 +1100,91 @@
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT2</transition>
+                <transition>clock_circuit.ICT2</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT3</transition>
+                <transition>clock_circuit.ICT3</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT4</transition>
+                <transition>clock_circuit.ICT4</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT5</transition>
+                <transition>clock_circuit.ICT5</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT6</transition>
+                <transition>clock_circuit.ICT6</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT7</transition>
+                <transition>clock_circuit.ICT7</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT8</transition>
+                <transition>clock_circuit.ICT8</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT9</transition>
+                <transition>clock_circuit.ICT9</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT10</transition>
+                <transition>clock_circuit.ICT10</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.ICT12</transition>
+                <transition>clock_circuit.ICT12</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S6_buffer</transition>
+                <transition>clock_circuit.S6_buffer</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.buffer_3_S3</transition>
+                <transition>clock_circuit.buffer_3_S3</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.buffer_S7</transition>
+                <transition>clock_circuit.buffer_S7</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.buffer_7_S8</transition>
+                <transition>clock_circuit.buffer_7_S8</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S8_buffer_7</transition>
+                <transition>clock_circuit.S8_buffer_7</transition>
                               
               </is-fireable>
                             
@@ -1202,49 +1202,49 @@
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S2_S1</transition>
+                <transition>clock_circuit.S2_S1</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S3_S2</transition>
+                <transition>clock_circuit.S3_S2</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S1_S4</transition>
+                <transition>clock_circuit.S1_S4</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S4_S5</transition>
+                <transition>clock_circuit.S4_S5</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S5_S6</transition>
+                <transition>clock_circuit.S5_S6</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S6_S9</transition>
+                <transition>clock_circuit.S6_S9</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S7_S4</transition>
+                <transition>clock_circuit.S7_S4</transition>
                               
               </is-fireable>
                             
               <is-fireable>
                                 
-                <transition>TAPN1.S9_S8</transition>
+                <transition>clock_circuit.S9_S8</transition>
                               
               </is-fireable>
                           

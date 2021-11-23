@@ -67,34 +67,136 @@
                     </p>
 
                     <h2> Part 1: Railroad system </h2>
-                    <h4>Single track segment</h4>
                     <b>Describe and validly construct a single rail track/segment. What happens when this is a
                         light?</b>
-                    <!--TODO-->
-                    <h4>Full railroad</h4>
-                    <b>Construct the full railroad.</b>
-                    <!--TODO-->
+                    <p>
+                        When we want to construct a track we need to keep in mind that a track is just a place from
+                        which arcs can arrive and depart to any other place. For that reason are also equivalent to the
+                        stations. We note 3 different tyeps of rail segments. The first one is a regular rail segment
+                        where an arc arrives and an arc departs. As most parts in the rail network will be. The second
+                        rail segment will 'split' the trolley, meaning that it just can go 1 direction or another. The
+                        last type is a piece of track that will join 2 tracks into 1 single track. All the types are
+                        depicted below.
+                    </p>
+
+                    <img src="images/track.png" height="665" width="609"/>
+
+                    <p>
+                        Currently we don't have introduced lights into the system. First we want these lights to
+                        alternate between red and green. We can do this by creating 2 places, to alternate, we also need
+                        to create 2 different transitions. We go through 1 transition to go to another state of the
+                        light. At most 1 transition can be active this way. To picture this more clearly we added an
+                        image and a tapaal file.
+                    </p>
+
+                    <img src="images/light.png" height="280" width="433"/><b>Construct the full railroad.</b>
+
+                    <p>
+                        In order to make a track with a light, we will just consider one outgoing arc to a transition.
+                        This will make it easier to depict. We just need to pull an arc from a light to a transition
+                        that
+                        is going to another track in order to 'block' or 'allow' a trolley to pass. In the picture below
+                        we clearly can see that a trolley only can pass if there is a token in the green light. In order
+                        to not lose the token of the light, we return this token to it.
+                    </p>
+
+                    <img src="images/track_light.png" height="370" width="468"/>
+
+                    <p><b>Construct the full railroad.</b></p>
+
                     <p>To construct the railroad in TAPAAL we first have to understand how the tracks are laid out. How
                         we understand it is depicted in this image.
                     </p>
 
                     <img src="images/tracks.png" alt="">
 
-                    <p>The next step is to define our tracks as states and our trolleys as tokens, the transitions would
+                    <p>The next step is to define our tracks as places and our trolleys as tokens, the transitions would
                         indicate where the trolley can go to.</p>
 
-                    <p> The lights can be modelled as two oscillating states, every step this transition then needs to
-                        be fired. We can then use this token as an input of the transition to the track with the light.
-                        We then need to return this token of course to keep the light going. </p>
+                    <p>
+                        We notice that the lights of the tracks that have one, alternate between the tracklights
+                        themselves. Therefore, we can use instead of red and green the terms of active for a certain
+                        track. This makes it much easier to understand when a light is active and when it's not.
+                    </p>
 
-                    <img src="images/lights.png" height="549" width="419"/>
+                    <img src="images/lights.png"/>
 
-                    <h4>Introducing the clock</h4>
-                    <b>Introduce the clock into your model. Make sure the required events (see above) only happen
+                    <p>
+                        If we utilize shared places for the lights, we can easily integrate them in the circuit. This is
+                        visualized in the image below. We also named all the tracks with SX (X is a number). These are
+                        the track segments used.
+                    </p>
+
+                    <img src="images/circuit_with_lights.png" height="484" width="689"/>
+
+                    <b>
+                        Introduce the clock into your model. Make sure the required events (see above) only happen
                         exactly once for each "tick". Clearly describe what is used to accomodate for the introduction
                         of the clock.
                     </b>
-                    <!--TODO-->
+
+                    <p>
+                        In order to introduce the clock into the network we need to look back at introducing fairness
+                        in a system. We used a small subset of this component in our network. This part works as
+                        follows, we possibly have a token in the black state above, and we want to transition it to
+                        the state below. If we only want one token to pass through, we do this by utilizing the blue
+                        places and arcs, which has an arc into the transition that allows the black place token to move
+                        to the below place. However, we always need to be able to pass through the clock token so in
+                        order to do this we make use of a new transition. This transition has 2 incoming arcs, one is
+                        a regular arc the other arc is an inhibitor arc (it allows to check if there is nothing inside
+                        the place that it comes from and as a result will be active). So if there is nothing in the
+                        black place above then we can move through the purple part of the clock.
+                    </p>
+
+                    <img src="images/clock_component.png" height="279" width="215"/>
+
+                    <p>
+                        We now need to apply this part to the circuit that we have drawn. To do this we introduce for
+                        each transition a connection to one such a clock element (as shown in the picture below).
+                    </p>
+
+                    <img src="images/clock_in_circuit.png" height="179" width="330"/>
+
+                    <p>
+                        In order to make this clock work in the circuit we go in a different direction than the direction
+                        in which the trolleys move. This is to avoid that a trolley will be moving more than one step in
+                        a single cycle. We also see that the clock enables two different transitions at once, this is
+                        because the train can choose between two tracks. This is shown below.
+                    </p>
+
+                    <img src="images/clock_decide.png" height="246" width="337"/>
+
+                    <p>
+                        We have some places that have been turned into buffers, this is because we accidentally
+                        pass these places 2 times. This is to avoid the trolleys be moved twice in one clock cycle. We
+                        can see such a buffer part from close-up. We see that is an extra place and then the clock passes
+                        to the actual track after it has done all the transitions.
+                    </p>
+
+                    <img src="images/buffer.png" height="506" width="657"/>
+
+                    <p>
+                        Because we need to update the lights the clock needs to pass through there for a last time,
+                        this just enables the transitions to fire when the clock token passes there and finally gives it
+                        to the first clock place. So it can make a new cycle possible.
+                    </p>
+
+                    <img src="images/light_clock.png" height="557" width="416"/>
+
+                    <p>
+                        At last, we can create the circuit with the direction of the clock indicated in green. We also
+                        added the circuit without any annotations. In order to make more sense of the entire circuit we
+                        labeled each of the transitions and places, we will omit any earlier explained notation (SX and
+                        the light part). For the places: CX (X a number) is the clock going from 1 through 12 and, buffer_X (X is the place
+                        for the next state) is the buffer to be emptied after a clock cycle. For the transitions: ICTX
+                        (X integer which represents the next clock number) and SX_SY (SX track from and SY track to,
+                        this can also be a buffer_X or buffer_Y).
+                    </p>
+
+                    <img src="images/entire_clock_circuit_annotated.png" height="968" width="1365"/>
+
+                    <img src="images/entire_clock_circuit_clean.png" height="989" width="1384"/>
+
                     <h2> Part 2: Traces </h2>
                     <b> A trolley traveling for at least 2 tracks before passing through a light that is red when the
                         trolley arrives there.</b>
@@ -340,7 +442,8 @@
                     </p>
 
                     <p> Because the number of states is constant but the number of trolleys is variable we decided to
-                        update every station, and move the trolley if it has one. Immediately, the problem arises that when
+                        update every station, and move the trolley if it has one. Immediately, the problem arises that
+                        when
                         updating state 1 and moving the trolley to state 2, it is still possible to update state 2 later
                         on and move the trolley twice. To avoid this we need a certain ordering where we go in a
                         backwards direction so that when we update a state it can only contain untouched trolleys.

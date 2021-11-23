@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<pnml xmlns="http://www.informatik.hu-berlin.de/top/pnml/ptNetb">
+  <net active="true" id="light" type="P/T net">
+    <place displayName="true" id="green" initialMarking="1" invariant="&lt; inf" name="green" nameOffsetX="0" nameOffsetY="0" positionX="630" positionY="480"/>
+    <place displayName="true" id="red" initialMarking="0" invariant="&lt; inf" name="red" nameOffsetX="0" nameOffsetY="0" positionX="915" positionY="480"/>
+    <transition angle="0" displayName="true" id="to_red" infiniteServer="false" name="to_red" nameOffsetX="0" nameOffsetY="0" player="0" positionX="780" positionY="390" priority="0" urgent="false"/>
+    <transition angle="0" displayName="true" id="to_green" infiniteServer="false" name="to_green" nameOffsetX="0" nameOffsetY="0" player="0" positionX="780" positionY="555" priority="0" urgent="false"/>
+    <arc id="A0" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="green" target="to_red" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="657" yCoord="486"/>
+      <arcpath arcPointType="false" id="1" xCoord="790" yCoord="400"/>
+    </arc>
+    <arc id="A1" inscription="1" nameOffsetX="0" nameOffsetY="0" source="to_red" target="red" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="799" yCoord="405"/>
+      <arcpath arcPointType="false" id="1" xCoord="917" yCoord="486"/>
+    </arc>
+    <arc id="A2" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="red" target="to_green" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="916" yCoord="502"/>
+      <arcpath arcPointType="false" id="1" xCoord="800" yCoord="565"/>
+    </arc>
+    <arc id="A3" inscription="1" nameOffsetX="0" nameOffsetY="0" source="to_green" target="green" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="789" yCoord="575"/>
+      <arcpath arcPointType="false" id="1" xCoord="658" yCoord="502"/>
+    </arc>
+  </net>
+  <k-bound bound="3"/>
+  <feature isGame="false" isTimed="false"/>
+</pnml>
