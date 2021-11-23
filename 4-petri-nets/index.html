@@ -18,6 +18,11 @@
     <script type="text/javascript" id="MathJax-script" async
             src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
     </script>
+    <style>
+        blockquote {
+            font-family: monospace;
+        }
+    </style>
 
 </head>
 <body>
@@ -57,13 +62,19 @@
 
                     <h2> File structure </h2>
                     <p> The images generated for this assignment can be found in the image folder. Next the models
-                        contain the TAPAAL files, the first model is without a clock and the second one with one. Lastly
+                        contain the TAPAAL files. Lastly
                         the generated dot files by the python script can be found in the dot folder.
                     </p>
 
-                    <h2> Railroad system </h2>
-
-                    <p>To construct the railroad in TAPAAL we first have to understand how the tracks are laid out, How
+                    <h2> Part 1: Railroad system </h2>
+                    <h4>Single track segment</h4>
+                    <b>Describe and validly construct a single rail track/segment. What happens when this is a
+                        light?</b>
+                    <!--TODO-->
+                    <h4>Full railroad</h4>
+                    <b>Construct the full railroad.</b>
+                    <!--TODO-->
+                    <p>To construct the railroad in TAPAAL we first have to understand how the tracks are laid out. How
                         we understand it is depicted in this image.
                     </p>
 
@@ -76,13 +87,20 @@
                         be fired. We can then use this token as an input of the transition to the track with the light.
                         We then need to return this token of course to keep the light going. </p>
 
-
                     <img src="images/lights.png" height="549" width="419"/>
-                    <h2> Traces </h2>
+
+                    <h4>Introducing the clock</h4>
+                    <b>Introduce the clock into your model. Make sure the required events (see above) only happen
+                        exactly once for each "tick". Clearly describe what is used to accomodate for the introduction
+                        of the clock.
+                    </b>
+                    <!--TODO-->
+                    <h2> Part 2: Traces </h2>
                     <b> A trolley traveling for at least 2 tracks before passing through a light that is red when the
                         trolley arrives there.</b>
 
-                    <p> We can also generate interesting traces with our model. One of them is a trolley traveling for at
+                    <p> We can also generate interesting traces with our model. One of them is a trolley traveling for
+                        at
                         least 2 tracks before passing through a light that is red when the trolley arrives there. Here
                         is the trace and the initial setup. </p>
 
@@ -90,10 +108,12 @@
                     <img src="images/2tracks_red_initial.png" alt="">
 
                     <p>
-                        We carefully change the initial state of the light such that it has to stop before the red light.
+                        We carefully change the initial state of the light such that it has to stop before the red
+                        light.
                     </p>
 
-                    <b> A trolley that travels in a single "8"-shape over the network, without ever seeing a red light. </b>
+                    <b> A trolley that travels in a single "8"-shape over the network, without ever seeing a red
+                        light. </b>
 
                     <p> Another trace is for a trolley that travels in a single "8"-shape over the network, without ever
                         seeing a red light. Again here are the traces and initial setups.</p>
@@ -105,7 +125,8 @@
 
                     <p> This trace is very long as we need to check a lot of states. </p>
 
-                    <h2> Reachability/Coverability </h2>
+                    <h2>Part 3: Preliminary analysis</h2>
+                    <h4> Reachability/Coverability </h4>
                     <b> Argue why your solution would (not) produce an infinite reachability graph. </b>
                     <p>
                         The reachability graph for this model will be finite as there are a finite amount of valid
@@ -120,15 +141,16 @@
                     <p> Below are, respectively, the reachability and coverability graphs with a single trolley starting
                         middle-right. Both are finite as expected. The first pair is generated from a setup where no
                         trolley is present. We can see the clock token going around and the light switching at the end
-                        of this sequence. After two lights have changed we return to the original. </p>
+                        of this sequence. After two lights have changed we return to the initial state of the
+                        clock. </p>
 
                     <img src="images/reachability_S6.svg" alt="">
 
                     <b> Generate the coverability graph and discuss any patterns you identify. </b>
 
                     <p> We can also notice that the reachability and coverability graph are identical. This is due to
-                        the fact that the amount of tokens is bounded (by 1). Because of this we will omit the
-                        coverability graph. </p>
+                        the fact that the amount of tokens is bounded (by 1). Because of this we will omit discussing
+                        the coverability graph. </p>
 
                     <img src="images/coverability_S6.svg" alt="">
 
@@ -141,21 +163,23 @@
                     <b> Can you add/remove a place/transition such that the reachability graph becomes finite if it was
                         infinite (or vice-versa)? Your new model does not have to conform to the requirements. </b>
 
-                    <p> To make this graph infinite we could add one or more transitions to 'duplicate' trolleys. This
-                        would cause the amount of trolleys on each track to increase by one every lap, thus never
-                        returning to the same state. This of course violates the constraint that every track can only
-                        hold a single trolley.
+                    <p> To make this graph infinite we could add one or more transitions to 'duplicate' clock tokens.
+                        This would cause the amount of clock tokens to become infinite, each clock iteration. This will
+                        possibly make too much transitions of a trolley before even changing the lights. The yellow part
+                        is the added transition. This will add an infinite amount of tokens, because the token in C1
+                        never leaves C1, and will be passed through to C2.
                     </p>
 
-                    <h2> Invariant analysis </h2>
+                    <img src="images/infinite.png" height="962" width="1373"/>
+                    <h4> Invariant analysis </h4>
                     <p><b>Generate the P-invariants for the model and explain what they mean in terms of the
                         railroad.</b></p>
                     <blockquote>
-                        M(T1_T9_active) + M(T3_active) = 1
+                        M(T1_T9_active) + M(T3_active) = 1<br>
                         M(TAPN1.S1) + M(TAPN1.S2) + M(TAPN1.S3) + M(TAPN1.S4) + M(TAPN1.S5) + M(TAPN1.S6) + M(TAPN1.S7)
-                        + M(TAPN1.S8) + M(TAPN1.S9) + M(TAPN1.buffer_3) + M(TAPN1.buffer_7) = 2
+                        + M(TAPN1.S8) + M(TAPN1.S9) + M(TAPN1.buffer_3) + M(TAPN1.buffer_7) = 2<br>
                         M(C1) + M(C12) + M(TAPN1.C10) + M(TAPN1.C11) + M(TAPN1.C2) + M(TAPN1.C3) + M(TAPN1.C4) +
-                        M(TAPN1.C5) + M(TAPN1.C6) + M(TAPN1.C7) + M(TAPN1.C8) + M(TAPN1.C9) = 1
+                        M(TAPN1.C5) + M(TAPN1.C6) + M(TAPN1.C7) + M(TAPN1.C8) + M(TAPN1.C9) = 1<br>
                     </blockquote>
                     <p><b>Which invariants did you expect? Which ones are surprising? Why?</b></p>
                     <p>
@@ -168,16 +192,17 @@
                     <p><b>Can you add a single place or transition to the model that changes these invariants (for the
                         better or the worse)? Your new model does not have to conform to the requirements.</b></p>
                     <blockquote>
-                        M(T1_T9_active) + M(T3_active) = 1
+                        M(T1_T9_active) + M(T3_active) = 1<br>
                         M(TAPN1.S1) + M(TAPN1.S2) + M(TAPN1.S3) + M(TAPN1.S4) + M(TAPN1.S5) + M(TAPN1.S6) + M(TAPN1.S7)
-                        + M(TAPN1.S8) + M(TAPN1.S9) + M(TAPN1.buffer_3) + M(TAPN1.buffer_7) = 2
+                        + M(TAPN1.S8) + M(TAPN1.S9) + M(TAPN1.buffer_3) + M(TAPN1.buffer_7) = 2<br>
                     </blockquote>
                     <p>
                         We used the infinite petri net solution in order to remove the invariant of the clock. It
                         doesn't necessarily make the invariants better or worse, but just reduces it to 2. Because the
                         clock now has an infinite amount of tokens which are being generated through the course of time.
                     </p>
-                    <h2> Boundedness </h2>
+                    <h2>Part 4: Query analysis</h2>
+                    <h4> Boundedness </h4>
                     <p><b>Use one or multiple queries to check the boundedness of your net. You may use logic, reasoning
                         and the already obtained P-invariants to simplify/minimize your queries. Is the result what you
                         expected? Why (not)?</b></p>
@@ -210,11 +235,11 @@
                         of the p-invariant formulas. In this case the union of all the used places in the formulas
                         equals to the total set of places, for that reason we can say that this petri-net is 2-bounded.
                     </p>
-                    <h2> Deadlock </h2>
+                    <h4> Deadlock </h4>
                     <p><b>Use a query to find whether or not there is a deadlock in your net. What fireings cause this
                         to happen? What does this mean for the railroad?</b></p>
                     <blockquote>
-                        AF !(TAPN1.ICT2 or TAPN1.ICT3 or TAPN1.ICT4 or TAPN1.ICT5 or TAPN1.ICT6 or TAPN1.ICT7 or
+                        EF !(TAPN1.ICT2 or TAPN1.ICT3 or TAPN1.ICT4 or TAPN1.ICT5 or TAPN1.ICT6 or TAPN1.ICT7 or
                         TAPN1.ICT8 or TAPN1.ICT9 or TAPN1.ICT10 or TAPN1.ICT12 or TAPN1.S6_buffer or TAPN1.buffer_3_S3
                         or TAPN1.buffer_S7 or TAPN1.buffer_7_S8 or TAPN1.S8_buffer_7 or light.switch_1_9 or
                         light.switch_3 or TAPN1.S2_S1 or TAPN1.S3_S2 or TAPN1.S1_S4 or TAPN1.S4_S5 or TAPN1.S5_S6 or
@@ -252,7 +277,8 @@
                         outgoing transitions. This means that there are no possible transitions to depart from when the
                         petri-net is in that marking. The same counts for the coverability graph.
                     </p>
-                    <h2> Liveness </h2>
+                    <h4> Liveness </h4>
+                    <b>Pick an interesting transitions in your net and determine the their liveness using queries.</b>
                     <p> To get some interesting results we will try to find an example of every form of liveness. We
                         will start from L4 to L1, we skip L0 as it's trivial compared to the other examples.
                     </p>
@@ -274,7 +300,7 @@
                         'fail'. After running it we indeed see it does.
                     </p>
 
-                    <p> In our net we can't have L3-liveness without L4-liveness, or formally there is no strictly
+                    <p> In our net we can't have L3-liveness without L4-liveness, or formally there are no strictly
                         L3-live transitions. This is due to the fact that everything is a loop without the possibility
                         to branch into a dead state (More on this point in the safety exercise).
                     </p>
@@ -294,12 +320,19 @@
 
                     <p> This has to succeed and indeed it does. </p>
 
+                    <b>Can you add a single place/transition to alter this result?</b>
                     <p> We can alter the track to make every L4 transition L3 by adding a branching dead-end to the
                         track in some station. Checking L3 can be done by checking if there is some sequence on which
                         no deadlock occurs, or in temporal logic: EF !deadlock must be true.
                     </p>
 
-                    <h2> Fairness </h2>
+                    <h4> Fairness </h4>
+                    <b>Prove that you've implemented "true" fairness. This means that for each clock event can only
+                        happen once for every clock tick. For instance, it is not possible for a trolley to move two
+                        tracks in a single clock tick. Your proof may consist of examples, queries, logical
+                        statements... As long as you can validly and objectively argue that there is "true" fairness,
+                        this will be accepted.
+                    </b>
 
                     <p> To achieve fairness we introduced the clock. The intention of this clock is to reduce the amount
                         of possible transition to 1 so there is no non-determinism. Having multiple possible transitions
@@ -307,7 +340,7 @@
                     </p>
 
                     <p> Because the number of states is constant but the number of trolleys is variable we decided to
-                        update every state and move the trolley if it has one. Immediately the problem arises that when
+                        update every station, and move the trolley if it has one. Immediately, the problem arises that when
                         updating state 1 and moving the trolley to state 2, it is still possible to update state 2 later
                         on and move the trolley twice. To avoid this we need a certain ordering where we go in a
                         backwards direction so that when we update a state it can only contain untouched trolleys.
@@ -336,7 +369,7 @@
                     <p> The downside to this fairness, as described in the deadlocking section is that when a state
                         cannot make progress it will halt the whole system. </p>
 
-                    <h2> Safety </h2>
+                    <h4> Safety </h4>
                     <b>Can two trolleys crash? Why (not)?</b>
 
                     <p> We believe trolleys cannot crash after the first complete lap. The explanation follows.</p>
@@ -347,7 +380,7 @@
 
                     <ul>
                         <li> Crashing into the trolley in front that is waiting for a red light.</li>
-                        <li> Merging together onto the same track. </li>
+                        <li> Merging together onto the same track.</li>
                     </ul>
 
                     <p> In the simulation, when a trolley is right behind another one, it can happen that for that
@@ -390,9 +423,21 @@
 
                     <div class="table-container">
                         <table class="table is-bordered is-striped is-narrow is-hoverable">
-                            <tr> <td></td> <td class="has-text-centered"> either here </td> <td></td></tr>
-                            <tr> <td class="has-text-centered"> * </td> <td> </td> <td class="has-text-centered"> * </td></tr>
-                            <tr> <td> </td> <td class="has-text-centered"> or here </td> <td></td></tr>
+                            <tr>
+                                <td></td>
+                                <td class="has-text-centered"> either here</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="has-text-centered"> *</td>
+                                <td></td>
+                                <td class="has-text-centered"> *</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="has-text-centered"> or here</td>
+                                <td></td>
+                            </tr>
                         </table>
                     </div>
 
@@ -406,7 +451,7 @@
                     <img src="images/no_crash_3trolley.png" alt="">
 
                     <p> We can run this simulation forever, this is the start of the trace file.
-                        We can prove that runs forever a little more rigorously using the reachability graph.
+                        We can prove this more rigorously using the reachability graph.
                     </p>
 
                     <img src="images/reachability3.svg" alt="">
@@ -433,7 +478,7 @@
                     <p> We could make the system a lot more random/dangerous by adding a simple transition that skips
                         two tracks. For example a separate track from middle-left to middle-right. In case of two
                         trolleys, this would result in a 50/50 chance of crashing every lap. It may also be possible
-                        they never crash due to cheer luck.
+                        they never crash due to sheer luck.
                     </p>
                 </div>
             </div>
