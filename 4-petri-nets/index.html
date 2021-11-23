@@ -116,10 +116,10 @@
                     <b> Generate the reachability graph and discuss any patterns you identify. If your reachability
                         graph is infinite, generate the graph for a representative subset of your model instead.</b>
 
-                    <p> Below are, respectively, the reachability and coverability graphs. Both are finite as expected.
-                        The first pair is generated from a setup where no trolley is present. We can see the clock token
-                        going around and the light switching at the end of this sequence. After two lights have changed
-                        we return to the original. </p>
+                    <p> Below are, respectively, the reachability and coverability graphs with a single trolley starting
+                        middle-right. Both are finite as expected. The first pair is generated from a setup where no
+                        trolley is present. We can see the clock token going around and the light switching at the end
+                        of this sequence. After two lights have changed we return to the original. </p>
 
                     <b> Generate the coverability graph and discuss any patterns you identify. </b>
 
@@ -127,7 +127,8 @@
                         the fact that the amount of tokens is bounded (by 1). Because of this we will omit the
                         coverability graph. </p>
 
-                    <img src="images/reachability.svg" alt="">
+                    <img src="images/reachabilitys6.svg" alt="">
+                    <img src="images/coverability6.svg" alt="">
 
                     <p> We can also simulate two trolleys, starting on S1 and S6 Here the graph is not cyclic because we
                         encounter a deadlock, we will probably discuss this setup more in a later exercise.
@@ -255,8 +256,9 @@
                         will start from L4 to L1, we skip L0 as it's trivial compared to the other examples.
                     </p>
 
-                    <p> Starting with L4 we take an example with 3 trollies that can drive infinitely. To satisfy
-                        L4-liveness we need to ensure it can always fire aka never deadlock. This is our query:
+                    <p> Starting with L4 we take an example with 3 trollies that can drive infinitely. With a trolley
+                        top-center, middle-right and left. To satisfy L4-liveness we need to ensure it can always fire
+                        aka never deadlock. This is our query:
                     </p>
 
                     <blockquote>
@@ -277,7 +279,8 @@
                     </p>
 
                     <p> To check the L1-liveness we need a similar query but just checking if there exists a single step
-                        for which there is no deadlock.
+                        for which there is no deadlock. Here we ran it one the red light after 2 steps from the trace
+                        exercise.
                     </p>
 
                     <blockquote>
