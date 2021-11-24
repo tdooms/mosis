@@ -337,6 +337,7 @@
                         of the p-invariant formulas. In this case the union of all the used places in the formulas
                         equals to the total set of places, for that reason we can say that this petri-net is 2-bounded.
                     </p>
+
                     <h4> Deadlock </h4>
                     <p><b>Use a query to find whether or not there is a deadlock in your net. What fireings cause this
                         to happen? What does this mean for the railroad?</b></p>
@@ -379,48 +380,44 @@
                         outgoing transitions. This means that there are no possible transitions to depart from when the
                         petri-net is in that marking. The same counts for the coverability graph.
                     </p>
-                    <h4> Liveness </h4>
-                    <b>Pick an interesting transitions in your net and determine the their liveness using queries.</b>
+
+                    <h2> Liveness </h2>
+                    <b>Pick an interesting transitions in your net and determine the their liveness using queries. </b>
+                    <i>(Exercise Copy-pasted from assignment, please fix).</i>
+
                     <p> To get some interesting results we will try to find an example of every form of liveness. We
-                        will start from L4 to L1, we skip L0 as it's trivial compared to the other examples.
+                        will start from L4 to L0. For simplicity, we will only look at transitions between stations,
+                        aka the <b>Sx_Sy</b> transitions.
                     </p>
 
-                    <p> Starting with L4 we take an example with 3 trollies that can drive infinitely. With a trolley
-                        top-center, middle-right and left. To satisfy L4-liveness we need to ensure it can always fire
-                        aka never deadlock. This is our query:
-                    </p>
-
+                    <p> Before we study the transitions we can establish the queries to check for liveness.
+                    We denote the transition under study as TUS. </p>
                     <blockquote>
-                        EF !(TAPN1.ICT2 or TAPN1.ICT3 or TAPN1.ICT4 or TAPN1.ICT5 or TAPN1.ICT6 or TAPN1.ICT7 or
-                        TAPN1.ICT8 or TAPN1.ICT9 or TAPN1.ICT10 or TAPN1.ICT12 or TAPN1.S6_buffer or TAPN1.buffer_3_S3
-                        or TAPN1.buffer_S7 or TAPN1.buffer_7_S8 or TAPN1.S8_buffer_7 or light.switch_1_9 or
-                        light.switch_3 or TAPN1.S2_S1 or TAPN1.S3_S2 or TAPN1.S1_S4 or TAPN1.S4_S5 or TAPN1.S5_S6 or
-                        TAPN1.S6_S9 or TAPN1.S7_S4 or TAPN1.S9_S8)
+                        L0 = AG !TUS # on no path will TUS ever fire <br>
+                        L1 = EF TUS # on some path sometime TUS must fire <br>
+                        L2 = N/A # not applicable <br>
+                        L3 = EG (EF TUS) # on some path it must always be possible to fire TUS <br>
+                        L4 = AG (EF TUS) # on every path TUS must be L1 <br>
                     </blockquote>
 
-                    <p> This query checks for deadlocks, if it doesn't find any it returns false, so we want it to
-                        'fail'. After running it we indeed see it does.
+                    <p> Starting with L4 we look at the transition <b>S5_S6</b>. Intuitively, if there is no deadlock
+                        due to trolleys halting at red lights, the trolleys will always be able to reach this
+                        transition. We can verify this with the aforementioned query plugging in <b>S5_S6</b>.
+                        We can then indeed see this is true.
                     </p>
 
-                    <p> In our net we can't have L3-liveness without L4-liveness, or formally there are no strictly
-                        L3-live transitions. This is due to the fact that everything is a loop without the possibility
-                        to branch into a dead state (More on this point in the safety exercise).
+                    <p> Because our system consists of 2 big loops, every transition is reachable from every state
+                        (at least the trolley transitions). This means there are no strictly L3 transitions.
                     </p>
 
-                    <p> To check the L1-liveness we need a similar query but just checking if there exists a single step
-                        for which there is no deadlock. Here we ran it one the red light after 2 steps from the trace
-                        exercise.
+                    <p> The same argument can be made for L2. </p>
+
+                    <p> As our system deadlocks at a red light we can have L1 transitions in starting states where the
+                        trolley will advance a single station and then block at the light. For example <b>S1_S4</b>
                     </p>
 
-                    <blockquote>
-                        EX (TAPN1.ICT2 or TAPN1.ICT3 or TAPN1.ICT4 or TAPN1.ICT5 or TAPN1.ICT6 or TAPN1.ICT7 or
-                        TAPN1.ICT8 or TAPN1.ICT9 or TAPN1.ICT10 or TAPN1.ICT12 or TAPN1.S6_buffer or TAPN1.buffer_3_S3
-                        or TAPN1.buffer_S7 or TAPN1.buffer_7_S8 or TAPN1.S8_buffer_7 or light.switch_1_9 or
-                        light.switch_3 or TAPN1.S2_S1 or TAPN1.S3_S2 or TAPN1.S1_S4 or TAPN1.S4_S5 or TAPN1.S5_S6 or
-                        TAPN1.S6_S9 or TAPN1.S7_S4 or TAPN1.S9_S8)
-                    </blockquote>
-
-                    <p> This has to succeed and indeed it does. </p>
+                    <p> In the case that there is an L1 transition before the light, every other transition
+                        to a station will be L0 as it's blocked. </p>
 
                     <b>Can you add a single place/transition to alter this result?</b>
                     <p> We can alter the track to make every L4 transition L3 by adding a branching dead-end to the
