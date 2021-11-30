@@ -1,0 +1,37 @@
+testclass TrolleyTest for statechart Trolley {
+		
+	@Test
+	operation testDepartureCondition() {
+		// From the requirements:
+		// The train will depart from a station (closing its doors) when both conditions are satisfied:
+		//   1. the doors have been open for at least 2s
+		//   2. a stop has been requested
+		
+		// We'll test 2 scenarios:
+		
+		// 2s pass and then a stop is requested
+		enter // the train is initially stopped at station 0
+		proceed 2s
+		assert !startDoorsSignal
+		raise requestStop: 1
+		closeDoorsSequence()
+		exit
+
+		// Also possible: a stop is requested and then 2s pass
+		enter // the train is initially stopped at station 0
+		raise requestStop: 1
+		assert !startDoorsSignal
+		proceed 2s
+		closeDoorsSequence()
+		exit
+	}
+	
+	operation closeDoorsSequence() {
+		// The simplest possible "closing doors" sequence:
+		assert startDoorsSignal
+		proceed 2s
+		assert closeDoors
+	}
+	
+	// Your job is to extend this (black-box) test with more scenarios :)
+}
