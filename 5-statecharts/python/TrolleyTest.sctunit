@@ -1,5 +1,79 @@
 testclass TrolleyTest for statechart Trolley {
+	// Your job is to extend this (black-box) test with more scenarios :)
+	// Test scenario for "requesting a stop"
+	// A passenger request the station where they are at
+	@Test
+	operation repeatRequest() {
+		enter // the train is initially stopped at station 0 and has that station requested
+		assert stopsAt == 1
+		raise requestStop: 0
+		assert stopsAt == 1
+		exit
 		
+		
+	}
+	
+	// A passenger requests another station than station 0
+	@Test
+	operation otherStationRequest() {
+		enter // the train is initially stopped at station 0
+		assert stopsAt == 1
+		raise requestStop: 1
+		assert stopsAt == 3
+		exit
+	}
+
+	operation getToArrivalState() {
+		raise requestStop: 1
+		// some waiting when requesting a stop
+		proceed 2s
+		// raise some event to enable the transition
+		assert active(main_region.Trolley.r1.ArrivalAndDeparture.r1.Arrival)
+		proceed 2001ms
+		raise atTargetSpeed
+		raise approachingStation: 1
+		raise atTargetSpeed
+	}
+	
+	// Test scenarios for "normal operation"
+	// Test arrival
+	@Test
+	operation arrivalAtStation() {
+		enter // The train is initially stopped at station 0
+		getToArrivalState()
+		// 1. We wait for 1 second
+		proceed 1s
+		// 2. Then, the doors are opened.
+		assert openDoors
+		// 3. Then, only if the both of the following conditions hold, will the mode change to "Departure to a station":
+		// 		1. The doors must have been open for a duration of at least 2 seconds.
+		proceed 2s
+		// 		2. A stop at another station has been requested.
+		raise requestStop: 2
+		assert startDoorsSignal
+		exit
+	}
+	
+	// reverse test arrival
+	@Test
+	operation reverseArrivalAtStation() {
+		enter // The train is initially stopped at station 0
+		getToArrivalState()
+		// 1. We wait for 1 second
+		proceed 1s
+		// 2. Then, the doors are opened.
+		assert openDoors
+		// 3. Then, only if the both of the following conditions hold, will the mode change to "Departure to a station":
+		// reverse the two steps
+		// 		2. A stop at another station has been requested.
+		raise requestStop: 2
+		// 		1. The doors must have been open for a duration of at least 2 seconds.
+		proceed 2001ms
+		assert startDoorsSignal
+		exit
+	}
+
+	// Test departure
 	@Test
 	operation testDepartureCondition() {
 		// From the requirements:
@@ -22,6 +96,7 @@ testclass TrolleyTest for statechart Trolley {
 		raise requestStop: 1
 		assert !startDoorsSignal
 		proceed 2s
+		assert active(main_region.Trolley.r1.ArrivalAndDeparture.r1.Departure)
 		closeDoorsSequence()
 		exit
 	}
@@ -29,9 +104,194 @@ testclass TrolleyTest for statechart Trolley {
 	operation closeDoorsSequence() {
 		// The simplest possible "closing doors" sequence:
 		assert startDoorsSignal
-		proceed 2s
+		assert active(main_region.Trolley.r1.ArrivalAndDeparture.r1.Departure)
+		proceed 1s
 		assert closeDoors
 	}
 	
-	// Your job is to extend this (black-box) test with more scenarios :)
+	// Test opening doors
+	@Test
+	operation testOpenDoors() {
+		// Opening the doors of the trolley is straightforward, and happens instantaneously. 
+		// While the doors are open, passengers can board and unboard the trolley.
+		enter // initially the doors are open
+		assert openDoors
+		var count = 0
+		// Try to fill the trolley by boarding after 1s each time
+		while (count < 6) {
+			assert remainingCapacity == 6 - count
+			assert numPassengers == count
+			raise board
+			assert remainingCapacity == 6 - count - 1
+			assert numPassengers == count + 1
+			proceed 1s
+			count = count + 1
+		}
+		exit
+		
+		// unboarding
+		enter // initially the doors are open
+		assert openDoors
+		// set the capacities to other values in order to make unboarding 
+		// possible
+		remainingCapacity = 0
+		numPassengers = 6
+		count = 0
+		// try to empty the trolley by unboarding
+		while (count < 6) {
+			assert remainingCapacity == count
+			assert numPassengers == 6 - count
+			raise unboard
+			assert remainingCapacity == count + 1
+			assert numPassengers == 6 - count - 1
+			proceed 1s
+			count = count + 1
+		}
+		exit
+	}
+	
+	// test when you can't board or unboard the trolley
+	@Test
+	operation testExtremeBoarding() {
+		enter // initially the doors are open
+		assert openDoors
+		assert remainingCapacity == 6
+		// try to unboard from a trolley where there is no passenger
+		raise unboard
+		assert remainingCapacity == 6
+		assert numPassengers == 0
+		exit
+		
+		enter // initially the doors are open
+		assert openDoors
+		// set the remaining capacity to 0 and num passengers to 6
+		// this is so that we can test boarding a full trolley
+		remainingCapacity = 0
+		numPassengers = 6
+		// try to board from a trolley where there is no place
+		raise board
+		assert remainingCapacity == 0
+		assert numPassengers == 6
+		exit
+	}
+	
+	// test to board/unboard when the doors are obstructed
+	@Test
+	operation testObstructed() {
+		enter // initially the doors are open
+		assert openDoors
+		// try to board in quick succession
+		raise board
+		raise board
+		// should only board one, because the doors are obstructed
+		assert remainingCapacity == 5
+		assert numPassengers == 1
+		// wait till just before the doors become free
+		proceed 999ms
+		// try to board
+		raise board
+		// still unable to board, because 1ms left
+		assert remainingCapacity == 5
+		assert numPassengers == 1
+		// just after 1ms can board again
+		proceed 1ms // couldn't do in ns because yakindu can't handle it :'(		
+		raise board
+		assert remainingCapacity == 4
+		assert numPassengers == 2
+	}
+	
+	// test boarding when the door signal already started
+	@Test
+	operation testObstructedSignal() {
+		enter // initially the doors are open
+		assert openDoors
+		proceed 2s
+		raise requestStop: 1
+		proceed 1ms
+		assert active(main_region.Trolley.r1.ArrivalAndDeparture.r1.Departure.r1.WaitForClose1)
+		// try to board in quick succession
+		raise board
+		raise board
+		// should only board one, because the doors are obstructed
+		assert remainingCapacity == 5
+		assert numPassengers == 1
+		// wait till just before the doors become free
+		proceed 999ms
+		// try to board
+		raise board
+		// still unable to board, because 1ms left
+		assert remainingCapacity == 5
+		assert numPassengers == 1
+		// just after 1ms can board again
+		proceed 1ms // couldn't do in ns because yakindu can't handle it :'(
+		raise board
+		assert remainingCapacity == 4
+		assert numPassengers == 2
+	}
+	
+	// tests boarding and unboarding of trolley when trolley has closed doors
+	@Test
+	operation testClosedDoor() {
+		enter // initially the doors are open, we need to get them closed
+		// close the doors sequence
+		proceed 2s
+		raise requestStop: 1
+		proceed 1s
+		// check if the doors are actually closed
+		assert active(main_region.Trolley.r1.ArrivalAndDeparture.r1.Departure)
+		assert closeDoors
+		// try to board the trolley
+		raise board
+		assert remainingCapacity == 0
+		assert numPassengers == 6
+		// set the remaining capacity and the num passengers such that we can unboard
+		remainingCapacity = 6
+		numPassengers = 0
+		// try to unboard the trolley as a passenger
+		raise board
+		assert remainingCapacity == 6
+		assert numPassengers == 0
+		exit
+	}
+	
+	// Test emergency stop at a station where the doors are opened
+	@Test
+	operation testEmergencyStopAtStation() {
+		enter // initially the doors are open
+		assert openDoors
+		// start the emergency
+		raise startEmergency
+		// check that the doors are still open
+		assert openDoors
+		// stop the emergency and continue what you were doing
+		raise stopEmergency
+		// check the doors are still open
+		assert openDoors
+		exit
+	}
+	
+	// test emergency stop when the trolley has a non-zero speed
+	@Test
+	operation testEmergencyStopNotAtStation() {
+		enter // initially the doors are open
+		// get the doors closed
+		proceed 2s
+		raise requestStop: 1
+		proceed 1001ms
+		assert closeDoors
+		// ensure non-zero speed
+		proceed 1100ms
+		// start the emergency
+		raise startEmergency
+		// assume we've stopped instantly
+		raise atTargetSpeed
+		// check if the doors are opened
+		assert openDoors
+		// get out of the emergency
+		raise stopEmergency
+		// check that we return properly
+		proceed 1s
+		assert closeDoors
+		exit
+	}
 }
