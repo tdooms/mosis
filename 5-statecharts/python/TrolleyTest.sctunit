@@ -27,11 +27,13 @@ testclass TrolleyTest for statechart Trolley {
 		raise requestStop: 1
 		// some waiting when requesting a stop
 		proceed 2s
-		// raise some event to enable the transition
-		assert active(main_region.Trolley.r1.ArrivalAndDeparture.r1.Arrival)
-		proceed 2001ms
+		// go to departing from the station
+		proceed 2s
+		// enable the transition to say that you are at the target speed
 		raise atTargetSpeed
+		// put the approaching station to 1 so that we can stop
 		raise approachingStation: 1
+		// say that we arrived at the station
 		raise atTargetSpeed
 	}
 	
@@ -90,21 +92,27 @@ testclass TrolleyTest for statechart Trolley {
 		raise requestStop: 1
 		closeDoorsSequence()
 		exit
-
+	}
+	
+	@Test
+	operation testReverseDepartureCondition() {
+		// From the requirements:
+		// The train will depart from a station (closing its doors) when both conditions are satisfied:
+		//   1. the doors have been open for at least 2s
+		//   2. a stop has been requested
+		
 		// Also possible: a stop is requested and then 2s pass
 		enter // the train is initially stopped at station 0
 		raise requestStop: 1
 		assert !startDoorsSignal
 		proceed 2s
-		assert active(main_region.Trolley.r1.ArrivalAndDeparture.r1.Departure)
 		closeDoorsSequence()
 		exit
 	}
 	
-	operation closeDoorsSequence() {
+	operation closeDoorsSequence() {		
 		// The simplest possible "closing doors" sequence:
 		assert startDoorsSignal
-		assert active(main_region.Trolley.r1.ArrivalAndDeparture.r1.Departure)
 		proceed 1s
 		assert closeDoors
 	}
@@ -112,7 +120,7 @@ testclass TrolleyTest for statechart Trolley {
 	// Test opening doors
 	@Test
 	operation testOpenDoors() {
-		// Opening the doors of the trolley is straightforward, and happens instantaneously. 
+		// Opening the doors of the trolley is straightforward, and happens instantaneously.
 		// While the doors are open, passengers can board and unboard the trolley.
 		enter // initially the doors are open
 		assert openDoors
@@ -208,7 +216,6 @@ testclass TrolleyTest for statechart Trolley {
 		proceed 2s
 		raise requestStop: 1
 		proceed 1ms
-		assert active(main_region.Trolley.r1.ArrivalAndDeparture.r1.Departure.r1.WaitForClose1)
 		// try to board in quick succession
 		raise board
 		raise board
@@ -238,8 +245,9 @@ testclass TrolleyTest for statechart Trolley {
 		raise requestStop: 1
 		proceed 1s
 		// check if the doors are actually closed
-		assert active(main_region.Trolley.r1.ArrivalAndDeparture.r1.Departure)
 		assert closeDoors
+		remainingCapacity = 0
+		numPassengers = 6
 		// try to board the trolley
 		raise board
 		assert remainingCapacity == 0
@@ -277,7 +285,7 @@ testclass TrolleyTest for statechart Trolley {
 		// get the doors closed
 		proceed 2s
 		raise requestStop: 1
-		proceed 1001ms
+		proceed 1s
 		assert closeDoors
 		// ensure non-zero speed
 		proceed 1100ms
