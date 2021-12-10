@@ -70,7 +70,7 @@ testclass TrolleyTest for statechart Trolley {
 		// 		2. A stop at another station has been requested.
 		raise requestStop: 2
 		// 		1. The doors must have been open for a duration of at least 2 seconds.
-		proceed 2001ms
+		proceed 2s
 		assert startDoorsSignal
 		exit
 	}
@@ -262,6 +262,13 @@ testclass TrolleyTest for statechart Trolley {
 		exit
 	}
 	
+	operation boardTrolley() {
+		// board a passenger and check if it succeeded
+		raise board
+		assert numPassengers == 1
+		assert remainingCapacity == 5
+	}
+	
 	// Test emergency stop at a station where the doors are opened
 	@Test
 	operation testEmergencyStopAtStation() {
@@ -271,6 +278,8 @@ testclass TrolleyTest for statechart Trolley {
 		raise startEmergency
 		// check that the doors are still open
 		assert openDoors
+		// test if you can board
+		boardTrolley()
 		// stop the emergency and continue what you were doing
 		raise stopEmergency
 		// check the doors are still open
@@ -300,6 +309,18 @@ testclass TrolleyTest for statechart Trolley {
 		// check that we return properly
 		proceed 1s
 		assert closeDoors
+		exit
+	}
+	
+	@Test
+	operation testArriveAtOtherStationBoard() {
+		enter // The train is initially stopped at station 0
+		getToArrivalState()
+		// 1. We wait for 1 second
+		proceed 1s
+		// 2. Then, the doors are opened.
+		assert openDoors
+		boardTrolley()
 		exit
 	}
 }
