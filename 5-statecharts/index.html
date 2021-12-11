@@ -77,8 +77,8 @@
                     </p>
 
                     <p> The transition logic in the request stop is the bit manipulation and to check whether
-                        the station we are at right now cannot be re-requested. This is done though some logic
-                        with the <i> zero speed </i> variable.
+                        the station we are at right now cannot be re-requested if we are standing still. This is done
+                        though some logic with the <i> zero speed </i> variable.
                     </p>
 
                     <img src="img/request.png" alt="">
@@ -107,9 +107,10 @@
 
                     <img src="img/depart.png" alt="">
 
-                    <p> After this we go to the closing doors sequence. Here we oscillate between obstructed and
-                        waiting. The board unboard component sends out the obstructed and handles the logic, so we can
-                        omit it here.
+                    <p> After this we go to the closing doors sequence. Here we switch between obstructed and
+                        waiting, every time a person tries to board or unboard. This way we assure that we can (un)board
+                        again after 1s and not have doors that close. The board unboard component sends out
+                        the obstructed and handles the logic, so we can omit it here.
                     </p>
 
                     <img src="img/closing.png" alt="">
@@ -126,7 +127,8 @@
 
                     <h4>Notes</h4>
                     <p> You have probably already noticed some extra events like internalOpenDoors.
-                        These are there because Yakindu's asserts somehow messed with them breaking our system.
+                        These are there because Yakindu's asserts somehow handled them unexpected with them breaking our
+                        system.
                     </p>
                 </div>
             </div>
