@@ -54,7 +54,7 @@
                         Just to give an example on which we spent several hours we had a test with two enter and exits.
                         For some reason they influenced each other as running only one worked, and running only the
                         other also worked but having them together broke everything. Furthermore debugging needed to be
-                        doen with active commands which was slow and painful. Lastly when moving composite states,
+                        done with active commands which was slow and painful. Lastly when moving composite states,
                         transitions would randomly disappear.
                     </p>
 
@@ -121,7 +121,9 @@
 
                     <img src="img/moving.png" alt="">
 
-                    <p> Lastly we have already explained the emergency logic, but we provide another picture. </p>
+                    <p> Finally we have the emergency logic, were we check if a trolley is at a station or not. If not
+                        we slow down and then open the doors otherwise we immediately open the doors. We can then only
+                        stop the emergency if the trolley is at a standstill. </p>
 
                     <img src="img/emergency.png" alt="">
 
