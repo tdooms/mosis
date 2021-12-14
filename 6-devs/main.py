@@ -1,13 +1,12 @@
-from models.generator import Generator
-from models.collector import Collector
-from tests.generator_collector_test import GeneratorCollector
+from tests.generator_collector_test import GeneratorCollectorTest
 from pypdevs.simulator import Simulator
+from tests.junction_test import JunctionTest
 
 if __name__ == '__main__':
     # Create the model
     # model = Generator(origin=0, destinations=[0, 1, 2])
     # model = Collector(origin=0)
-    model = GeneratorCollector()
+    model = JunctionTest()
 
     # Set up the Simulator
     sim = Simulator(model)

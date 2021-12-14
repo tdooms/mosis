@@ -14,23 +14,23 @@ class Junction(AtomicDEVS):
         self.trollies = []
 
     def intTransition(self):
-        self.state.time += self.timeAdvance()
-        return self.state
+        self.time += self.timeAdvance()
+        return self.trollies
 
     def extTransition(self, inputs):
         self.time += self.elapsed
 
         # We assume we always receive a dict with exactly one value, being the trolley
-        trolley = inputs.values()[0]
+        trolley = list(inputs.values())[0]
 
         # The arrival time of the trolley is
         self.trollies.append((trolley, self.time + 50))
-        return self.state
+        return self.trollies
 
     def timeAdvance(self):
         # To determine how long we wait we take the arrival time minus the current time
         return self.trollies[0][1] - self.time if len(self.trollies) else float("inf")
 
     def outputFnc(self):
-        assert len(self.state.queue)
-        return {self.output: self.state.queue.pop(0)[0]}
+        assert len(self.trollies)
+        return {self.output: self.trollies.pop(0)[0]}
