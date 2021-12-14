@@ -3,13 +3,14 @@ import random
 from pypdevs.DEVS import AtomicDEVS
 
 from models.passenger import Passenger
+from models.trolley import Trolley
 
 
-class Generator(AtomicDEVS):
+class TrolleyGenerator(AtomicDEVS):
     def __init__(self, origin: int, destinations: list[int], mu=5, sigma=1):
-        AtomicDEVS.__init__(self, "Generator")
+        AtomicDEVS.__init__(self, "TrolleyGenerator")
 
-        self.passenger_entry = self.addOutPort("passenger_entry")
+        self.passenger_entry = self.addOutPort("output")
         self.origin = origin
         self.destinations = destinations
         self.mu = mu
@@ -31,4 +32,4 @@ class Generator(AtomicDEVS):
         return self.state
 
     def outputFnc(self):
-        return {self.passenger_entry: Passenger(origin=self.origin, destination=random.choice(self.destinations))}
+        return {self.passenger_entry: Trolley(50, 0, [])}
