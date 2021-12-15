@@ -1,0 +1,8 @@
+{
+  "stations": [
+    {
+      "name": "start",
+      "split": {"0": 0}
+    }
+  ]
+}

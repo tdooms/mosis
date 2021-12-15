@@ -1,16 +1,16 @@
 from pypdevs.DEVS import CoupledDEVS
 
+from classes import StationData
 from models.collector import Collector
 from models.generator import Generator
 from models.light import Light
 from models.platform import Platform
 from models.split import Split
-from models.old_track import Track
+from models.track import Track
 
 
 class Station(CoupledDEVS):
-    def __init__(self, name: str, split: dict[int, int],
-                 destinations: list[str], lines: dict[int, list[str]]):
+    def __init__(self, data: StationData, destinations: list[str], lines: dict[int, list[str]]):
         """
         @routing:       dictionary of line to output
                         e.g. line 2 -> output 0, line 1 -> output 0, line 2 -> output 1
@@ -21,17 +21,22 @@ class Station(CoupledDEVS):
         """
         super().__init__("Station")
 
-        num_outputs = max(split.values()) + 1
+        num_outputs = max(data.split.values()) + 1
 
         self.input = self.addInPort("input")
         self.outputs = [self.addOutPort(f"output{i}") for i in range(num_outputs)]
 
-        self.generator = self.addSubModel(Generator(origin=name, destinations=destinations, lines=lines))
-        self.collector = self.addSubModel(Collector(origin=name))
+        self.generator = self.addSubModel(Generator(origin=data.name, destinations=destinations, lines=lines))
+        self.collector = self.addSubModel(Collector(origin=data.name))
         self.light = self.addSubModel(Light())
-        self.split = self.addSubModel(Split(routing=split, outputs=num_outputs))
-        self.track = self.addSubModel(Track(origin=name))
-        self.platform = self.addSubModel(Platform(origin=name))
+        self.split = self.addSubModel(Split(routing=data.split, outputs=num_outputs))
+        self.platform = self.addSubModel(Platform(origin=data.name))
+
+        self.track = self.addSubModel(Track(origin=data.name,
+                                            arriving_delay=data.arriving_delay,
+                                            unboarding_delay=data.unboarding_delay,
+                                            boarding_delay=data.boarding_delay,
+                                            departing_delay=data.departing_delay))
 
         self.connectPorts(self.generator.passenger_entry, self.platform.passenger_entry)
         self.connectPorts(self.track.request_passenger, self.platform.request_passenger)
