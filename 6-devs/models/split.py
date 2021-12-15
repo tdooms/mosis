@@ -6,26 +6,33 @@ from models.passenger import Passenger
 
 
 class Split(AtomicDEVS):
-    def __init__(self, num_outputs: int, routing: list[int]):
+    def __init__(self, routing: dict[int, int], outputs: int):
+        """
+        @routing:   dictionary of line to output
+                    e.g. line 2 -> output 0, line 1 -> output 0, line 2 -> output 1
+        """
         AtomicDEVS.__init__(self, "Split")
 
         self.input = self.addInPort("input")
-        self.outputs = [self.addOutPort(f"output{i}") for i in range(num_outputs)]
+
+        # The amount of outputs is the max number in the list
+        self.outputs = [self.addOutPort(f"output{i}") for i in range(outputs)]
         self.routing = routing
 
-        self.trolley = None
+        self.state = None
+
+    def intTransition(self):
+        self.state = None
+        return self.state
 
     def extTransition(self, inputs):
-        if self.input in inputs and self.trolley:
-            self.trolley = inputs[self.input]
+        assert self.state is None
+        self.state = list(inputs.values())[0]
         return self.state
 
     def timeAdvance(self):
-        return 0 if self.trolley else float("inf")
+        return float("inf") if self.state is None else 0
 
     def outputFnc(self):
-        assert self.trolley
-        result = {self.outputs[self.trolley.line]: self.trolley}
-
-        self.trolley = None
-        return result
+        assert self.state is not None
+        return {self.outputs[self.routing[self.state.line]]: self.state}

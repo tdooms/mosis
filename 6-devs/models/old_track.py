@@ -24,7 +24,7 @@ class TrackState:
 
 
 class Track(AtomicDEVS):
-    def __init__(self, origin: int):
+    def __init__(self, origin: str):
         AtomicDEVS.__init__(self, "Platform")
 
         # connected to a Collector
@@ -71,6 +71,7 @@ class Track(AtomicDEVS):
         return self.state
 
     def timeAdvance(self):
+        # TODO: no more hardcode please
         waits = {
             TrackAction.NONE: 1,       # Wait 1  second  between polling the light
             TrackAction.ARRIVING: 30,  # wait 30 seconds on arrival and departure

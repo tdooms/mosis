@@ -2,34 +2,39 @@ from pypdevs.DEVS import AtomicDEVS
 
 
 class Rail(AtomicDEVS):
-    def __init__(self, length):
+    def __init__(self, length: int, delay: int = 10):
         AtomicDEVS.__init__(self, "Rail")
 
         self.input = self.addInPort("input")
         self.output = self.addOutPort("output")
         self.length = length
-        self.state = {"trollies": list(), "time": 0, "temp": 0}
+        self.delay = delay
+        self.state = list()
+
+    def __decrement_timers(self, amount):
+        for i in range(len(self.state)):
+            self.state[i][1] -= amount
 
     def intTransition(self):
-        self.state["temp"] = self.timeAdvance()
+        self.__decrement_timers(self.timeAdvance())
+
+        assert self.state.pop(0)[1] == 0
         return self.state
 
     def extTransition(self, inputs):
-        self.state["time"] += self.elapsed
-        trolley = inputs[self.input]
-        nowait = self.state["time"] + self.length / trolley.velocity
+        # It's important to decrement before inserting
+        self.__decrement_timers(self.elapsed)
 
-        # The arrival time of the trolley is
-        arrival = max(self.state["trollies"][-1][1] + 10, nowait) if len(self.state["trollies"]) else nowait
-        print(f"trolley with velocity {trolley.velocity}:\t{nowait=}, {arrival=}")
-        self.state["trollies"].append((trolley, arrival))
+        trolley = inputs[self.input]
+        nowait = self.length / trolley.velocity
+        arrival = max(self.state[-1][1] + self.delay, nowait) if len(self.state) else nowait
+        self.state.append([trolley, arrival])
+
         return self.state
 
     def timeAdvance(self):
-        # To determine how long we wait we take the arrival time minus the current time
-        # print("yo", self.state["trollies"][0] if len(self.state["trollies"]) else None, self.state["time"])
-        return self.state["trollies"][0][1] - self.state["time"] - self.state["temp"] if len(self.state["trollies"]) else float("inf")
+        return self.state[0][1] if len(self.state) else float("inf")
 
     def outputFnc(self):
-        assert len(self.state["trollies"])
-        return {self.output: self.state["trollies"].pop(0)[0]}
+        assert len(self.state)
+        return {self.output: self.state[0][0]}

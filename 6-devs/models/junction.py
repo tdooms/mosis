@@ -10,25 +10,31 @@ class Junction(AtomicDEVS):
         self.transfer_time = transfer_time
 
         # Trollies is a list of tuple (trolley, arrival time)
-        self.state = {"trollies": list(), "time": 0}
+        self.state = list()
+
+    def __decrement_timers(self, amount):
+        for i in range(len(self.state)):
+            self.state[i][1] -= amount
 
     def intTransition(self):
-        if self.timeAdvance() != float("inf"):
-            self.elapsed = self.timeAdvance()
+        self.__decrement_timers(self.timeAdvance())
+
+        # When a trolley is popped it's remaining time must be 0
+        assert self.state.pop(0)[1] == 0
         return self.state
 
     def extTransition(self, inputs):
-        self.state["time"] += self.elapsed
-        print(self.elapsed, self.state["time"])
+        self.__decrement_timers(self.elapsed)
 
         # We assume we always receive a dict with exactly one value, being the trolley
         trolley = list(inputs.values())[0]
-        self.state["trollies"].append((trolley, self.state["time"] + 50))
+        self.state.append([trolley, self.transfer_time])
+
         return self.state
 
     def timeAdvance(self):
-        return self.state["trollies"][0][1] - self.state["time"] if len(self.state["trollies"]) else float("inf")
+        return self.state[0][1] if len(self.state) else float("inf")
 
     def outputFnc(self):
-        assert len(self.state["trollies"])
-        return {self.output: self.state["trollies"].pop(0)[0]}
+        assert len(self.state)
+        return {self.output: self.state[0][0]}

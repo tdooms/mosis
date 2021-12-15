@@ -9,7 +9,7 @@ from tests.trolley_generator import TrolleyGenerator
 class JunctionTest(CoupledDEVS):
     def __init__(self):
         super().__init__("JunctionTest")
-        trollies = [Trolley(20, 0, []), Trolley(100, 0, [])]
+        trollies = [Trolley(1, 0, []), Trolley(2, 0, []), Trolley(3, 0, []), Trolley(4, 0, [])]
         self.generator = self.addSubModel(TrolleyGenerator(sigma=0, mu=10, trollies=trollies))
         self.collector = self.addSubModel(TrolleyCollector())
         self.junction = self.addSubModel(Junction(1))

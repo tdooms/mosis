@@ -22,14 +22,14 @@ class TrolleyGenerator(AtomicDEVS):
         return random.normalvariate(self.mu, self.sigma)
 
     def intTransition(self):
+        print(f"GENERATOR: generated at {self.state['time']}")
         self.state["time"] += self.timeAdvance()
         self.state["remaining"] = self.__distribution()
+        self.state["cycle"] = (self.state["cycle"] + 1) % len(self.trollies)
         return self.state
 
     def timeAdvance(self):
         return self.state["remaining"]
 
     def outputFnc(self):
-        result = {self.output: self.trollies[self.state["cycle"]]}
-        self.state["cycle"] = (self.state["cycle"] + 1) % len(self.trollies)
-        return result
+        return {self.output: self.trollies[self.state["cycle"]]}

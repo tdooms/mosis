@@ -4,17 +4,16 @@ from models.passenger import Passenger
 
 
 class Collector(AtomicDEVS):
-    def __init__(self, origin: int):
+    def __init__(self, origin: str):
         AtomicDEVS.__init__(self, "Collector")
 
         self.depart = self.addInPort("depart")
         self.origin = origin
-        self.time = 0
-        self.state = list()
+        self.state = {"passengers": list(), "time": 0}
 
     def extTransition(self, inputs):
-        self.time += self.elapsed
-        self.state.append((self.elapsed, inputs[self.depart]))
+        self.state["time"] += self.elapsed
+        self.state["passengers"].append([inputs[self.depart], self.state["time"]])
 
         print(f"{self.origin}: passenger {inputs[self.depart]} arrived at {self.time:.2f}")
         return self.state

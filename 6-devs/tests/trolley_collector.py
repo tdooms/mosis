@@ -15,7 +15,7 @@ class TrolleyCollector(AtomicDEVS):
         self.state["trollies"].append((self.elapsed, inputs[self.input]))
 
         # print(self.elapsed, self.state["time"])
-        print(f"trolley {inputs[self.input]} arrived at {self.state['time']:.2f}")
+        print(f"COLLECTOR: {inputs[self.input]} arrived at {self.state['time']:.2f}")
 
         return self.state
 
