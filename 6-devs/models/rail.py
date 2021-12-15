@@ -8,29 +8,28 @@ class Rail(AtomicDEVS):
         self.input = self.addInPort("input")
         self.output = self.addOutPort("output")
         self.length = length
-        self.time = 0
-
-        # Trollies is a list of tuple (trolley, arrival time)
-        self.trollies = []
+        self.state = {"trollies": list(), "time": 0, "temp": 0}
 
     def intTransition(self):
-        self.state.time += self.timeAdvance()
+        self.state["temp"] = self.timeAdvance()
         return self.state
 
     def extTransition(self, inputs):
-        self.time += self.elapsed
+        self.state["time"] += self.elapsed
         trolley = inputs[self.input]
-        nowait = self.time + self.length / trolley.velocity
+        nowait = self.state["time"] + self.length / trolley.velocity
 
         # The arrival time of the trolley is
-        arrival = max(self.trollies[-1][1] + 10, nowait) if len(self.trollies) else nowait
-        self.trollies.append((trolley, arrival))
+        arrival = max(self.state["trollies"][-1][1] + 10, nowait) if len(self.state["trollies"]) else nowait
+        print(f"trolley with velocity {trolley.velocity}:\t{nowait=}, {arrival=}")
+        self.state["trollies"].append((trolley, arrival))
         return self.state
 
     def timeAdvance(self):
         # To determine how long we wait we take the arrival time minus the current time
-        return self.trollies[0][1] - self.time if len(self.trollies) else float("inf")
+        # print("yo", self.state["trollies"][0] if len(self.state["trollies"]) else None, self.state["time"])
+        return self.state["trollies"][0][1] - self.state["time"] - self.state["temp"] if len(self.state["trollies"]) else float("inf")
 
     def outputFnc(self):
-        assert len(self.state.queue)
-        return {self.output: self.state.queue.pop(0)[0]}
+        assert len(self.state["trollies"])
+        return {self.output: self.state["trollies"].pop(0)[0]}

@@ -7,30 +7,28 @@ class Junction(AtomicDEVS):
 
         self.inputs = [self.addInPort(f"input{i}" for i in range(num_inputs))]
         self.output = self.addOutPort("output")
-        self.time = 0
         self.transfer_time = transfer_time
 
         # Trollies is a list of tuple (trolley, arrival time)
-        self.trollies = []
+        self.state = {"trollies": list(), "time": 0}
 
     def intTransition(self):
-        self.time += self.timeAdvance()
-        return self.trollies
+        if self.timeAdvance() != float("inf"):
+            self.elapsed = self.timeAdvance()
+        return self.state
 
     def extTransition(self, inputs):
-        self.time += self.elapsed
+        self.state["time"] += self.elapsed
+        print(self.elapsed, self.state["time"])
 
         # We assume we always receive a dict with exactly one value, being the trolley
         trolley = list(inputs.values())[0]
-
-        # The arrival time of the trolley is
-        self.trollies.append((trolley, self.time + 50))
-        return self.trollies
+        self.state["trollies"].append((trolley, self.state["time"] + 50))
+        return self.state
 
     def timeAdvance(self):
-        # To determine how long we wait we take the arrival time minus the current time
-        return self.trollies[0][1] - self.time if len(self.trollies) else float("inf")
+        return self.state["trollies"][0][1] - self.state["time"] if len(self.state["trollies"]) else float("inf")
 
     def outputFnc(self):
-        assert len(self.trollies)
-        return {self.output: self.trollies.pop(0)[0]}
+        assert len(self.state["trollies"])
+        return {self.output: self.state["trollies"].pop(0)[0]}

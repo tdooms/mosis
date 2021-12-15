@@ -8,14 +8,15 @@ class TrolleyCollector(AtomicDEVS):
         AtomicDEVS.__init__(self, "TrolleyCollector")
 
         self.input = self.addInPort("input")
-        self.time = 0
-        self.state = list()
+        self.state = {"trollies": list(), "time": 0}
 
     def extTransition(self, inputs):
-        self.time += self.elapsed
-        self.state.append((self.elapsed, inputs[self.input]))
+        self.state["time"] += self.elapsed
+        self.state["trollies"].append((self.elapsed, inputs[self.input]))
 
-        print(f"trolley {inputs[self.input]} arrived at {self.time:.2f}")
+        # print(self.elapsed, self.state["time"])
+        print(f"trolley {inputs[self.input]} arrived at {self.state['time']:.2f}")
+
         return self.state
 
     def timeAdvance(self):
