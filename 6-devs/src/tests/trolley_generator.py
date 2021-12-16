@@ -22,7 +22,7 @@ class TrolleyGenerator(AtomicDEVS):
         return random.normalvariate(self.mu, self.sigma)
 
     def intTransition(self):
-        print(f"GENERATOR: generated at {self.state['time']}")
+        # print(f"GENERATOR: generated at {self.state['time']}")
         self.state["time"] += self.timeAdvance()
         self.state["remaining"] = self.__distribution()
         self.state["cycle"] = (self.state["cycle"] + 1) % len(self.trollies)
