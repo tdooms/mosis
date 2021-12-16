@@ -46,7 +46,26 @@
                 <hr>
 
                 <div class="content">
+                    Assumptions:
+                    - The two tracks joining at zeigler Circus first pass through
+                    a virtual junction with traverse_delay of 0 seconds, the junction and the
+                    station are connected with a track of length 0 meters.
 
+                    - The wrong chance for passenger was vaguely defined. We interpreted it as, 'there is a 20%'
+                    chance that the destination for a passenger is regenerated at the start. This can
+                    mean that maybe they read the wrong info on the boards or such.
+                    This is changeable for each station separately, signifying that some stations are more confusing.
+                    It is best explained by showing the code.
+
+                    <blockquote>
+                        # It's important to notice that the destination is never the same as the origin
+                        available = copy.deepcopy(destinations)
+                        available.remove(origin)
+
+                        # Also notice that the 'real' destination cannot be the original one
+                        original = random.choice(available)
+                        available.remove(original)
+                    </blockquote>
 
                 </div>
             </div>

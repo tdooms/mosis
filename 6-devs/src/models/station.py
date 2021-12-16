@@ -10,7 +10,7 @@ from models.track import Track
 
 
 class Station(CoupledDEVS):
-    def __init__(self, data: StationData, destinations: list[str], lines: dict[str, list[str]]):
+    def __init__(self, data: StationData, destinations: list[str], lines: dict[str, list[str]], trolley=None):
         """
         @routing:       dictionary of line to output
                         e.g. line 2 -> output 0, line 1 -> output 0, line 2 -> output 1
@@ -31,7 +31,8 @@ class Station(CoupledDEVS):
                                                     destinations=destinations,
                                                     lines=lines,
                                                     mu=data.generator_mu,
-                                                    sigma=data.generator_sigma))
+                                                    sigma=data.generator_sigma,
+                                                    wrong_chance=data.wrong_chance))
 
         self.collector = self.addSubModel(Collector(origin=data.name))
         self.light = self.addSubModel(Light())
@@ -39,6 +40,7 @@ class Station(CoupledDEVS):
         self.platform = self.addSubModel(Platform(origin=data.name))
 
         self.track = self.addSubModel(Track(origin=data.name,
+                                            trolley=trolley,
                                             arriving_delay=data.arriving_delay,
                                             unboarding_delay=data.unboarding_delay,
                                             boarding_delay=data.boarding_delay,
@@ -56,3 +58,5 @@ class Station(CoupledDEVS):
         for i in range(num_outputs):
             self.connectPorts(self.split.outputs[i], self.outputs[i])
 
+    def statistics(self):
+        pass

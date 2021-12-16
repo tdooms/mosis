@@ -12,6 +12,7 @@ class StationData:
     departing_delay: float = 30
     generator_mu: float = 5
     generator_sigma: float = 1
+    wrong_chance: float = 0.2
 
 
 @dataclass

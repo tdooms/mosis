@@ -5,7 +5,7 @@ from models.passenger import Passenger
 
 
 class Track(AtomicDEVS):
-    def __init__(self, origin: str, arriving_delay, unboarding_delay, boarding_delay, departing_delay):
+    def __init__(self, origin: str, trolley, arriving_delay, unboarding_delay, boarding_delay, departing_delay):
         AtomicDEVS.__init__(self, "Track")
 
         # Set all the delays!
@@ -40,7 +40,7 @@ class Track(AtomicDEVS):
         # "unboarding": Trolley,
         # "boarding": Trolley,
         # "departing": Trolley
-        self.state = ["none", None]
+        self.state = ["none", None] if trolley is None else ["boarding", trolley]
 
     def __passenger_indices(self):
         return [idx for idx, psgr in enumerate(self.state[1].passengers) if self.origin == psgr.destination]
@@ -48,15 +48,15 @@ class Track(AtomicDEVS):
     def intTransition(self):
         if self.state[0] == "arriving":
             print("TRACK: the trolley arrived, starting to unboard")
-            self.state = ["unboarding", self.state[1]]
+            self.state[0] = "unboarding"
         elif self.state[0] == "unboarding" and len(self.__passenger_indices()) == 0:
             print(f"TRACK: unboarding is done: {len(self.state[1].passengers)} passengers left, starting boarding...")
-            self.state = ["boarding", self.state[1]]
+            self.state[0] = "boarding"
         elif self.state[0] == "unboarding":
             self.state[1].passengers.pop(self.__passenger_indices()[0])
         elif self.state[0] == "boarding" and self.state[1].is_full():
             print(f"TRACK: boarding is done: {len(self.state[1].passengers)} passengers are here, departing...")
-            self.state = ["departing", self.state[1]]
+            self.state[0] = "departing"
         elif self.state[0] == "departing":  # also check if done instead of jumping though
             print("TRACK: trolley is gone")
             self.state = ["none", None]
@@ -68,6 +68,7 @@ class Track(AtomicDEVS):
             print("TRACK: boarded passenger")
             assert self.state[0] == "boarding"
             assert len(self.state[1].passengers) <= self.state[1].capacity
+            assert inputs[self.board].destination in inputs[self.board].lines[self.state[1].line]
             self.state[1].passengers.append(inputs[self.board])
         elif self.dequeue_trolley:
             print("TRACK: a trolley is arriving")
@@ -84,10 +85,13 @@ class Track(AtomicDEVS):
             return {self.request_trolley: None}
         elif self.state[0] == "unboarding" and len(self.__passenger_indices()) > 0:
             print("TRACK: unboarding passenger, current passengers:", len(self.state[1].passengers))
-            return {self.depart: self.__passenger_indices()[0]}
+            return {self.depart: self.state[1].passengers[self.__passenger_indices()[0]]}
         elif self.state[0] == "boarding" and not self.state[1].is_full():
             print("TRACK: requesting passenger")
             return {self.request_passenger: self.state[1].line}
+        elif self.state[0] == "departing":
+            print("TRACK: trolley leaving track")
+            return {self.output: self.state[1]}
         return {}
 
 

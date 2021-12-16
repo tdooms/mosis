@@ -28,6 +28,7 @@ class Split(AtomicDEVS):
     def extTransition(self, inputs):
         assert self.state is None
         self.state = list(inputs.values())[0]
+        print("SPLIT: a trolley arrived on split")
         return self.state
 
     def timeAdvance(self):

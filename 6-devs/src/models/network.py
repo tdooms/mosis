@@ -4,6 +4,7 @@ from classes import NetworkData
 from models.junction import Junction
 from models.rail import Rail
 from models.station import Station
+from models.trolley import Trolley
 from parse import parse_network
 import graphviz
 
@@ -16,9 +17,18 @@ class Network(CoupledDEVS):
         dests = [sdata.name for sdata in data.stations]
         lines = {l_data.name: l_data.stations for l_data in data.lines}
 
-        self.stations = {s_data.name: self.addSubModel(Station(s_data, dests, lines)) for s_data in data.stations}
-        self.rails = [self.addSubModel(Rail(r_data.length, r_data.delay)) for r_data in data.rails]
-        self.junctions = {j_data.name: self.addSubModel(Junction(j_data.name, j_data.inputs, j_data.transfer_time)) for j_data in data.junctions}
+        self.trollies = {t_data.location: Trolley(t_data.velocity, t_data.line, [], t_data.capacity)
+                         for t_data in data.trollies}
+
+        self.stations = {s_data.name: self.addSubModel(Station(s_data, dests, lines, self.trollies.get(s_data.name)))
+                         for s_data in data.stations}
+
+        self.rails = [self.addSubModel(Rail(r_data.length, r_data.delay))
+                      for r_data in data.rails]
+
+        self.junctions = {j_data.name: self.addSubModel(Junction(j_data.name, j_data.inputs, j_data.transfer_time))
+                          for j_data in data.junctions}
+
         self.data = data
 
         def __find_connection(name):
@@ -39,6 +49,10 @@ class Network(CoupledDEVS):
             self.connectPorts(s_port, self.rails[i].input)
             self.connectPorts(self.rails[i].output, e_port)
 
+    def statistics(self) -> list:
+        print([len(t.passengers) for t in self.trollies.values()])
+        return []
+
     def visualise(self, path: str):
         dot = graphviz.Digraph(comment='Mosis City')
         for name, station in self.stations.items():
@@ -50,9 +64,3 @@ class Network(CoupledDEVS):
                      self.rails[i].OPorts[0].outline[0].host_DEVS.name,
                      f"{self.data.rails[i].length}m")
         dot.render(format='svg', outfile=path)
-
-
-
-
-
-

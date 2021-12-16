@@ -11,13 +11,15 @@ class Platform(AtomicDEVS):
         self.request_passenger = self.addInPort("request_passenger")
         self.board = self.addOutPort("board")
 
-        self.state = {"queue": list(), "requested": None}
+        self.state = {"queue": list(), "requested": None, "time": 0}
         self.origin = origin
 
     def __passenger_indices(self, line):
         return [idx for idx, psgr in enumerate(self.state["queue"]) if self.origin in psgr.lines[line]]
 
     def intTransition(self):
+        self.state["time"] += self.timeAdvance()
+
         candidates = self.__passenger_indices(self.state["requested"])
         self.state["requested"] = None
         self.state["queue"].pop(candidates[0])
@@ -25,6 +27,8 @@ class Platform(AtomicDEVS):
         return self.state
 
     def extTransition(self, inputs):
+        self.state["time"] += self.elapsed
+
         # Set the request variable in the state
         line = inputs[self.request_passenger] if self.request_passenger in inputs else None
         if line is not None and self.__passenger_indices(line):
@@ -44,5 +48,7 @@ class Platform(AtomicDEVS):
         assert self.state["requested"] is not None
         candidates = self.__passenger_indices(self.state["requested"])
         assert len(candidates), "candidates list must not be empty, this must be checked beforehand"
+        candidate = self.state["queue"][candidates[0]]
+        candidate.departed_at = self.state["time"]
         print("PLATFORM: boarding passengers")
-        return {self.board: self.state["queue"][candidates[0]]}
+        return {self.board: candidate}
