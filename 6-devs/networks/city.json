@@ -14,7 +14,7 @@
   "junctions": [
     {"name": "Middle Junction", "inputs": 2},
     {"name": "West Junction", "inputs": 2},
-    {"name": "Zeigler Junction", "inputs": 2, "transfer_time":  0}
+    {"name": "Zeigler Junction", "inputs": 2, "transfer_time": 0}
   ],
   "rails": [
     {"length": 1000, "start": "Harel Cross", "end": "Moore's Moor", "start_port": 0},
@@ -28,11 +28,11 @@
     {"length": 1000, "start": "Harel Cross", "end": "Museum of Informatics", "start_port": 1},
     {"length": 3000, "start": "Museum of Informatics", "end": "Turing Station", "start_port": 0},
     {"length": 2500, "start": "Turing Station", "end": "Model Station South", "start_port": 0},
-    {"length": 10000, "start": "Model Station South", "end": "West Junction", "start_port": 0, "end_port": 1},
+    {"length": 1000, "start": "Model Station South", "end": "West Junction", "start_port": 0, "end_port": 1},
     {"length": 2000, "start": "West Junction", "end": "Zeigler Junction", "end_port": 1},
 
     {"length": 3500, "start": "Harel Cross", "end": "Petri's Palace", "start_port": 2},
-    {"length": 2000, "start": "Petri's Palace", "end": "West Junction", "start_port": 0},
+    {"length": 2000, "start": "Petri's Palace", "end": "West Junction", "start_port": 0, "end_port": 0},
     {"length": 700, "start": "Zeigler Circus", "end": "Model Station North", "start_port": 0},
     {"length": 500, "start": "Model Station North", "end": "Middle Junction", "start_port": 0 ,"end_port": 0}
   ],

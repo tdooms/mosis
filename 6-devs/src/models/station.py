@@ -23,6 +23,7 @@ class Station(CoupledDEVS):
 
         num_outputs = max(data.split.values()) + 1
 
+        self.name = data.name
         self.input = self.addInPort("input")
         self.outputs = [self.addOutPort(f"output{i}") for i in range(num_outputs)]
 

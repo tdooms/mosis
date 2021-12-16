@@ -1,10 +1,5 @@
 from models.network import Network
-from parse import parse_network
-from tests.generator_collector_test import GeneratorCollectorTest
 from pypdevs.simulator import Simulator
-from tests.junction_test import JunctionTest
-from tests.rail_test import RailTest
-from tests.station_test import StationTest
 
 if __name__ == '__main__':
     # # Create the model
@@ -19,5 +14,5 @@ if __name__ == '__main__':
     # sim.setTerminationTime(300)  # Simulate until time = 500
     # sim.simulate()
 
-    network = Network(path="networks/simple.json")
-    network.visualise("img/main.png")
+    network = Network(path="networks/city.json")
+    network.visualise("img/main.svg")

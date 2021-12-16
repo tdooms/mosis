@@ -2,14 +2,15 @@ from pypdevs.DEVS import AtomicDEVS
 
 
 class Junction(AtomicDEVS):
-    def __init__(self, num_inputs: int, transfer_time: int):
+    def __init__(self, name: str, num_inputs: int, transfer_time: int):
         AtomicDEVS.__init__(self, "Junction")
 
-        self.inputs = [self.addInPort(f"input{i}" for i in range(num_inputs))]
+        self.inputs = [self.addInPort(f"input{i}") for i in range(num_inputs + 10)]
         self.output = self.addOutPort("output")
         self.transfer_time = transfer_time
 
         # Trollies is a list of tuple (trolley, arrival time)
+        self.name = name
         self.state = list()
 
     def __decrement_timers(self, amount):
