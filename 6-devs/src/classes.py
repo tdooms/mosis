@@ -1,42 +1,54 @@
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
 class StationData:
     name: str
-    split: dict[int, int]
+    split: dict[str, int]
     arriving_delay: float = 30
     unboarding_delay: float = 10
     boarding_delay: float = 10
     departing_delay: float = 30
+    generator_mu: float = 5
+    generator_sigma: float = 1
 
 
 @dataclass
 class JunctionData:
     name: str
+    inputs: int
+    transfer_time: float = 50
 
 
 @dataclass
 class RailData:
-    length: float
     start: str
     end: str
+
+    length: float
+    delay: float = 10
+
+    start_port: Optional[int] = None
+    end_port: Optional[int] = None
 
 
 @dataclass
 class LineData:
-    id: int
+    name: str
     stations: list[str]
 
 
 @dataclass
 class TrolleyData:
-    speed: float
-    capacity: int
+    velocity: float
+    line: str
+    location: str
+    capacity: int = 10
 
 
 @dataclass
-class SystemData:
+class NetworkData:
     stations: list[StationData]
     junctions: list[JunctionData]
     rails: list[RailData]

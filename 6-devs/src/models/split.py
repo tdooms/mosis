@@ -6,7 +6,7 @@ from models.passenger import Passenger
 
 
 class Split(AtomicDEVS):
-    def __init__(self, routing: dict[int, int], outputs: int):
+    def __init__(self, routing: dict[str, int], outputs: int):
         """
         @routing:   dictionary of line to output
                     e.g. line 2 -> output 0, line 1 -> output 0, line 2 -> output 1

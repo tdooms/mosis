@@ -1,0 +1,75 @@
+{
+  "stations": [
+    {"name": "Forrester Gardens", "split": {"yellow": 0}},
+    {"name": "University Square", "split": {"yellow": 0}},
+    {"name": "Moore's Moor", "split": {"yellow": 0}},
+    {"name": "Harel Cross", "split": {"yellow": 0, "red": 1, "blue": 2}},
+    {"name": "Model Station North", "split": {"blue": 0}},
+    {"name": "Zeigler Circus", "split": {"blue": 0, "yellow": 1, "red": 1}},
+    {"name": "Petri's Palace", "split": {"blue": 0}},
+    {"name": "Museum of Informatics", "split": {"red": 0}},
+    {"name": "Turing Station", "split": {"red": 0}},
+    {"name": "Model Station South", "split": {"red": 0}}
+  ],
+  "junctions": [
+    {"name": "Middle Junction", "inputs": 2},
+    {"name": "West Junction", "inputs": 2},
+    {"name": "Zeigler Junction", "inputs": 2, "transfer_time":  0}
+  ],
+  "rails": [
+    {"length": 1000, "start": "Harel Cross", "end": "Moore's Moor", "start_port": 0},
+    {"length": 2000, "start": "Moore's Moor", "end": "University Square", "start_port": 0},
+    {"length": 5000, "start": "University Square", "end": "Forrester Gardens", "start_port": 0},
+    {"length": 1100, "start": "Forrester Gardens", "end": "Zeigler Junction", "start_port": 0, "end_port": 0},
+    {"length": 0, "start": "Zeigler Junction", "end": "Zeigler Circus"},
+    {"length": 1000, "start": "Zeigler Circus", "end": "Middle Junction", "start_port": 1, "end_port": 1},
+    {"length": 500, "start": "Middle Junction", "end": "Harel Cross"},
+
+    {"length": 1000, "start": "Harel Cross", "end": "Museum of Informatics", "start_port": 1},
+    {"length": 3000, "start": "Museum of Informatics", "end": "Turing Station", "start_port": 0},
+    {"length": 2500, "start": "Turing Station", "end": "Model Station South", "start_port": 0},
+    {"length": 10000, "start": "Model Station South", "end": "West Junction", "start_port": 0, "end_port": 1},
+    {"length": 2000, "start": "West Junction", "end": "Zeigler Junction", "end_port": 1},
+
+    {"length": 3500, "start": "Harel Cross", "end": "Petri's Palace", "start_port": 2},
+    {"length": 2000, "start": "Petri's Palace", "end": "West Junction", "start_port": 0},
+    {"length": 700, "start": "Zeigler Circus", "end": "Model Station North", "start_port": 0},
+    {"length": 500, "start": "Model Station North", "end": "Middle Junction", "start_port": 0 ,"end_port": 0}
+  ],
+  "lines": [
+    {
+      "name": "yellow",
+      "stations": [
+        "Harel Cross",
+        "Moore's Moor",
+        "University Square",
+        "Forrester Gardens",
+        "Zeigler Circus"
+      ]
+    },
+    {
+      "name": "red",
+      "stations": [
+        "Harel Cross",
+        "Museum of Informatics",
+        "Turing Station",
+        "Model Station South",
+        "Zeigler Circus"
+      ]
+    },
+    {
+      "name": "blue",
+      "stations": [
+        "Harel Cross",
+        "Petri's Palace",
+        "Zeigler Circus",
+        "Model Station North"
+      ]
+    }
+  ],
+  "trollies": [
+    {"velocity": 20, "location": "Harel Cross", "line": "red"},
+    {"velocity": 80, "location": "Model Station North", "line": "blue"},
+    {"velocity": 50, "location": "Model Station South", "line": "red"}
+  ]
+}

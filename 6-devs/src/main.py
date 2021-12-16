@@ -1,3 +1,4 @@
+from models.network import Network
 from parse import parse_network
 from tests.generator_collector_test import GeneratorCollectorTest
 from pypdevs.simulator import Simulator
@@ -18,4 +19,5 @@ if __name__ == '__main__':
     # sim.setTerminationTime(300)  # Simulate until time = 500
     # sim.simulate()
 
-    parse_network("")
+    network = Network(path="networks/simple.json")
+    network.visualise("img/main.png")

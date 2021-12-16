@@ -9,7 +9,7 @@ from tests.trolley_generator import TrolleyGenerator
 class RailTest(CoupledDEVS):
     def __init__(self):
         super().__init__("RailTest")
-        trollies = [Trolley(20, 0, []), Trolley(100, 0, [])]
+        trollies = [Trolley(20, 0, [], 2), Trolley(100, 0, [], 2)]
 
         self.generator = self.addSubModel(TrolleyGenerator(mu=20, sigma=0, trollies=trollies))
         self.collector = self.addSubModel(TrolleyCollector())

@@ -1,8 +1,18 @@
 {
   "stations": [
-    {
-      "name": "start",
-      "split": {"0": 0}
-    }
+    {"name": "start", "split": {"main": 0}},
+    {"name": "end", "split": {"main": 0}}
+  ],
+  "junctions": [],
+  "rails": [
+    {"length": 500, "start": "start", "end": "end", "start_port": 0},
+    {"length": 500, "start": "end", "end": "start", "start_port": 0}
+  ],
+  "lines": [
+    {"name": "main", "stations": ["start", "end"]}
+  ],
+  "trollies": [
+    {"velocity": 20, "location": "start", "line": "main"},
+    {"velocity": 80, "location": "end", "line": "main"}
   ]
 }

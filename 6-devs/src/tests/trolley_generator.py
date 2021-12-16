@@ -10,7 +10,7 @@ class TrolleyGenerator(AtomicDEVS):
     def __init__(self, mu=5, sigma=1, trollies=None):
         AtomicDEVS.__init__(self, "TrolleyGenerator")
 
-        trollies = trollies if trollies else [Trolley(50, 0, [])]
+        trollies = trollies if trollies else [Trolley(50, 0, [], 2)]
 
         self.output = self.addOutPort("output")
         self.mu = mu

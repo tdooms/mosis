@@ -7,4 +7,4 @@ class Trolley:
     velocity: int
     line: int
     passengers: [Passenger]
-    capacity: int = 10
+    capacity: int

@@ -5,4 +5,4 @@ from dataclasses import dataclass
 class Passenger:
     origin: str
     destination: str
-    lines: dict[int, list[str]]
+    lines: dict[str, list[str]]

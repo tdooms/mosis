@@ -2,7 +2,7 @@ from pypdevs.DEVS import AtomicDEVS
 
 
 class Junction(AtomicDEVS):
-    def __init__(self, num_inputs: int, transfer_time: int = 50):
+    def __init__(self, num_inputs: int, transfer_time: int):
         AtomicDEVS.__init__(self, "Junction")
 
         self.inputs = [self.addInPort(f"input{i}" for i in range(num_inputs))]

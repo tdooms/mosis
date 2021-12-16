@@ -10,7 +10,7 @@ from models.track import Track
 
 
 class Station(CoupledDEVS):
-    def __init__(self, data: StationData, destinations: list[str], lines: dict[int, list[str]]):
+    def __init__(self, data: StationData, destinations: list[str], lines: dict[str, list[str]]):
         """
         @routing:       dictionary of line to output
                         e.g. line 2 -> output 0, line 1 -> output 0, line 2 -> output 1
@@ -26,7 +26,12 @@ class Station(CoupledDEVS):
         self.input = self.addInPort("input")
         self.outputs = [self.addOutPort(f"output{i}") for i in range(num_outputs)]
 
-        self.generator = self.addSubModel(Generator(origin=data.name, destinations=destinations, lines=lines))
+        self.generator = self.addSubModel(Generator(origin=data.name,
+                                                    destinations=destinations,
+                                                    lines=lines,
+                                                    mu=data.generator_mu,
+                                                    sigma=data.generator_sigma))
+
         self.collector = self.addSubModel(Collector(origin=data.name))
         self.light = self.addSubModel(Light())
         self.split = self.addSubModel(Split(routing=data.split, outputs=num_outputs))

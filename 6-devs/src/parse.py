@@ -3,7 +3,7 @@
 # {
 #   "stations": [
 #       "name": str,
-#       "split": {int (line): int (output)},
+#       "split": {str: int},
 #       "arriving_delay": Optional[float]
 #       "unboarding_delay": Optional[float]
 #       "boarding_delay": Optional[float]
@@ -18,7 +18,7 @@
 #       "end": str
 #   ],
 #   "lines": [
-#       "id": int,
+#       "name": str,
 #       "stations": [str]
 #   ],
 #   "trollies": [
@@ -35,13 +35,13 @@ from classes import *
 def parse_network(path):
     data = json.load(open(path))
 
-    stations = [StationData(**sdata) for sdata in data["stations"]]
-    junctions = [JunctionData(**sdata) for sdata in data["junctions"]]
-    rails = [RailData(**sdata) for sdata in data["rails"]]
-    lines = [LineData(**sdata) for sdata in data["lines"]]
-    trollies = [TrolleyData(**sdata) for sdata in data["trollies"]]
+    stations = [StationData(**s_data) for s_data in data["stations"]]
+    junctions = [JunctionData(**j_data) for j_data in data["junctions"]]
+    rails = [RailData(**r_data) for r_data in data["rails"]]
+    lines = [LineData(**l_data) for l_data in data["lines"]]
+    trollies = [TrolleyData(**t_data) for t_data in data["trollies"]]
 
-    return SystemData(stations=stations, junctions=junctions, rails=rails, lines=lines, trollies=trollies)
+    return NetworkData(stations=stations, junctions=junctions, rails=rails, lines=lines, trollies=trollies)
 
 
 
