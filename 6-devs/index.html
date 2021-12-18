@@ -47,26 +47,14 @@
 
                 <div class="content">
                     Assumptions:
-                    - The two tracks joining at zeigler Circus first pass through
-                    a virtual junction with traverse_delay of 0 seconds, the junction and the
-                    station are connected with a track of length 0 meters.
+                    - The two tracks joining at zeigler Circus first pass through a virtual junction with traverse_delay
+                    of 0 seconds, the junction and the station are connected with a track of length 0 meters.
 
-                    - The wrong chance for passenger was vaguely defined. We interpreted it as, 'there is a 20%'
-                    chance that the destination for a passenger is regenerated at the start. This can
-                    mean that maybe they read the wrong info on the boards or such.
-                    This is changeable for each station separately, signifying that some stations are more confusing.
-                    It is best explained by showing the code.
+                    - Capacity of the trolley over time is interpreted as amount of passengers in the trolley as the
+                    capacity of the trolley would just be a flat line.
 
-                    <blockquote>
-                        # It's important to notice that the destination is never the same as the origin
-                        available = copy.deepcopy(destinations)
-                        available.remove(origin)
-
-                        # Also notice that the 'real' destination cannot be the original one
-                        original = random.choice(available)
-                        available.remove(original)
-                    </blockquote>
-
+                    - We don't have any special logic for passengers that have an unreachable destination, they will
+                    just wait indefinitely.
                 </div>
             </div>
         </div>
