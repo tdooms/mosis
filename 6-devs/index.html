@@ -81,14 +81,41 @@
 
                         </p>
                         <h4>Trolley</h4>
+                        <p>
+
+                        </p>
                         <h4>Rail</h4>
+                        <p>
+
+                        </p>
                         <h4>Junction</h4>
+                        <p>
+
+                        </p>
                         <h4>Split</h4>
+                        <p>
+
+                        </p>
                         <h4>Station</h4>
+                        <p>
+
+                        </p>
                         <h4>Generator</h4>
+                        <p>
+
+                        </p>
                         <h4>Platform</h4>
+                        <p>
+
+                        </p>
                         <h4>Track</h4>
+                        <p>
+
+                        </p>
                         <h4>Light</h4>
+                        <p>
+
+                        </p>
                     </section>
                     <section>
                         <h2>Part 2: Creating the network</h2>
@@ -97,7 +124,9 @@
                             we thought this would the most light-weight format to create a flexible solution of modeling
                             the rail network. In the next paragraphs we'll discuss the format of the JSON and then the
                             code that is used to interpret this JSON. The json can be found
-                            <a href="networks/city.json">here</a>.
+                            <a href="networks/city.json">here</a>. The network hasn't undergone many big
+                            transformations, if there is a transformation that is worth of mentioning, we will do this
+                            in the JSON format part.
                         </p>
                         <h4>JSON format</h4>
                         <img src="img/json/stations.png" alt=""/>
@@ -112,7 +141,7 @@
                             Next up we have the junctions. We have for each junction a name, an input and possibly the
                             transfer_time. The transfer time is the time that it takes to take the junction, by default
                             this is 10, so it is not specified for 2 of the 3 junctions. The third junction belongs to
-                            a station.
+                            a station. The last junction is added, because a station can't combine 2 different tracks.
                         </p>
                         <img src="img/json/rails.png" alt=""/>
                         <p>
