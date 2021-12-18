@@ -55,7 +55,7 @@ class Track(AtomicDEVS):
         if self.state[0] == "arriving":
             print("TRACK: the trolley arrived, starting to unboard")
             self.state = ["unboarding", self.state[1], self.__passenger_indices(), 0]
-        elif self.state[0] == "unboarding" and len(self.__passenger_indices()) == 0:
+        elif self.state[0] == "unboarding" and len(self.state[2]) == self.state[3]:
             print(f"TRACK: unboarding is done: {len(self.state[1].passengers)} passengers left, starting boarding...")
             self.state[1].passengers = [p for idx, p in enumerate(self.state[1].passengers) if idx in self.state[2]]
             self.state = ["boarding", self.state[1]]
@@ -102,9 +102,3 @@ class Track(AtomicDEVS):
             print("TRACK: trolley leaving track")
             return {self.output: self.state[1]}
         return {}
-
-
-
-
-
-

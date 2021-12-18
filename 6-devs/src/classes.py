@@ -2,6 +2,12 @@ from dataclasses import dataclass
 from typing import Optional
 
 
+# Sue me Facebook!
+@dataclass
+class MetaData:
+    only_reachable: bool = False
+
+
 @dataclass
 class StationData:
     name: str
@@ -50,6 +56,7 @@ class TrolleyData:
 
 @dataclass
 class NetworkData:
+    meta: MetaData
     stations: list[StationData]
     junctions: list[JunctionData]
     rails: list[RailData]

@@ -35,13 +35,14 @@ from classes import *
 def parse_network(path):
     data = json.load(open(path))
 
+    meta = MetaData(**(data.get("meta", {})))
     stations = [StationData(**s_data) for s_data in data["stations"]]
     junctions = [JunctionData(**j_data) for j_data in data["junctions"]]
     rails = [RailData(**r_data) for r_data in data["rails"]]
     lines = [LineData(**l_data) for l_data in data["lines"]]
     trollies = [TrolleyData(**t_data) for t_data in data["trollies"]]
 
-    return NetworkData(stations=stations, junctions=junctions, rails=rails, lines=lines, trollies=trollies)
+    return NetworkData(meta=meta, stations=stations, junctions=junctions, rails=rails, lines=lines, trollies=trollies)
 
 
 

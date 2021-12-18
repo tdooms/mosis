@@ -1,12 +1,11 @@
+import graphviz
 from pypdevs.DEVS import CoupledDEVS
 
-from classes import NetworkData
 from models.junction import Junction
 from models.rail import Rail
 from models.station import Station
 from models.trolley import Trolley
 from parse import parse_network
-import graphviz
 
 
 class Network(CoupledDEVS):
@@ -14,13 +13,24 @@ class Network(CoupledDEVS):
         super().__init__("Network")
         data = parse_network(path)
 
-        dests = [sdata.name for sdata in data.stations]
+        destinations = [sdata.name for sdata in data.stations]
         lines = {l_data.name: l_data.stations for l_data in data.lines}
+
+        reachables = {x: [] for x in destinations}
+        if data.meta.only_reachable:
+            for _, line in lines.items():
+                for station in line:
+                    reachables[station.name] = list(set(reachables[station.name]).union(line))
+        else:
+            for name in destinations:
+                reachables[name] = destinations
 
         self.trollies = {t_data.location: Trolley(t_data.velocity, t_data.line, [], t_data.capacity)
                          for t_data in data.trollies}
 
-        self.stations = {s_data.name: self.addSubModel(Station(s_data, dests, lines, self.trollies.get(s_data.name)))
+        self.stations = {s_data.name:
+                             self.addSubModel(Station(s_data, reachables[s_data.name],
+                                                      lines, self.trollies.get(s_data.name)))
                          for s_data in data.stations}
 
         self.rails = [self.addSubModel(Rail(r_data.length, r_data.delay))
