@@ -15,6 +15,8 @@ if __name__ == '__main__':
     sim.setTerminationTime(500)  # Simulate until time = K
     sim.simulate()
 
+    print('\n\n\n\n\n\n\n\n\n')
+
     model.statistics()
 
     # network = Network(path="networks/city.json")

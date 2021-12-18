@@ -11,6 +11,7 @@ class CollectorStatistics:
     amount_exited: float
     amount_exited_at_desired: float
     dest_eq_origin: float
+    trolley_histories: dict[int, list[int]]
 
 
 class Collector(AtomicDEVS):
@@ -27,7 +28,7 @@ class Collector(AtomicDEVS):
         passenger.arrived_at = self.state["time"]
         self.state["passengers"].append(passenger)
 
-        print(f"{self.origin}: passenger {inputs[self.depart]} arrived at {self.state['time']:.2f}")
+        print(f"COLLECTOR: {inputs[self.depart]} arrived")
         return self.state
 
     def timeAdvance(self):
@@ -36,10 +37,14 @@ class Collector(AtomicDEVS):
     def statistics(self) -> CollectorStatistics:
         avg_time = sum([p.arrived_at - p.departed_at for p in self.state["passengers"]]) / len(self.state["passengers"])
         amt_exited = len(self.state["passengers"])
-        amt_desired = len([p for _, p in self.state if self.origin == p.original_dest])
-        dest_eq = len([p for _, p in self.state if p.origin == p.destination])
+        amt_desired = len([p for p in self.state["passengers"] if self.origin == p.destination])
+        dest_eq = len([p for p in self.state["passengers"] if self.origin == p.origin])
 
-        return CollectorStatistics(avg_time, amt_exited, amt_desired, dest_eq)
+        # for p in self.state["passengers"]:
+        #     if
+        # tr_hist =
+
+        return CollectorStatistics(avg_time, amt_exited, amt_desired, dest_eq, {})
 
         # print("For each station, the amount of people that have exited at that station.")
         # print(f"\tstation {self.origin}: people exited {len(self.state)}")

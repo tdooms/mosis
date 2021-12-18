@@ -1,12 +1,20 @@
+from dataclasses import dataclass
+
 from pypdevs.DEVS import CoupledDEVS
 
 from classes import StationData
-from models.collector import Collector
+from models.collector import Collector, CollectorStatistics
 from models.generator import Generator
 from models.light import Light
 from models.platform import Platform
 from models.split import Split
 from models.track import Track
+
+
+@dataclass
+class StationStatistics:
+    generator: int
+    collector: CollectorStatistics
 
 
 class Station(CoupledDEVS):
@@ -31,8 +39,7 @@ class Station(CoupledDEVS):
                                                     destinations=destinations,
                                                     lines=lines,
                                                     mu=data.generator_mu,
-                                                    sigma=data.generator_sigma,
-                                                    wrong_chance=data.wrong_chance))
+                                                    sigma=data.generator_sigma))
 
         self.collector = self.addSubModel(Collector(origin=data.name))
         self.light = self.addSubModel(Light())
@@ -44,7 +51,8 @@ class Station(CoupledDEVS):
                                             arriving_delay=data.arriving_delay,
                                             unboarding_delay=data.unboarding_delay,
                                             boarding_delay=data.boarding_delay,
-                                            departing_delay=data.departing_delay))
+                                            departing_delay=data.departing_delay,
+                                            random_unboard=data.random_unboard))
 
         self.connectPorts(self.generator.passenger_entry, self.platform.passenger_entry)
         self.connectPorts(self.track.request_passenger, self.platform.request_passenger)
@@ -59,4 +67,6 @@ class Station(CoupledDEVS):
             self.connectPorts(self.split.outputs[i], self.outputs[i])
 
     def statistics(self):
-        pass
+        return StationStatistics(self.generator.statistics(), self.collector.statistics())
+
+

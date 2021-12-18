@@ -50,7 +50,9 @@ class Network(CoupledDEVS):
             self.connectPorts(self.rails[i].output, e_port)
 
     def statistics(self) -> list:
-        print([len(t.passengers) for t in self.trollies.values()])
+        for name, station in self.stations.items():
+            stats = station.statistics()
+            print(stats)
         return []
 
     def visualise(self, path: str):

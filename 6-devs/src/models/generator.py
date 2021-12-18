@@ -2,11 +2,11 @@ import random
 
 from pypdevs.DEVS import AtomicDEVS
 
-from models.passenger import Passenger, create_passenger
+from models.passenger import Passenger
 
 
 class Generator(AtomicDEVS):
-    def __init__(self, origin: str, destinations: list[str], lines: dict[str, list[str]], mu, sigma, wrong_chance):
+    def __init__(self, origin: str, destinations: list[str], lines: dict[str, list[str]], mu, sigma, ):
         """
         @lines:         dictionary of line number to ordered list of stations on that line
                         e.g. line 2 -> [station 0, 4, 5], line 5 -> [station 2, 3, 0]
@@ -17,7 +17,6 @@ class Generator(AtomicDEVS):
 
         self.passenger_entry = self.addOutPort("passenger_entry")
         self.origin = origin
-        self.wrong_chance = wrong_chance
         self.destinations = destinations
         self.mu = mu
         self.sigma = sigma
@@ -36,7 +35,7 @@ class Generator(AtomicDEVS):
         return self.state["remaining"]
 
     def outputFnc(self):
-        passenger = create_passenger(self.origin, self.lines, self.destinations, self.wrong_chance)
+        passenger = Passenger(self.origin, random.choice(self.destinations), self.lines)
         return {self.passenger_entry: passenger}
 
     def statistics(self):
