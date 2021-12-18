@@ -31,7 +31,7 @@
         <div class="columns is-centered">
             <div class="column is-half">
 
-                <h1 class="title">Statecharts Assignment</h1>
+                <h1 class="title">DEVS Assignment</h1>
 
                 <div class="columns">
                     <div class="column is-narrow">
@@ -46,15 +46,119 @@
                 <hr>
 
                 <div class="content">
-                    Assumptions:
-                    - The two tracks joining at zeigler Circus first pass through a virtual junction with traverse_delay
-                    of 0 seconds, the junction and the station are connected with a track of length 0 meters.
+                    <section>
+                        <h2>Assumptions</h2>
+                        <ul>
+                            <li>
+                                <p>
+                                    The two tracks joining at zeigler Circus first pass through a virtual junction with
+                                    traverse_delay of 0 seconds, the junction and the station are connected with a track
+                                    of
+                                    length 0 meters.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    Capacity of the trolley over time is interpreted as amount of passengers in the
+                                    trolley
+                                    as the capacity of the trolley would just be a flat line.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    We don't have any special logic for passengers that have an unreachable destination,
+                                    they will just wait indefinitely.
+                                </p>
+                            </li>
+                        </ul>
+                    </section>
 
-                    - Capacity of the trolley over time is interpreted as amount of passengers in the trolley as the
-                    capacity of the trolley would just be a flat line.
 
-                    - We don't have any special logic for passengers that have an unreachable destination, they will
-                    just wait indefinitely.
+                    <section>
+                        <h2>Part 1: Components of the Model</h2>
+                        <h4>Passenger</h4>
+                        <p>
+
+                        </p>
+                        <h4>Trolley</h4>
+                        <h4>Rail</h4>
+                        <h4>Junction</h4>
+                        <h4>Split</h4>
+                        <h4>Station</h4>
+                        <h4>Generator</h4>
+                        <h4>Platform</h4>
+                        <h4>Track</h4>
+                        <h4>Light</h4>
+                    </section>
+                    <section>
+                        <h2>Part 2: Creating the network</h2>
+                        <p>
+                            In order to create the network we've chosen to do this via the JSON format. This is because
+                            we thought this would the most light-weight format to create a flexible solution of modeling
+                            the rail network. In the next paragraphs we'll discuss the format of the JSON and then the
+                            code that is used to interpret this JSON. The json can be found
+                            <a href="networks/city.json">here</a>.
+                        </p>
+                        <h4>JSON format</h4>
+                        <img src="img/json/stations.png" alt=""/>
+                        <p>
+                            First of all we have the name stations. Its value is a list that contains the name of a
+                            station, and a split. This split is a dictionary of the outgoing lines at that point. The
+                            names are the line colours and the numbers are on which track they need to go. We look at
+                            these outgoing lines clock-wise, starting from 10 o'clock.
+                        </p>
+                        <img src="img/json/junctions.png" alt=""/>
+                        <p>
+                            Next up we have the junctions. We have for each junction a name, an input and possibly the
+                            transfer_time. The transfer time is the time that it takes to take the junction, by default
+                            this is 10, so it is not specified for 2 of the 3 junctions. The third junction belongs to
+                            a station.
+                        </p>
+                        <img src="img/json/rails.png" alt=""/>
+                        <p>
+                            Now, we have the rails list. This contain a list of all the possible rails in the model.
+                            Each entry contains the length, the start station/junction name and the end station/junction
+                            name. You can see that sometimes we define the start_port and the end_port. This needs only
+                            to be done when we depart from a station and arrive in a junction, this is so we can split
+                            and join properly.
+                        </p>
+                        <img src="img/json/lines.png" alt=""/>
+                        <p>
+                            Following the rails list, we have the lines. The lines are again a list. We first have the
+                            name or color of the line and then all the stations that it contains.
+                        </p>
+                        <img src="img/json/trollies.png" alt=""/>
+                        <p>
+                            Lastly, we have a list of trollies. Each of these entries contain the velocity of the
+                            trolley, the location at which they start and the line to which they belong.
+                        </p>
+                        <h4>JSON parsing</h4>
+                        <p>
+                            In order to read the JSON file we need the <a href="src/classes.py">classes</a> file and
+                            the <a href="src/parse.py">parse</a> file to create the model. The classes file is used to
+                            represent the data for each of the model elements. The parse file contains the code to parse
+                            the JSON file format. We use the splat operator to turn the dicts returned by the parser
+                            into arguments for the classes in order to create objects.
+                        </p>
+                    </section>
+                    <section>
+                        <h2>Part 3: Prove the validity of model</h2>
+                    </section>
+                    <section>
+                        <h2>Part 4: Statistics</h2>
+                    </section>
+                    <section>
+                        <h2>Part 5: Simulation</h2>
+                    </section>
+                    <section>
+                        <h2>Part 6: Only reachable stations fix</h2>
+                    </section>
+                    <section>
+                        <h2>Part 7: Optimizing the values</h2>
+                    </section>
+                    <section>
+                        <h2>Part 8: Prove non-random model validity</h2>
+                    </section>
                 </div>
             </div>
         </div>
