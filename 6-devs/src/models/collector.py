@@ -11,7 +11,6 @@ class CollectorStatistics:
     amount_exited: float
     amount_exited_at_desired: float
     dest_eq_origin: float
-    trolley_histories: dict[int, list[int]]
 
 
 class Collector(AtomicDEVS):

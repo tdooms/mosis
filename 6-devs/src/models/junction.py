@@ -5,7 +5,7 @@ class Junction(AtomicDEVS):
     def __init__(self, name: str, num_inputs: int, transfer_time: int):
         AtomicDEVS.__init__(self, "Junction")
 
-        self.inputs = [self.addInPort(f"input{i}") for i in range(num_inputs + 10)]
+        self.inputs = [self.addInPort(f"input{i}") for i in range(num_inputs)]
         self.output = self.addOutPort("output")
         self.transfer_time = transfer_time
 
