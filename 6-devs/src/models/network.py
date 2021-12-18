@@ -1,3 +1,5 @@
+import math
+
 import graphviz
 from pypdevs.DEVS import CoupledDEVS
 
@@ -9,7 +11,7 @@ from parse import parse_network
 
 
 class Network(CoupledDEVS):
-    def __init__(self, path: str):
+    def __init__(self, path: str, sim_length: int, small_buckets: int, summary_buckets: int):
         super().__init__("Network")
         data = parse_network(path)
 
@@ -18,9 +20,13 @@ class Network(CoupledDEVS):
 
         reachables = {x: [] for x in destinations}
         if data.meta.only_reachable:
-            for _, line in lines.items():
+            # we iterate over the lines and for each station in the line we add the whole line as reachable
+            for line in lines.values():
                 for station in line:
                     reachables[station.name] = list(set(reachables[station.name]).union(line))
+            # We remove the station itself from the destinations as stated in the assignment
+            for name in destinations:
+                reachables[name].remove(name)
         else:
             for name in destinations:
                 reachables[name] = destinations
@@ -41,6 +47,10 @@ class Network(CoupledDEVS):
 
         self.data = data
 
+        self.sim_length = sim_length
+        self.small_buckets = small_buckets
+        self.summary_buckets = summary_buckets
+
         def __find_connection(name):
             if name in self.stations:
                 return self.stations[name]
@@ -60,10 +70,32 @@ class Network(CoupledDEVS):
             self.connectPorts(self.rails[i].output, e_port)
 
     def statistics(self) -> list:
-        for name, station in self.stations.items():
-            stats = station.statistics()
-            print(stats)
-        return []
+        all_stats = {name: station.statistics() for name, station in self.stations.items()}
+
+        station_arrived = {name: stat.collector.amount_exited for name, stat in all_stats.items()}
+        station_avg = {name: stat.collector.amount_exited for name, stat in all_stats.items()}
+        station_weighted_avg = {n: s.collector.average_time + s.collector.amount_exited for n, s in all_stats.items()}
+        station_desired = {name: stat.collector.amount_exited_at_desired for name, stat in all_stats.items()}
+        station_eq = {name: stat.collector.dest_eq_origin for name, stat in all_stats.items()}
+
+        all_arrived = sum(station_arrived.values())
+        all_avg = sum(station_weighted_avg.values()) / all_arrived
+        all_desired = sum(station_desired.values())
+        all_eq = sum(station_eq.values())
+
+        all_generated = sum([s.generator for s in all_stats.values()])
+        all_still_travelling = all_generated - all_arrived
+
+        hist_buckets = [[[0] * self.small_buckets] for _ in self.trollies]
+        sbs = self.sim_length / self.small_buckets
+
+        # for psgr in [psgr for station in self.stations.values() for psgr in station.passengers()]:
+        #     for i in range(int(psgr.departed_at // sbs), int(psgr.arrived_at // sbs)):
+        #         hist_buckets[psgr.used_trolley][i] += 1
+        # trolley_avg = sum(hist_buckets) / self.small_buckets
+
+        return [all_avg, 0, 0, station_arrived, station_desired, station_avg, all_arrived,
+                all_desired, all_still_travelling, all_eq]
 
     def visualise(self, path: str):
         dot = graphviz.Digraph(comment='Mosis City')

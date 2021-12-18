@@ -69,4 +69,7 @@ class Station(CoupledDEVS):
     def statistics(self):
         return StationStatistics(self.generator.statistics(), self.collector.statistics())
 
+    def passengers(self):
+        return self.collector.passengers()
+
 

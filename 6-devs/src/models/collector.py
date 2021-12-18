@@ -40,22 +40,7 @@ class Collector(AtomicDEVS):
         amt_desired = len([p for p in self.state["passengers"] if self.origin == p.destination])
         dest_eq = len([p for p in self.state["passengers"] if self.origin == p.origin])
 
-        # for p in self.state["passengers"]:
-        #     if
-        # tr_hist =
-
         return CollectorStatistics(avg_time, amt_exited, amt_desired, dest_eq, {})
 
-        # print("For each station, the amount of people that have exited at that station.")
-        # print(f"\tstation {self.origin}: people exited {len(self.state)}")
-
-        # print("For each station, the amount of people that have exited at that station.")
-        # print(f"\tstation {self.origin}: people exited at desired {desired}")
-
-        # print("passengers arrived:", )
-        # print("average arrival time:", sum([time for time, p in self.state]) / len(self.state))
-
-        # print("Number of people with a destination that equals their origin station:")
-        # print(f"\tstation {self.origin}: people exited at origin {equals}")
-        #
-        # return len(self.state), desired, equals
+    def passengers(self):
+        return self.state["passengers"]
