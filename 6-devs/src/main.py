@@ -20,7 +20,8 @@ def print_stats(stats):
 if __name__ == '__main__':
     TIME = 500
     # Create the model
-    model = Network("networks/simple.json", TIME, 50, 5)
+    model = Network("networks/city.json", TIME, 50, 5)
+    model.visualise("img/main.svg")
     # model = StationTest()
 
     # Set up the Simulator
@@ -32,7 +33,6 @@ if __name__ == '__main__':
 
     print('\n\n\n\n\n\n\n\n\n')
 
-    print_stats(model.statistics())
+    # print_stats(model.statistics())
 
     # network = Network(path="networks/city.json")
-    # network.visualise("img/main.svg")
