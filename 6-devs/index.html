@@ -72,11 +72,18 @@
                                 </p>
                             </li>
                             <li>
-                                Furthermore, when no passengers are available at a station to fill the trolley,
+                                <p>Furthermore, when no passengers are available at a station to fill the trolley,
                                 the trolley stays waits there until full no matter what. This makes some travel times
                                 longer than expected. Stations served by multiple lines will have trollies wait quite
                                 long (as there may be fewer passengers with the destination on that line). Which blocks
-                                the other trollies in the system.
+                                the other trollies in the system. </p>
+                            </li>
+                            <li>
+                                <p>
+                                    Lastly we assumed that multiple trollies can be on a junction at the same time and
+                                    don't interfere. If a trolley arrives at time 0 and one at time 1, they would leave
+                                    the junction at respectively 50 and 51 using default values.
+                                </p>
                             </li>
                         </ul>
                     </section>
@@ -122,28 +129,28 @@
                             itself. The timeAdvance function does contain the value of the first trolley in the queue,
                             otherwise we have an infinite timeAdvance. So that there won't fire anything in the model.
                             For the internal transition we make it so that there is a trolley that can depart, because
-                            it's timeer should be 0. As a consequence, we remove the trolley from the queue. As an
+                            it's timer should be 0. As a consequence, we remove the trolley from the queue. As an
                             outputFunction we take the front of the queue and return that trolley. When we have an
                             external transition we first need to decrement the timers by the elapsed time (this is
-                            equivalent to ignoring an event and having multiple timers). The logic for calculating how
-                            much time it needs to end on this rail is the nowait time. We then calculate the arrival
-                            time of the trolley, and store this in the state.
+                            equivalent to ignoring an event and having multiple timers). The remaining time of arrival
+                            for a trolley is calculated as follows: we calculate the time if the trolley were to drive
+                            full speed (nowait variable). We then take into account if there is a trolley in front of
+                            it with a max of both.
                         </p>
                         <h4>Junction</h4>
                         <img src="img/model/junction.png" alt=""/>
                         <p>The code can be found <a href="src/models/junction.py">here</a>. </p>
 
                         <p> A junction joins multiple
-                            rails together and has one output rail. To obtain this in devs we have multiple input ports
+                            rails together and has one output rail. To obtain this in DEVS we have multiple input ports
                             and one single output port. Apart from this, we also need to keep the transfer time of a
                             junction (i.e. how long it will take before another trolley can transfer the junction). We
                             also keep the name of the junction and a state. This state contains a list of lists, which
-                            themselves contain 2 elements, namely the trolley and the arrival time.
+                            themselves contain 2 elements, namely the trolley and the remaining time.
                         </p>
                         <p>
                             The logic is almost the same as with the rail, apart from the external transition function.
-                            We take the trolley out of the inputs and append it to the list of the trolleys to pass. We
-                            always will wait 10 seconds before another trolley will pass.
+                            We take the trolley out of the inputs and append it to the list of the trolleys to pass.
                         </p>
                         <h4>Split</h4>
                         <img src="img/model/split.png" alt=""/>
@@ -151,26 +158,27 @@
 
                         <p> For the split we only need one
                             input track, but multiple output tracks. This is almost the exact opposite of the junction,
-                            we also need to keep a routing, which line need to be outputted on which output track. We
-                            also have a state that is initially None, although it will be changed throughout the run of
-                            the simulation.
+                            we also need to keep a routing, which line need to be outputted on which output track
+                            (e.g. red line goes to output track 0, yellow to 1 and blue also to 1). We also have a state
+                            that is initially None.
                         </p>
                         <p>
-                            The internal transition resets the state always to None, because there is no trolley waiting
-                            to be split to another rail. The external transition will temporarily store the trolley in
-                            the state. We use the routing in the output function in order to output the trolley on the
-                            right output rail. The time advance is only 0 when there is a trolley currently being
-                            split.
+                            The internal transition always resets the state to None, this signifies the trolley being
+                            removed from the split after being outputted. The external transition will temporarily store
+                            the trolley in the state. We use the routing in the output function in order to output the
+                            trolley on the right output rail. The time advance is only immediate when there is a trolley
+                            currently being split otherwise we wait infinitely for the next trolley.
                         </p>
                         <h4>Station</h4>
                         <img src="img/model/station.png" alt=""/>
                         <p> The code can be found <a href="src/models/station.py">here</a>. </p>
 
-                        <p> Most of the cod written here
-                            is because this is a coupled devs, so much can't be said about this part. Aside from maybe
-                            what the num of outputs calculates. It calculates the number of outputs, based on the
-                            outgoing lines. The other part is the routing, that is described before and maybe another
-                            interesting parameter is the destinations, this is what the next stations are called.
+                        <p> Most of the code written here
+                            is because this is a coupled DEVS, so not a lot can be said about this part.
+                            The num_outputs is calculated based on the highest split value, so if a user enters the red
+                            line to go to output 10, there will be 10 outputs. The other part is the routing, that has
+                            already been described before. Lastly the destinations parameter is the possible
+                            destinations that can be used for the passengers generator.
                         </p>
                         <h4>Generator</h4>
                         <img src="img/model/generator.png" alt=""/>
@@ -178,11 +186,13 @@
 
                         <p> From the generator we only
                             need an output port in order to receive the passengers on the station. We also need their
-                            origin [station. We use a set of all the possible destinations, and along with that we need
-                            the distribution function parameters, mu and sigma. Then we also have the lines which
-                            contain the stations on a specific line. For the last attribute we have the state, which
-                            encompasses the remaining time for the next passenger and the total amount of passengers
-                            that have been generated.
+                            origin station. We use a set of all the aforementioned possible destinations, and along
+                            with that we need the parameters for the normal distribution, mu and sigma. Then we
+                            also have the lines which
+                            contain the stations for all lines. This is used for passengers to decide whether to board
+                            a trolley or not. For the last attribute we have the state, which encompasses the remaining
+                            time for the next passenger and the total amount of passengers that have been generated,
+                            which is used in the statistics.
                         </p>
                         <p>
                             The distribution method will calculate the time for the next passenger to be generated. When
@@ -190,14 +200,14 @@
                             remaining time by a new value generated by the distribution. The time advance will always be
                             the time at which the next passenger will be generated. The output function generates a new
                             passenger, which brings along with it an origin, a destination and the corresponding lines.
-                            The statistics function just gives the amount of passengers that have been made.
+                            The statistics function just gives the amount of passengers that have been generated.
                         </p>
                         <h4>Collector</h4>
                         <img src="img/model/collector.png" alt=""/>
                         <p> The code can be found <a href="src/models/collector.py">here</a>. </p>
 
                         <p> This part of the code
-                            makes use of the statistics gathering patter, as well as the complex state pattern. We have
+                            makes use of the statistics gathering pattern, as well as the complex state pattern. We have
                             the collector statistics class, which contains some parameters like the average time that a
                             passenger traveled, the amount that exited at a (desired) destination and the amount that
                             exited at their origin destination. We have the collector which keeps the departed
@@ -208,7 +218,7 @@
                         </p>
                         <p>
                             For the next part we'll discuss the methods. The first method is the time advance, because
-                            we never will never perform an internal transition or output something, this always must
+                            we never will never perform an internal transition or output something, this must always
                             return infinite. Therefore, we have fewer functions, but we have an external transition,
                             which logs all the passengers that leave the track and as a consequence a trolley. In
                             this method we take that passenger and store it into the list of passengers for that track.
@@ -219,26 +229,26 @@
 
                         <p> On a platform we have two
                             input ports (the passenger entry and the request passenger) and an output port (board).
-                            three provide an interface to the generator, the track and the track respectively. the state
-                            contains a queue a requested parameter and the simulated time. We also keep the origin of
-                            the platform.
+                            These three provide an interface to the generator, the track and the track respectively.
+                            The state contains a queue of waiting passengers, a requested parameter and the simulated
+                            time. We also keep the origin (station name) of the platform.
                         </p>
                         <p>
                             We first describe the helper method passenger_indices. This method is used to get the
-                            indices from all the passengers that are in the queue that can be on the line. We use the
-                            simulated time pattern described in the course notes. In order to decide what the time
-                            advance should be we check if there is a passenger requested by the track, if there is then
-                            we set the time advance to 0, otherwise we set it to infinity. The internal transition is
-                            performed by selecting all the candidates, that can be on the line. We unset the requested
-                            state and give remove the retrieved candidate first valid candidate from the queue. For the
-                            external transition we need to select the line of the requested passenger. And only when
-                            we have passengers waiting for that line we can set the requested parameter in the state to
-                            the line that is requested. Otherwise, if we have a passenger entry, we need to add it to
-                            the passenger queue. Last but not least, we have the output function, that can only be
-                            executed if the there is a requested passenger, and there are candidates. the candidates are
-                            then chosen from the candidates list, and only the first candidate is chosen that has a
-                            destination that is on the requested line. We also store the departed time of the candidate
-                            passenger.
+                            indices from all the passengers that are in the queue waiting for a trolley that serves a
+                            given line. We use the simulated time pattern described in the course notes. In order to
+                            decide what the time advance should be we check if there is a passenger requested by the
+                            track, if there is then we set the time advance to 0, otherwise we set it to infinity. The
+                            internal transition is performed by selecting all the candidates, that can be on the line.
+                            We unset the requested state and remove that retrieved candidate, the first valid candidate,
+                            from the queue. For the external transition we need to select the line of the requested
+                            passenger. And only when we have passengers waiting for that line we can set the requested
+                            parameter in the state to the line that is requested. Otherwise, if we have a passenger
+                            entry, we need to add it to the passenger queue. Last but not least, we have the output
+                            function, that can only be executed if the there is a requested passenger, and there are
+                            candidates. the candidates are then chosen from the candidates list, and only the first
+                            candidate is chosen that has a destination that is on the requested line. We also store the
+                            departed time of the candidate passenger for later statistics.
                         </p>
                         <h4>Track</h4>
                         <img src="img/model/track-1.png" alt=""/>
@@ -248,30 +258,43 @@
                         <p> For this part we chose an
                             atomic DEVS to encode the track. First, we need to set all the different types of
                             waiting times, notice that the first 1 is the amount of seconds. This is because we need to
-                            check the light each time we try to depart. The first part of arriving on a track at a
+                            'busy poll' the light for a new trolley to enter. The first part of arriving at a track at a
                             station is a certain arriving delay, for which we wait at a station, the next part is the
                             unboarding of the trolley, followed by the boarding of the trolley. At last, we have the
                             time that it takes to depart from the station. We add some input and output ports as shown
                             in the station diagram. Next up we define the origin of the station and the probability of
-                            wrongly unboarding at that station. Lastly, we have the stat which contains the busy polling
-                            of the light for a new trolley if there is no trolley at the track otherwise the boarding
-                            sequence of a trolley is started.
+                            wrongly unboarding at that station.
                         </p>
                         <p>
                             This passenger indices helper function gives back all the passengers that can leave the
                             trolley, this can be either because they need to be there. Or there is a slight chance that
-                            they are confused and get off the trolley (this has a 20 percent chance of happening). The
-                            internal transition checks in which state it is and depending on the state it chooses what
-                            to do.
+                            they are confused and get off the trolley (by default, this has a 20 percent chance of
+                            happening). The internal transition checks in which state it is and depending on the state
+                            it chooses what to do. There is an interesting side note on the random handling.
+                            We can choose to do this in a number of ways:
+
                         </p>
                         <ul>
+                            <li> Go over every passenger in the trolley for every unboard trigger and find someone
+                                either by luck or desired exit. This has the issue that the first passenger in the list
+                                has a way higher chance to exit wrongfully as the 20% is calculated multiple times.</li>
+                            <li> Even if we do random sampling this isn't fair.</li>
+                            <li>Calculating some combined probability of a random person exiting based on the amount of
+                                people also isn't correct as it doesn't allow for multiple wrong exits.</li>
+                            <li>Our last option is precalculate the list and keep it around as some kind of temporary
+                                state. This is far from elegant but it works. the list of passengers to exit is in
+                                state[2] and the current index of which passenger we are at is in state[3]. We need to
+                                keep both as otherwise we would be changing the state when we aren't allowed to.
+                            </li>
+                        </ul>
+                        <p> We will now describe the internal transition</p>
+                        <ul>
                             <li>
-                                When the trolley is arriving then the state must become unboarding, the trolley, the
-                                passengers that can get off the trolley and 0.
+                                When the trolley has finished arriving then the state must become unboarding.
                             </li>
                             <li>
-                                When we discover that we are in the state unboarding and the amount of passsengers that
-                                can unboard equals the passengers that are able to unboard, we can get to the boarding
+                                When we discover that we are in the state unboarding and we unboarded everyone in the
+                                list, i.e. the counter is the length of the list, we can get to the boarding
                                 phase. This phase takes all the passengers that can board and boards them onto the
                                 trolley and set the state to the boarding state and keep the trolley also in it.
                             </li>
@@ -287,14 +310,15 @@
                             </li>
                         </ul>
                         <p>
-                            For the external transition we need to fire we need to have a board input or a dequeu input.
+                            For the external transition we need to fire we need to have a board input or a dequeue
+                            input.
                         </p>
                         <ul>
                             <li>
                                 If we have a board input we need to check that we are in the boarding state, check
                                 that the capacity of the passenger is lower or equal to that of the trolley, and check
                                 that the destination of the boarding passenger is on the line that it is boarding. We
-                                take the passenger of the input and store the unique id of the trolley with the
+                                take the passenger of the input and store the name of the trolley within the
                                 passenger. Then we add the passenger to the passengers that have boarded the trolley.
                             </li>
                             <li>
@@ -312,9 +336,8 @@
                                 When we are in the state none, there is nothing to return and no trolley to request.
                             </li>
                             <li>
-                                When we are in the unboarding state and the length of the passengers that unboarded is
-                                greater than the unboarded passengers, we need to signal the collector to receive the
-                                passenger that has just unboarded
+                                When we are in the unboarding state, and we still have to unboard passenger from the
+                                list, we need to signal the collector to receive the passenger that has just unboarded.
                             </li>
                             <li>
                                 When the state is boarding and the trolley still isn't full we can request a passenger
@@ -329,7 +352,7 @@
                         <p> The code can be found <a href="src/models/light.py">here</a>. </p>
 
                         <p> We have 2 different input
-                            ports the request of a trolley and the input of a trolley. The output is the dequeue of a
+                            ports: the request of a trolley and the input of a trolley. The output is the dequeue of a
                             trolley. We also keep a queue of trolleys in the state and the fact that there is a trolley
                             requested to false.
                         </p>
@@ -346,54 +369,61 @@
                     <section>
                         <h2>Part 2: Creating the network</h2>
                         <p>
-                            In order to create the network we've chosen to do this via the JSON format. This is because
+                            In order to represent the network, we've chosen to employ the JSON format. This is because
                             we thought this would the most light-weight format to create a flexible solution of modeling
                             the rail network. In the next paragraphs we'll discuss the format of the JSON and then the
-                            code that is used to interpret this JSON. The json can be found
-                            <a href="networks/city.json">here</a>. The network hasn't undergone many big
+                            code that is used to interpret this JSON. The json for the network described int assignment
+                            can be found <a href="networks/city.json">here</a>. The network hasn't undergone many big
                             transformations, if there is a transformation that is worth of mentioning, we will do this
                             in the JSON format part.
                         </p>
                         <h4>JSON format</h4>
                         <img src="img/json/stations.png" alt=""/>
                         <p>
-                            First of all we have the name stations. Its value is a list that contains the name of a
+                            First of all we have the stations. Its value is a list that contains the name of a
                             station, and a split. This split is a dictionary of the outgoing lines at that point. The
                             names are the line colours and the numbers are on which track they need to go. We look at
-                            these outgoing lines clock-wise, starting from 10 o'clock.
+                            these outgoing lines clock-wise, starting from 9 o'clock (this may seem weird, but it's very
+                            intuitive once you get it).
                         </p>
                         <img src="img/json/junctions.png" alt=""/>
                         <p>
-                            Next up we have the junctions. We have for each junction a name, an input and possibly the
+                            Next up we have the junctions. Each junction has a name, an input and possibly the
                             transfer_time. The transfer time is the time that it takes to take the junction, by default
-                            this is 10, so it is not specified for 2 of the 3 junctions. The third junction belongs to
-                            a station. The last junction is added, because a station can't combine 2 different tracks.
+                            this is 50, so it is not specified for 2 of the 3 junctions. The third junction belongs to
+                            a station. The last junction is added, because a station can't combine 2 different tracks as
+                            described in the assumptions.
                         </p>
                         <img src="img/json/rails.png" alt=""/>
                         <p>
-                            Now, we have the rails list. This contain a list of all the possible rails in the model.
+                            Now, we have the rails list. This contains a list of all the possible rails in the model.
                             Each entry contains the length, the start station/junction name and the end station/junction
                             name. You can see that sometimes we define the start_port and the end_port. This needs only
-                            to be done when we depart from a station and arrive in a junction, this is so we can split
-                            and join properly.
+                            to be done when we depart from a station and arrive in a junction, this is so it knows which
+                            output from the station or input from the junction it has to connect to.
                         </p>
                         <img src="img/json/lines.png" alt=""/>
                         <p>
                             Following the rails list, we have the lines. The lines are again a list. We first have the
-                            name or color of the line and then all the stations that it contains.
+                            name (or colorin our case) of the line and then all the stations that it contains.
                         </p>
                         <img src="img/json/trollies.png" alt=""/>
                         <p>
                             Lastly, we have a list of trollies. Each of these entries contain the velocity of the
-                            trolley, the location at which they start and the line to which they belong.
+                            trolley, the location at which they start and the line to which they belong. Each trolley
+                            also has a name used for the readability and traceability of the statistics.
                         </p>
                         <h4>JSON parsing</h4>
                         <p>
-                            In order to read the JSON file we need the <a href="src/classes.py">classes</a> file and
-                            the <a href="src/parse.py">parse</a> file to create the model. The classes file is used to
-                            represent the data for each of the model elements. The parse file contains the code to parse
-                            the JSON file format. We use the splat operator to turn the dicts returned by the parser
-                            into arguments for the classes in order to create objects.
+                            In order to read and serialize the JSON file we need the
+                            <a href="src/classes.py">classes</a> file and the <a href="src/parse.py">parse</a> file.
+                            The classes file is used to represent the data for each of the model elements. The parse
+                            file contains the code to parse the JSON file format into the specified classes. We can look
+                            at the classes as some sort of intermediary representation of the system. If any other
+                            parsing method is required we can use this to easily extend the system. We use the
+                            dictionary splat operator (turning a dict, or JSON object into the key value pairs as
+                            arguments to a function or constructor)to turn the dicts returned by the parser into
+                            arguments for the classes in order to create objects.
                         </p>
                     </section>
                     <section>
