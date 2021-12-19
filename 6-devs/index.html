@@ -71,37 +71,40 @@
                         </ul>
                     </section>
 
+                    <div class="block"></div>
 
                     <section>
                         <h2>Part 1: Components of the Model</h2>
                         <h4>Passenger</h4>
                         <img src="img/model/passenger.png" alt=""/>
-                        <p>
-                            The code can be found <a href="src/models/passenger.py">here</a>. We see here that we use a
+                        <p>The code can be found <a href="src/models/passenger.py">here</a>.</p>
+
+                        <p> We see here that we use a
                             dataclass to create a new passenger. The passenger has the default attributes, such as the
                             origin and the destination. We also store the all the stations related to a specific line.
-                            This is so that the passenger knows where step off. And for extra statistics, we also
-                            maintain the time at what the passenger departed and when it arrived. Another metric is
-                            whether the passenger used a trolley or not.
+                            This is so that the passenger knows where step off. Finally, for extra statistics, we also
+                            maintain the time at what the passenger departed and when it arrived as well as the id
+                            of the trolley we used.
                         </p>
                         <h4>Trolley</h4>
                         <img src="img/model/trolley.png" alt=""/>
-                        <p>
-                            The code can be found <a href="src/models/trolley.py">here</a>. As with the passenger, we
+                        <p>The code can be found <a href="src/models/trolley.py">here</a>. </p>
+
+                        <p> As with the passenger, we
                             used a dataclass and have the default parameters of the trolley, like the velocity, the line
-                            it serves and the
-                            capacity. Because we want to know what the remaining capacity of the trolley is, we also
-                            keep the passengers that use the specific trolley. We have defined a helper function to
-                            identify if the trolley is full.
+                            it serves and the capacity. Naturally, we also keep the passenger list. To reduce code
+                            duplication prove to silly mistakes,We have defined a helper function to identify if the
+                            trolley is full.
                         </p>
                         <h4>Rail</h4>
                         <img src="img/model/rail.png" alt=""/>
-                        <p>
-                            The code can be found <a href="src/models/rail.py">here</a>. A rail has an input and an
+                        <p>The code can be found <a href="src/models/rail.py">here</a>. </p>
+
+                        <p> A rail has an input and an
                             output port, through which they can receive trollies. It also has a given length, as well as
                             a delay (default = 10) during which we need to wait before letting another trolley pass. The
-                            last piece of the puzzle is the fact that we have a state, that stores all the trolleys that
-                            are waiting before entering the rail.
+                            last piece of the puzzle is the fact that we have a state, that contains all the trolley and
+                            remaining times time trollies on the rail.
                         </p>
                         <p>
                             First off we have a helper function that decrements the timers of each of the trolleys that
@@ -118,8 +121,9 @@
                         </p>
                         <h4>Junction</h4>
                         <img src="img/model/junction.png" alt=""/>
-                        <p>
-                            The code can be found <a href="src/models/junction.py">here</a>. A junction joins multiple
+                        <p>The code can be found <a href="src/models/junction.py">here</a>. </p>
+
+                        <p> A junction joins multiple
                             rails together and has one output rail. To obtain this in devs we have multiple input ports
                             and one single output port. Apart from this, we also need to keep the transfer time of a
                             junction (i.e. how long it will take before another trolley can transfer the junction). We
@@ -133,8 +137,9 @@
                         </p>
                         <h4>Split</h4>
                         <img src="img/model/split.png" alt=""/>
-                        <p>
-                            The code can be found <a href="src/models/split.py">here</a>. For the split we only need one
+                        <p> The code can be found <a href="src/models/split.py">here</a>. </p>
+
+                        <p> For the split we only need one
                             input track, but multiple output tracks. This is almost the exact opposite of the junction,
                             we also need to keep a routing, which line need to be outputted on which output track. We
                             also have a state that is initially None, although it will be changed throughout the run of
@@ -149,8 +154,9 @@
                         </p>
                         <h4>Station</h4>
                         <img src="img/model/station.png" alt=""/>
-                        <p>
-                            The code can be found <a href="src/models/station.py">here</a>. Most of the cod written here
+                        <p> The code can be found <a href="src/models/station.py">here</a>. </p>
+
+                        <p> Most of the cod written here
                             is because this is a coupled devs, so much can't be said about this part. Aside from maybe
                             what the num of outputs calculates. It calculates the number of outputs, based on the
                             outgoing lines. The other part is the routing, that is described before and maybe another
@@ -158,8 +164,9 @@
                         </p>
                         <h4>Generator</h4>
                         <img src="img/model/generator.png" alt=""/>
-                        <p>
-                            The code can be found <a href="src/models/generator.py">here</a>. From the generator we only
+                        <p> The code can be found <a href="src/models/generator.py">here</a>. </p>
+
+                        <p> From the generator we only
                             need an output port in order to receive the passengers on the station. We also need their
                             origin [station. We use a set of all the possible destinations, and along with that we need
                             the distribution function parameters, mu and sigma. Then we also have the lines which
@@ -177,8 +184,9 @@
                         </p>
                         <h4>Collector</h4>
                         <img src="img/model/collector.png" alt=""/>
-                        <p>
-                            The code can be found <a href="src/models/collector.py">here</a>. This part of the code
+                        <p> The code can be found <a href="src/models/collector.py">here</a>. </p>
+
+                        <p> This part of the code
                             makes use of the statistics gathering patter, as well as the complex state pattern. We have
                             the collector statistics class, which contains some parameters like the average time that a
                             passenger traveled, the amount that exited at a (desired) destination and the amount that
@@ -197,8 +205,9 @@
                         </p>
                         <h4>Platform</h4>
                         <img src="img/model/platform.png" alt=""/>
-                        <p>
-                            The code can be found <a href="src/models/platform.py">here</a>. On a platform we have two
+                        <p> The code can be found <a href="src/models/platform.py">here</a>. </p>
+
+                        <p> On a platform we have two
                             input ports (the passenger entry and the request passenger) and an output port (board).
                             three provide an interface to the generator, the track and the track respectively. the state
                             contains a queue a requested parameter and the simulated time. We also keep the origin of
@@ -224,8 +233,9 @@
                         <h4>Track</h4>
                         <img src="img/model/track-1.png" alt=""/>
                         <img src="img/model/track-2.png" alt=""/>
-                        <p>
-                            The code can be found <a href="src/models/track.py">here</a>. For this part we chose an
+                        <p> The code can be found <a href="src/models/track.py">here</a>. </p>
+
+                        <p> For this part we chose an
                             atomic DEVS to encode the track. First, we need to set all the different types of
                             waiting times, notice that the first 1 is the amount of seconds. This is because we need to
                             check the light each time we try to depart. The first part of arriving on a track at a
@@ -306,8 +316,9 @@
                         </ul>
                         <h4>Light</h4>
                         <img src="img/model/light.png" alt=""/>
-                        <p>
-                            The code can be found <a href="src/models/light.py">here</a>. We have 2 different input
+                        <p> The code can be found <a href="src/models/light.py">here</a>. </p>
+
+                        <p> We have 2 different input
                             ports the request of a trolley and the input of a trolley. The output is the dequeue of a
                             trolley. We also keep a queue of trolleys in the state and the fact that there is a trolley
                             requested to false.
