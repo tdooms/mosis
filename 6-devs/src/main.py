@@ -1,7 +1,9 @@
-from models.network import Network
+import logging
+import random
+
 from pypdevs.simulator import Simulator
 
-from tests.station_test import StationTest
+from models.network import Network
 
 
 def print_stats(stats):
@@ -18,7 +20,14 @@ def print_stats(stats):
 
 
 if __name__ == '__main__':
-    TIME = 500
+    # set the logging defaults
+    logging.basicConfig(format="%(levelname)s - %(message)s")
+    # fix the seed
+    random.seed(123)
+
+    TIME = 60 * 60 * 1
+
+
     # Create the model
     model = Network("networks/city.json", TIME, 50, 5)
     model.visualise("img/main.svg")
@@ -29,10 +38,10 @@ if __name__ == '__main__':
     # sim.setVerbose(None)
     sim.setClassicDEVS()         # IMPORTANT!! Ensures the usage of the Classic DEVS formalism
     sim.setTerminationTime(TIME)
+    logging.debug("GENERAL: starting the simulation")
     sim.simulate()
+    logging.debug("GENERAL: finishing the simulation")
 
-    print('\n\n\n\n\n\n\n\n\n')
-
-    # print_stats(model.statistics())
+    print_stats(model.statistics())
 
     # network = Network(path="networks/city.json")

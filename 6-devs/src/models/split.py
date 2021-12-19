@@ -1,3 +1,4 @@
+import logging
 from dataclasses import dataclass, field
 
 from pypdevs.DEVS import AtomicDEVS
@@ -28,7 +29,7 @@ class Split(AtomicDEVS):
     def extTransition(self, inputs):
         assert self.state is None
         self.state = list(inputs.values())[0]
-        print("SPLIT: a trolley arrived on split")
+        logging.debug("SPLIT: a trolley arrived on split")
         return self.state
 
     def timeAdvance(self):

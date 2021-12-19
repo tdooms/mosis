@@ -16,8 +16,8 @@ class StationData:
     unboarding_delay: float = 10
     boarding_delay: float = 10
     departing_delay: float = 30
-    generator_mu: float = 5
-    generator_sigma: float = 1
+    generator_mu: float = 300
+    generator_sigma: float = 60
     random_unboard: float = 0.2
 
 

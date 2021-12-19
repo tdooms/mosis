@@ -1,3 +1,4 @@
+import logging
 from pypdevs.DEVS import AtomicDEVS
 
 from models.passenger import Passenger
@@ -32,7 +33,7 @@ class Platform(AtomicDEVS):
         # Set the request variable in the state
         line = inputs[self.request_passenger] if self.request_passenger in inputs else None
         if line is not None and self.__passenger_indices(line):
-            print("PLATFORM: received request with waiting passengers")
+            logging.debug("PLATFORM: received request with waiting passengers")
             self.state["requested"] = line
 
         # Add passenger to the queue
@@ -50,5 +51,5 @@ class Platform(AtomicDEVS):
         assert len(candidates), "candidates list must not be empty, this must be checked beforehand"
         candidate = self.state["queue"][candidates[0]]
         candidate.departed_at = self.state["time"]
-        print("PLATFORM: boarding passengers")
+        logging.debug("PLATFORM: boarding passengers")
         return {self.board: candidate}

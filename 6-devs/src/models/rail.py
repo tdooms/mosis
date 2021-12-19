@@ -1,3 +1,4 @@
+import logging
 from pypdevs.DEVS import AtomicDEVS
 
 
@@ -28,7 +29,7 @@ class Rail(AtomicDEVS):
         trolley = inputs[self.input]
         nowait = self.length / trolley.velocity
         arrival = max(self.state[-1][1] + self.delay, nowait) if len(self.state) else nowait
-        print(f"RAIL: received new trolley, will arrive at {arrival}")
+        logging.debug(f"RAIL: received new trolley, will arrive at {arrival}")
         self.state.append([trolley, arrival])
 
         return self.state

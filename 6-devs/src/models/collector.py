@@ -1,3 +1,4 @@
+import logging
 from dataclasses import dataclass
 
 from pypdevs.DEVS import AtomicDEVS
@@ -27,19 +28,22 @@ class Collector(AtomicDEVS):
         passenger.arrived_at = self.state["time"]
         self.state["passengers"].append(passenger)
 
-        print(f"COLLECTOR: {inputs[self.depart]} arrived")
+        logging.debug(f"COLLECTOR: {inputs[self.depart]} arrived")
         return self.state
 
     def timeAdvance(self):
         return float("inf")
 
     def statistics(self) -> CollectorStatistics:
-        avg_time = sum([p.arrived_at - p.departed_at for p in self.state["passengers"]]) / len(self.state["passengers"])
+        try:
+            avg_time = sum([p.arrived_at - p.departed_at for p in self.state["passengers"]]) / len(self.state["passengers"])
+        except:
+            avg_time = 0
         amt_exited = len(self.state["passengers"])
         amt_desired = len([p for p in self.state["passengers"] if self.origin == p.destination])
         dest_eq = len([p for p in self.state["passengers"] if self.origin == p.origin])
 
-        return CollectorStatistics(avg_time, amt_exited, amt_desired, dest_eq, {})
+        return CollectorStatistics(avg_time, amt_exited, amt_desired, dest_eq)
 
     def passengers(self):
         return self.state["passengers"]

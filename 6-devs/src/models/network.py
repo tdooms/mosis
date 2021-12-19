@@ -1,5 +1,3 @@
-import math
-
 import graphviz
 from pypdevs.DEVS import CoupledDEVS
 
@@ -23,7 +21,7 @@ class Network(CoupledDEVS):
             # we iterate over the lines and for each station in the line we add the whole line as reachable
             for line in lines.values():
                 for station in line:
-                    reachables[station.name] = list(set(reachables[station.name]).union(line))
+                    reachables[station] = list(set(reachables[station]).union(line))
             # We remove the station itself from the destinations as stated in the assignment
             for name in destinations:
                 reachables[name].remove(name)
@@ -73,8 +71,8 @@ class Network(CoupledDEVS):
         all_stats = {name: station.statistics() for name, station in self.stations.items()}
 
         station_arrived = {name: stat.collector.amount_exited for name, stat in all_stats.items()}
-        station_avg = {name: stat.collector.amount_exited for name, stat in all_stats.items()}
-        station_weighted_avg = {n: s.collector.average_time + s.collector.amount_exited for n, s in all_stats.items()}
+        station_avg = {name: stat.collector.average_time for name, stat in all_stats.items()}
+        station_weighted_avg = {n: s.collector.average_time * s.collector.amount_exited for n, s in all_stats.items()}
         station_desired = {name: stat.collector.amount_exited_at_desired for name, stat in all_stats.items()}
         station_eq = {name: stat.collector.dest_eq_origin for name, stat in all_stats.items()}
 
