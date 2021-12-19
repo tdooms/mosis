@@ -48,6 +48,7 @@ class LineData:
 
 @dataclass
 class TrolleyData:
+    name: str
     velocity: float
     line: str
     location: str

@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "only_reachable": true
+  },
   "stations": [
     {"name": "Forrester Gardens", "split": {"yellow": 0}},
     {"name": "University Square", "split": {"yellow": 0}},
@@ -68,8 +71,8 @@
     }
   ],
   "trollies": [
-    {"velocity": 20, "location": "Harel Cross", "line": "red"},
-    {"velocity": 80, "location": "Model Station North", "line": "blue"},
-    {"velocity": 50, "location": "Model Station South", "line": "red"}
+    {"name": "red trolley","velocity": 10, "location": "Harel Cross", "line": "red"},
+    {"name": "blue trolley","velocity": 20, "location": "Model Station North", "line": "blue"},
+    {"name": "yellow trolley","velocity": 15, "location": "Moore's Moor", "line": "yellow"}
   ]
 }

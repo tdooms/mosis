@@ -1,9 +1,11 @@
 import logging
 import random
 
+import numpy as np
 from pypdevs.simulator import Simulator
 
 from models.network import Network
+import matplotlib.pyplot as plt
 
 
 def print_stats(stats):
@@ -19,17 +21,36 @@ def print_stats(stats):
     print("10. Number of people with a destination that equals their origin station: ", stats[9])
 
 
+def plot_statistics(stats):
+    x = stats[3].keys()
+    exited = stats[3].values()
+    desired = stats[4].values()
+
+    x_axis = np.arange(len(x))
+
+    plt.barh(x_axis - 0.2, exited, 0.4, label='Exited somewhere')
+    plt.barh(x_axis + 0.2, desired, 0.4, label='Exited at destination')
+
+    plt.yticks(x_axis, x)
+    plt.xlabel("Number of Passengers")
+    plt.title(f"Amount of people using the PRT: {stats[6]}\nAmount of people at their desired station: {stats[7]}")
+    plt.tight_layout()
+    plt.legend()
+    plt.show()
+
+
+
+
 if __name__ == '__main__':
     # set the logging defaults
     logging.basicConfig(format="%(levelname)s - %(message)s")
     # fix the seed
     random.seed(123)
 
-    TIME = 60 * 60 * 1
-
+    TIME = 60 * 60 * 4
 
     # Create the model
-    model = Network("networks/city.json", TIME, 50, 5)
+    model = Network("networks/city.json", TIME, 8640, 24)
     model.visualise("img/main.svg")
     # model = StationTest()
 
@@ -42,6 +63,8 @@ if __name__ == '__main__':
     sim.simulate()
     logging.debug("GENERAL: finishing the simulation")
 
-    print_stats(model.statistics())
+    stats = model.statistics()
+    print_stats(stats)
+    plot_statistics(stats)
 
     # network = Network(path="networks/city.json")

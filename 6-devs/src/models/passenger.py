@@ -25,8 +25,6 @@ class Passenger:
     destination: str
     lines: dict[str, list[str]]
 
-    used_trolley = None
+    used_trolley: Optional[str] = None
     departed_at: Optional[float] = None
     arrived_at: Optional[float] = None
-
-

@@ -2,9 +2,9 @@ from dataclasses import dataclass, field
 from models.passenger import Passenger
 
 
-
 @dataclass
 class Trolley:
+    name: str
     velocity: int
     line: str
     passengers: [Passenger]

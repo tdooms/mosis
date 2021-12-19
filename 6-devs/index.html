@@ -59,7 +59,10 @@
                             <li>
                                 <p>
                                     Capacity of the trolley over time is interpreted as amount of passengers in the
-                                    trolley as the capacity of the trolley would just be a flat line.
+                                    trolley as the capacity of the trolley would just be a flat line. We measure this at
+                                    every possible timestep and not only when the trolley in departing. Combined with
+                                    the fact that the trollies spend most of their time at stations, half-empty this
+                                    value may be lower than expected.
                                 </p>
                             </li>
                             <li>
@@ -67,6 +70,13 @@
                                     We don't have any special logic for passengers that have an unreachable destination,
                                     they will just wait indefinitely.
                                 </p>
+                            </li>
+                            <li>
+                                Furthermore, when no passengers are available at a station to fill the trolley,
+                                the trolley stays waits there until full no matter what. This makes some travel times
+                                longer than expected. Stations served by multiple lines will have trollies wait quite
+                                long (as there may be fewer passengers with the destination on that line). Which blocks
+                                the other trollies in the system.
                             </li>
                         </ul>
                     </section>

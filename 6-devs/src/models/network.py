@@ -1,3 +1,5 @@
+import math
+
 import graphviz
 from pypdevs.DEVS import CoupledDEVS
 
@@ -29,7 +31,7 @@ class Network(CoupledDEVS):
             for name in destinations:
                 reachables[name] = destinations
 
-        self.trollies = {t_data.location: Trolley(t_data.velocity, t_data.line, [], t_data.capacity)
+        self.trollies = {t_data.location: Trolley(t_data.name, t_data.velocity, t_data.line, [], t_data.capacity)
                          for t_data in data.trollies}
 
         self.stations = {s_data.name:
@@ -77,22 +79,33 @@ class Network(CoupledDEVS):
         station_eq = {name: stat.collector.dest_eq_origin for name, stat in all_stats.items()}
 
         all_arrived = sum(station_arrived.values())
-        all_avg = sum(station_weighted_avg.values()) / all_arrived
+        all_avg = sum(station_weighted_avg.values()) / all_arrived if all_arrived else 0
         all_desired = sum(station_desired.values())
         all_eq = sum(station_eq.values())
 
         all_generated = sum([s.generator for s in all_stats.values()])
         all_still_travelling = all_generated - all_arrived
 
-        hist_buckets = [[[0] * self.small_buckets] for _ in self.trollies]
-        sbs = self.sim_length / self.small_buckets
+        all_psgrs = [psgr for station in self.stations.values() for psgr in station.passengers()]
+        all_trollies = {psgr.used_trolley for psgr in all_psgrs}
 
-        # for psgr in [psgr for station in self.stations.values() for psgr in station.passengers()]:
-        #     for i in range(int(psgr.departed_at // sbs), int(psgr.arrived_at // sbs)):
-        #         hist_buckets[psgr.used_trolley][i] += 1
-        # trolley_avg = sum(hist_buckets) / self.small_buckets
+        small_hists = {trolley: [0] * self.small_buckets for trolley in all_trollies}
+        summary_hists = {trolley: [0] * self.summary_buckets for trolley in all_trollies}
 
-        return [all_avg, 0, 0, station_arrived, station_desired, station_avg, all_arrived,
+        small_bs = self.sim_length / self.small_buckets
+        relative_bs = self.small_buckets / self.summary_buckets
+
+        for psgr in all_psgrs:
+            for i in range(int(psgr.departed_at // small_bs), int(psgr.arrived_at // small_bs)):
+                small_hists[psgr.used_trolley][i] += 1
+
+        for tr_id, hist in small_hists.items():
+            for i in range(len(hist)):
+                summary_hists[tr_id][math.floor(i / relative_bs)] += (hist[i] / relative_bs)
+
+        trolley_avg = {name: sum(hist) / self.small_buckets for name, hist in small_hists.items()}
+
+        return [all_avg, summary_hists, trolley_avg, station_arrived, station_desired, station_avg, all_arrived,
                 all_desired, all_still_travelling, all_eq]
 
     def visualise(self, path: str):

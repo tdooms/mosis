@@ -14,7 +14,7 @@ class Track(AtomicDEVS):
 
         # Set all the delays!
         self.waits = {
-            "none": 1,  # Wait 1 second between each light poll
+            "none": 10,  # Wait 10 second between each light poll
             "arriving": arriving_delay,
             "unboarding": unboarding_delay,
             "boarding": boarding_delay,
@@ -77,7 +77,7 @@ class Track(AtomicDEVS):
             assert len(self.state[1].passengers) <= self.state[1].capacity
             # assert inputs[self.board].destination in inputs[self.board].lines[self.state[1].line]
             passenger = inputs[self.board]
-            passenger.used_trolley = id(self.state[1])
+            passenger.used_trolley = self.state[1].name
             self.state[1].passengers.append(passenger)
         elif self.dequeue_trolley:
             logging.debug("TRACK: a trolley is arriving")

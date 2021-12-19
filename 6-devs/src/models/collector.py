@@ -35,13 +35,15 @@ class Collector(AtomicDEVS):
         return float("inf")
 
     def statistics(self) -> CollectorStatistics:
-        try:
-            avg_time = sum([p.arrived_at - p.departed_at for p in self.state["passengers"]]) / len(self.state["passengers"])
-        except:
+        passengers = self.state["passengers"]
+        if len(passengers) > 0:
+            avg_time = sum([p.arrived_at - p.departed_at for p in passengers]) / len(passengers)
+        else:
             avg_time = 0
-        amt_exited = len(self.state["passengers"])
-        amt_desired = len([p for p in self.state["passengers"] if self.origin == p.destination])
-        dest_eq = len([p for p in self.state["passengers"] if self.origin == p.origin])
+
+        amt_exited = len(passengers)
+        amt_desired = len([p for p in passengers if self.origin == p.destination])
+        dest_eq = len([p for p in passengers if self.origin == p.origin])
 
         return CollectorStatistics(avg_time, amt_exited, amt_desired, dest_eq)
 
