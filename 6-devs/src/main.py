@@ -22,23 +22,43 @@ def print_stats(stats):
 
 
 def plot_statistics(stats):
-    x = stats[3].keys()
-    exited = stats[3].values()
-    desired = stats[4].values()
+    def reset_plot():
+        plt.clf()
+        plt.cla()
+        plt.close()
 
+    # Exited stats
+    x = stats[3].keys()
     x_axis = np.arange(len(x))
 
-    plt.barh(x_axis - 0.2, exited, 0.4, label='Exited somewhere')
-    plt.barh(x_axis + 0.2, desired, 0.4, label='Exited at destination')
+    plt.barh(x_axis - 0.2, stats[3].values(), 0.4, label='Exited somewhere')
+    plt.barh(x_axis + 0.2, stats[4].values(), 0.4, label='Exited at destination')
 
     plt.yticks(x_axis, x)
     plt.xlabel("Number of Passengers")
     plt.title(f"Amount of people using the PRT: {stats[6]}\nAmount of people at their desired station: {stats[7]}")
     plt.tight_layout()
     plt.legend()
-    plt.show()
+    plt.savefig('img/stats/exited.png')
 
+    reset_plot()
 
+    # Avg time stats
+    plt.barh(list(stats[5].keys()), list(stats[5].values()))
+    plt.ylabel("Number of Passengers")
+    plt.title(f"Average travel time of people; {stats[0]:.2f}")
+    plt.tight_layout()
+    plt.legend()
+    plt.savefig('img/stats/avg.png')
+
+    reset_plot()
+
+    for trolley, values in stats[1].items():
+        plt.plot(list(range(len(values))), values, linestyle='-', label=f"{trolley}, avg: {stats[2][trolley]:.2f}")
+    plt.ylabel("Passengers in trolley")
+    plt.title("trolley capacities over time")
+    plt.legend()
+    plt.savefig('img/stats/fullness.png')
 
 
 if __name__ == '__main__':
