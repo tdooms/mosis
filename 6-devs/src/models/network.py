@@ -26,6 +26,7 @@ class Network(CoupledDEVS):
                     reachables[station] = list(set(reachables[station]).union(line))
             # We remove the station itself from the destinations as stated in the assignment
             for name in destinations:
+                reachables[name].sort()
                 reachables[name].remove(name)
         else:
             for name in destinations:

@@ -21,7 +21,7 @@ def print_stats(stats):
     print("10. Number of people with a destination that equals their origin station: ", stats[9])
 
 
-def plot_statistics(stats):
+def plot_statistics(stats, extension):
     def reset_plot():
         plt.clf()
         plt.cla()
@@ -39,7 +39,7 @@ def plot_statistics(stats):
     plt.title(f"Amount of people using the PRT: {stats[6]}\nAmount of people at their desired station: {stats[7]}")
     plt.tight_layout()
     plt.legend()
-    plt.savefig('img/stats/exited.png')
+    plt.savefig(f'img/stats/exited{extension}.png')
 
     reset_plot()
 
@@ -49,7 +49,7 @@ def plot_statistics(stats):
     plt.title(f"Average travel time of people; {stats[0]:.2f}")
     plt.tight_layout()
     plt.legend()
-    plt.savefig('img/stats/avg.png')
+    plt.savefig(f'img/stats/avg{extension}.png')
 
     reset_plot()
 
@@ -58,19 +58,20 @@ def plot_statistics(stats):
     plt.ylabel("Passengers in trolley")
     plt.title("trolley capacities over time")
     plt.legend()
-    plt.savefig('img/stats/fullness.png')
+    plt.savefig(f'img/stats/fullness{extension}.png')
 
 
 if __name__ == '__main__':
     # set the logging defaults
     logging.basicConfig(format="%(levelname)s - %(message)s")
     # fix the seed
-    random.seed(123)
+    seed = 123
+    random.seed(seed)
 
-    TIME = 60 * 60 * 4
+    TIME = 60 * 60 * 24
 
     # Create the model
-    model = Network("networks/city.json", TIME, 8640, 24)
+    model = Network("networks/city.json", TIME, 8640, 24, 123)
     model.visualise("img/main.svg")
     # model = StationTest()
 
@@ -85,6 +86,6 @@ if __name__ == '__main__':
 
     stats = model.statistics()
     print_stats(stats)
-    plot_statistics(stats)
+    plot_statistics(stats, f"-random-{seed}")
 
     # network = Network(path="networks/city.json")

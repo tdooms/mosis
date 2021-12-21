@@ -6,7 +6,7 @@ from models.passenger import Passenger
 
 
 class Generator(AtomicDEVS):
-    def __init__(self, origin: str, destinations: list[str], lines: dict[str, list[str]], mu, sigma, ):
+    def __init__(self, origin: str, destinations: list[str], lines: dict[str, list[str]], mu, sigma):
         """
         @lines:         dictionary of line number to ordered list of stations on that line
                         e.g. line 2 -> [station 0, 4, 5], line 5 -> [station 2, 3, 0]
