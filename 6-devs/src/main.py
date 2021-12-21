@@ -71,7 +71,7 @@ if __name__ == '__main__':
     TIME = 60 * 60 * 24
 
     # Create the model
-    model = Network("networks/city.json", TIME, 8640, 24, 123)
+    model = Network("networks/city.json", TIME, 8640, 24)
     model.visualise("img/main.svg")
     # model = StationTest()
 
