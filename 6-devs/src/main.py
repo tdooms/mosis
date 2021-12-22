@@ -63,15 +63,16 @@ def plot_statistics(stats, extension):
 
 if __name__ == '__main__':
     # set the logging defaults
-    logging.basicConfig(format="%(levelname)s - %(message)s")
+    logging.basicConfig(format="%(levelname)s - %(message)s", level=logging.CRITICAL)
     # fix the seed
     seed = 123
     random.seed(seed)
 
-    TIME = 60 * 60 * 24
+    HOURS = 24
+    TIME = 60 * 60 * HOURS
 
     # Create the model
-    model = Network("networks/city.json", TIME, 8640, 24)
+    model = Network("networks/city.json", TIME, 60*HOURS, HOURS)
     model.visualise("img/main.svg")
     # model = StationTest()
 

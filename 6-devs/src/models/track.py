@@ -71,14 +71,18 @@ class Track(AtomicDEVS):
         return self.state
 
     def extTransition(self, inputs):
-        if self.board in inputs:
+        if self.board in inputs and inputs[self.board] is None:
+            logging.debug("TRACK: departing due to a lack of waiting passengers")
+            self.state[0] = "departing"
+
+        elif self.board in inputs:
             logging.debug("TRACK: boarded passenger")
             assert self.state[0] == "boarding"
             assert len(self.state[1].passengers) <= self.state[1].capacity
-            # assert inputs[self.board].destination in inputs[self.board].lines[self.state[1].line]
             passenger = inputs[self.board]
             passenger.used_trolley = self.state[1].name
             self.state[1].passengers.append(passenger)
+
         elif self.dequeue_trolley:
             logging.debug("TRACK: a trolley is arriving")
             assert self.state[0] == "none"

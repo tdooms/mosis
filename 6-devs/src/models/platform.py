@@ -23,7 +23,9 @@ class Platform(AtomicDEVS):
 
         candidates = self.__passenger_indices(self.state["requested"])
         self.state["requested"] = None
-        self.state["queue"].pop(candidates[0])
+
+        if len(self.state["queue"]) > 0:
+            self.state["queue"].pop(candidates[0])
 
         return self.state
 
@@ -32,7 +34,7 @@ class Platform(AtomicDEVS):
 
         # Set the request variable in the state
         line = inputs[self.request_passenger] if self.request_passenger in inputs else None
-        if line is not None and self.__passenger_indices(line):
+        if line is not None:
             logging.debug("PLATFORM: received request with waiting passengers")
             self.state["requested"] = line
 
@@ -48,8 +50,14 @@ class Platform(AtomicDEVS):
     def outputFnc(self):
         assert self.state["requested"] is not None
         candidates = self.__passenger_indices(self.state["requested"])
-        assert len(candidates), "candidates list must not be empty, this must be checked beforehand"
-        candidate = self.state["queue"][candidates[0]]
-        candidate.departed_at = self.state["time"]
-        logging.debug("PLATFORM: boarding passengers")
+
+        if len(candidates) > 0:
+            candidate = self.state["queue"][candidates[0]]
+            candidate.departed_at = self.state["time"]
+            logging.debug("PLATFORM: boarding passengers")
+        else:
+            candidate = None
+            logging.debug("PLATFORM: no more passengers to board")
+
         return {self.board: candidate}
+

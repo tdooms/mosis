@@ -12,7 +12,7 @@
     {"name": "main", "stations": ["start", "end"]}
   ],
   "trollies": [
-    {"velocity": 20, "location": "start", "line": "main"},
-    {"velocity": 80, "location": "end", "line": "main"}
+    {"name": "slow trolley", "velocity": 20, "location": "start", "line": "main"},
+    {"name": "fast trolley", "velocity": 80, "location": "end", "line": "main"}
   ]
 }
