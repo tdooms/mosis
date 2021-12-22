@@ -236,3 +236,9 @@ cython_debug/
 *.zip
 5-statecharts/srcgen
 
+/3-cbd/convert/derivator_experiment.py
+/3-cbd/convert/derivator.py
+/3-cbd/convert/integrator.py
+/3-cbd/convert/integrator_experiment.py
+/6-devs/img/main.gv
+/6-devs/img/main.svg
