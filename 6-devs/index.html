@@ -73,10 +73,13 @@
                             </li>
                             <li>
                                 <p>Furthermore, when no passengers are available at a station to fill the trolley,
-                                the trolley stays waits there until full no matter what. This makes some travel times
-                                longer than expected. Stations served by multiple lines will have trollies wait quite
-                                long (as there may be fewer passengers with the destination on that line). Which blocks
-                                the other trollies in the system. </p>
+                                    the trolley stays waits there until full no matter what. This makes some travel
+                                    times
+                                    longer than expected. Stations served by multiple lines will have trollies wait
+                                    quite
+                                    long (as there may be fewer passengers with the destination on that line). Which
+                                    blocks
+                                    the other trollies in the system. </p>
                             </li>
                             <li>
                                 <p>
@@ -277,10 +280,12 @@
                         <ul>
                             <li> Go over every passenger in the trolley for every unboard trigger and find someone
                                 either by luck or desired exit. This has the issue that the first passenger in the list
-                                has a way higher chance to exit wrongfully as the 20% is calculated multiple times.</li>
+                                has a way higher chance to exit wrongfully as the 20% is calculated multiple times.
+                            </li>
                             <li> Even if we do random sampling this isn't fair.</li>
                             <li>Calculating some combined probability of a random person exiting based on the amount of
-                                people also isn't correct as it doesn't allow for multiple wrong exits.</li>
+                                people also isn't correct as it doesn't allow for multiple wrong exits.
+                            </li>
                             <li>Our last option is precalculate the list and keep it around as some kind of temporary
                                 state. This is far from elegant but it works. the list of passengers to exit is in
                                 state[2] and the current index of which passenger we are at is in state[3]. We need to
@@ -372,7 +377,7 @@
                             In order to represent the network, we've chosen to employ the JSON format. This is because
                             we thought this would the most light-weight format to create a flexible solution of modeling
                             the rail network. In the next paragraphs we'll discuss the format of the JSON and then the
-                            code that is used to interpret this JSON. The json for the network described int assignment
+                            code that is used to interpret this JSON. The JSON for the network described int assignment
                             can be found <a href="networks/city.json">here</a>. The network hasn't undergone many big
                             transformations, if there is a transformation that is worth of mentioning, we will do this
                             in the JSON format part.
@@ -397,14 +402,20 @@
                         <img src="img/json/rails.png" alt=""/>
                         <p>
                             Now, we have the rails list. This contains a list of all the possible rails in the model.
-                            Each entry contains the length, the start station/junction name and the end station/junction
-                            name. You can see that sometimes we define the start_port and the end_port. This needs only
-                            to be done when we depart from a station and arrive in a junction, this is so it knows which
-                            output from the station or input from the junction it has to connect to.
+                            Each entry contains the name, length, the start station/junction name and the end
+                            station/junction name. You can see that sometimes we define the start_port and the end_port.
+                            This needs only to be done when we depart from a station and arrive in a junction, this is
+                            so it knows which output from the station or input from the junction it has to connect to.
+                        </p>
+                        <img src="img/json/meta.png" alt=""/>
+                        <p>
+                            This value can be set so that passengers generated at a station can have a destination that
+                            is this station or a station that is not located on the station's on the line. So if it is
+                            true only the stations that do not have those parameters can be chosen.
                         </p>
                         <img src="img/json/lines.png" alt=""/>
                         <p>
-                            Following the rails list, we have the lines. The lines are again a list. We first have the
+                            Following the meta element, we have the lines. The lines are again a list. We first have the
                             name (or colorin our case) of the line and then all the stations that it contains.
                         </p>
                         <img src="img/json/trollies.png" alt=""/>
@@ -448,18 +459,310 @@
                     </section>
                     <section>
                         <h2>Part 4: Statistics</h2>
+                        <ol>
+                            <li><p>Average travel time of a passenger.</p></li>
+                            <li><p>For each trolley, a summarized overview of trolley capacity over time.</p></li>
+                            <li><p>For each trolley, the time-average trolley capacity.</p></li>
+                            <li><p>For each station, the amount of people that have exited at that station.</p></li>
+                            <li><p>For each station, the amount of people that have exited at their desired
+                                destination.</p>
+                            </li>
+                            <li><p>For each station, the average travel time of people that have exited at that
+                                station.</p>
+                            </li>
+                            <li><p>Total amount of people that have traveled over the PRT.</p></li>
+                            <li><p>Number of people that have successfully arrived at their desired destination.</p>
+                            </li>
+                            <li><p>Number of people still commuting when the experiment terminates. For us this would
+                                be the passengers that are generated minus the passengers that arrived.</p></li>
+                            <li><p>Number of people with a destination that equals their origin station.</p></li>
+                        </ol>
+                        <p>
+                            We used all the collectors which collect statistics. This is so that we can create a
+                            complete image of the statistics mentioned in the assignment. The gathered statistics are
+                            listed above.
+                        </p>
+                        <img src="img/statistics/create-stats.png" alt=""/>
+                        <p>
+                            In order to process all the statistics, we used the model Network (this is the top-level
+                            DEVS) to do this. The function we used to build all the different stats is described in
+                            the function statistics (pictured above). First, we generate all the statistics per station.
+                            Then we divide the statistics per station into different sub-stats, this is so we can
+                            process them later. Next, we calculate how many arrived at a station, how long it took a
+                            passenger to pass through the network, how many arrived at their desired destination and
+                            all the ones that arrived at the same station as they departed. We also keep track of the
+                            total amount of passengers that where generated, as well as the passengers that are still
+                            travelling at the moment the simulation is stopped. These are the passengers that have not
+                            yet arrived. We then list all the different passengers at a specific station, because the
+                            passengers themselves also contain statistics. We also keep all the trolleys that were used
+                            over the course of time.
+                        </p>
+                        <p>
+                            In order to visualize the data we used a bucket approach, so we gathered certain data into
+                            buckets. We create per trolley 2 types of histograms, the first contains a small amount of
+                            buckets and the other the summary buckets (which is just a smaller amount of buckets). We
+                            first calculate the size of the small buckets and then calculate relative bucket size by
+                            dividing the amount of small buckets by the amount of summary buckets. Then we try to put
+                            all the passengers in a bucket according to their travel time, this bucket is the same as
+                            the trolley they used in the simulation. Next we update the summary histograms by using the
+                            small histograms. We do this by using the relative bucket size to get the correct summary
+                            bucket. Subsequently, we use a weighted value of the summary bucket. Lastly, we calculate
+                            the average amount of passengers present in a certain trolley.
+                        </p>
+                        <p>
+                            It is important to notice that the small bucket size is fixed to 8640, which is one bucket
+                            per 10s of simulation time. The amount of summary buckets is 24, which is the same as the
+                            hours the simulation will run.
+                        </p>
                     </section>
                     <section>
                         <h2>Part 5: Simulation</h2>
+                        <p>
+                            We will divide this simulation part in 2. This is because we change parameters between the
+                            two different simulations. For each simulation we perform 2 runs, the first run has seed 123
+                            and the other run has 321. These are set in <a href="src/main.py">main.py</a>.
+                        </p>
+                        <h4>All 50</h4>
+                        <img src="img/simulation/stations-same-speed.png" alt=""/>
+                        <img src="img/simulation/stations-same-speed-json.png" alt=""/>
+                        <p>
+                            We first need to pick all the stations that are only served by one line in order to pick
+                            start positions for the trolleys. The image above shows the chosen stations, the picture
+                            right below it, shows how it is encoded in the json. We can notice that the speed is not
+                            equal to 50, this is because the speed in our system is in m/s. Which gives 14.89 if we
+                            round this.
+                        </p>
+                        <ol>
+                            <li>
+                                <p>
+                                    The average travel time of a passenger is somewhat more than 10 minutes, which is
+                                    a little slow considering that the maximum speed of a trolley is 50 km/h. An
+                                    explanation to this occurrence is the fact that we have a bottleneck in our system
+                                    at Harel Cross and Zeigler Circus, where the trolley's try to join/split their
+                                    paths.
+                                </p>
+                            </li>
+                            <li>
+                                <img src="img/stats/all-50/fullness-random-123.png" alt=""/>
+                                <img src="img/stats/all-50/fullness-random-321.png" alt=""/>
+                                <p>
+                                    The summarized overview of the trolley's fullness over the course of time is logged,
+                                    if we only would look at the capacity over time, we would see a constant line. Some
+                                    trolleys have clearly a higher load over the course of the simulation, which could
+                                    indicate that there are too many trolleys which try to handle the system. We see
+                                    this in both fullness charts.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    The average capacity (or fullness as we say it) for the trolleys can be found in the
+                                    charts shown above. We see that the average capacity is rather on the low side, this
+                                    could be due to the fact that the network is overcrowded with trolleys.
+                                </p>
+                            </li>
+                            <li>
+                                <p></p>
+                                <img src="img/stats/all-50/exited-random-123.png" alt=""/>
+                                <img src="img/stats/all-50/exited-random-321.png" alt=""/>
+                                <p>
+                                    For this statistic we only need to look at the blue histogram. We see that there are
+                                    significantly more passengers that stepped of the Zeigler Circus and the Harel
+                                    Cross station. This is because those stations are served by three different lines.
+                                    There are slight dips at Petri's Palace and Model Station North. This can be
+                                    explained by the fact that the blue line is significantly shorter and thus generates
+                                    fewer passengers over all.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    We now need to look at the orange part of the barchart. We can see that a
+                                    significant portion of the passengers got confused and stepped of at the wrong
+                                    station. This is mostly due to the fact that at each station we have a 20% chance of
+                                    stepping of wrongly, this of course makes it over time less and less likely that the
+                                    passenger gets of at the right station. e.g. for 2 stations away this chance of
+                                    stepping right of becomes only 64%. We see that the distribution of the
+                                    passengers that left at the right station corresponds more or less to the previous
+                                    chart.
+                                </p>
+                            </li>
+                            <li>
+                                <img src="img/stats/all-50/avg-random-123.png" alt=""/>
+                                <img src="img/stats/all-50/avg-random-321.png" alt=""/>
+                                <p>
+                                    There is one significant outlier in this data and that is the Forrester gardens
+                                    station. We travel on average more than 700 seconds to this station. This is
+                                    because this station has the longest distance (5 km) when we look at it on the map.
+                                    Another striking stat has to do with Harel Cross. This travel time is a little
+                                    longer than the rest. This has obviously to do with the fact that there are a lot of
+                                    trolleys on that part of the network
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    The total amount of people that have travelled over the PRT when we ran seed 123,
+                                    were 1654 and with the other seed, 1689. The variation lies within the random
+                                    generation parameters. If we take into consideration that there are others still
+                                    waiting for a trolley and still commuting this amount would be alright, for the
+                                    expected total amount of people that would be generated.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    The amount that arrived at their desired station is significantly lower. This is
+                                    around 1170, which is around the 70% of 1670. This could be explained by the random
+                                    step-off of a passenger. If we travelled for an average of 2 stations and take the
+                                    weighted average for the amount of trollies. We also don't need to forget that the
+                                    further our station is from the destination the lower the change is of arriving at
+                                    that station. Calculating this lies outside the scope of this assignment.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    The amount of people still commuting when the experiments ended are quite high,
+                                    1250 and 1195. This is because they haven't been picked up at some point in time.
+                                    These could be in trollies or waiting at stations. A possible explanation is that
+                                    the generation of all the passengers happens too quickly, every 300s there is a
+                                    passenger generated at a station. Given that we have an average travel time of 700
+                                    this could easily explain the 100+ passengers at each station.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    The number of people that exited at the same destination station as their departure
+                                    station is 110 and 142, which is quite low, considering the amount of total
+                                    passengers traveling the network. This is so low because they need to step on the
+                                    trolley and wait every station on that line before they can get off. We have a
+                                    random step-off of 20% and a ceiled 'average' of 4 stations before getting to their
+                                    initial station. Calculating the chance that we step of at the right station gives
+                                    us 41%.
+                                </p>
+                            </li>
+                        </ol>
+                        <h4>Half 50, other half 25</h4>
+                        <img src="img/simulation/stations-different-speed.png" alt=""/>
+                        <p>
+                            We already decided which stations only serve one line, now it is a matter of dividing the
+                            trolleys with different speeds equally. We did this as the image above. Because the red and
+                            the yellow line don't have an even number of single line stations, we tried to divide the
+                            slow and fast speed trolleys equally among them. In the image above the blue trolleys have
+                            a speed of 25 km/h (~7.44 m/s) and the red 50 km/h. The corresponding JSON can be found
+                            right below that image.
+                        </p>
+                        <p>
+
+                        </p>
+                        <ol>
+                            <li>
+                                <p>
+                                    With an average travel time of 982 and 980, we can see that the travel time has
+                                    increased significantly. This is with 360 seconds or 6 minutes. This has definitely
+                                    something to do with the slower trollies travelling over the network. Which slow
+                                    down the faster trollies.
+                                </p>
+                            </li>
+                            <li>
+                                <img src="img/stats/half-50-half-25/fullness-random-123.png" alt=""/>
+                                <img src="img/stats/half-50-half-25/fullness-random-321.png" alt=""/>
+                                <p>
+                                    The summarized overview of the trolley fullness over time has not changed too much,
+                                    but the used capacity of some trollies has increased significantly.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    We clearly can see that the most used trollies have averages that are higher than
+                                    before as indicated in the charts above.
+                                </p>
+                            </li>
+                            <li>
+                                <img src="img/stats/half-50-half-25/exited-random-123.png" alt=""/>
+                                <img src="img/stats/half-50-half-25/exited-random-321.png" alt=""/>
+                                <p>
+                                    This barchart, more specific the blue part, hasn't changed too much because we still
+                                    have the same bottlenecks and changing the speed of the trollies won't change much
+                                    to the model.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    The same counts for the orange bars, which are again percentages of the total exits
+                                    of passengers.
+                                </p>
+                            </li>
+                            <li>
+                                <img src="img/stats/half-50-half-25/avg-random-123.png" alt=""/>
+                                <img src="img/stats/half-50-half-25/avg-random-321.png" alt=""/>
+                                <p>
+                                    Again we see nothing too abnormal regarding the average travel time of people that
+                                    have exited at a station. The only thing is that their times have increased. This
+                                    can be seen in the charts above.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    The total amount of people that travelled the PRT is almost exactly the same with
+                                    1659 and 1695. This is because there are few trollies doing the work and not a ton
+                                    has changed to the distribution of the trollies over the whole network.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    Given the previous result this number also hasn't changed, because again the PRT
+                                    system didn't become longer or something else. This is for seed 123, 1147, and for
+                                    seed 321, 1189.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    The number of people still commuting when the experiment terminates equals 1195
+                                    and 1218 for both systems. This lies within the margin of error of the previous
+                                    simulation set.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    134 and 120 are the numbers that correspond to the people that stepped of at the
+                                    same station that they arrived at. This isn't much of a change since the previous
+                                    time we ran the experiments.
+                                </p>
+                            </li>
+                        </ol>
                     </section>
                     <section>
                         <h2>Part 6: Only reachable stations fix</h2>
+                        <p>
+                            We again will fix the seeds in order to get no difference in relation to the generation of
+                            the randomness. We need to set meta.only_reachable to true instead of false to get the
+                            correct type of simulation.
+                        </p>
+                        <p>
+
+                        </p>
                     </section>
                     <section>
                         <h2>Part 7: Optimizing the values</h2>
+                        <p>
+                            In order to get an optimal network we played around with some values by logical reasoning.
+                            This is because it was easier to do it that way, and doesn't waste computational resources.
+                        </p>
                     </section>
                     <section>
                         <h2>Part 8: Prove non-random model validity</h2>
+                        <p>
+                            In order to get a proof of the non-random model, we first need to check if the randomness
+                            truly has been removed from the model. We do this by performing 2 simulation runs with
+                            different seeds on the original model.
+                        </p>
+                        <p>
+                            We see that both simulation runs are similar. Because working on the original rail-network
+                            requires too much work, we will simplify the model. We do this by reducing the amount of
+                            stations, and remove one of the lines, namely the blue line, this is because we only need to
+                            have one of each of the different types of the model. We also remove some more stations. All
+                            of these changes can be seen in the picture above.
+                        </p>
+                        <p>
+
+                        </p>
                     </section>
                 </div>
             </div>

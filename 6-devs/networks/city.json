@@ -218,49 +218,49 @@
   "trollies": [
     {
       "name": "1",
-      "velocity": 50,
+      "velocity": 7.44,
       "location": "Model Station South",
       "line": "red"
     },
     {
       "name": "2",
-      "velocity": 50,
+      "velocity": 14.89,
       "location": "Turing Station",
       "line": "red"
     },
     {
       "name": "3",
-      "velocity": 50,
+      "velocity": 7.44,
       "location": "Museum of Informatics",
       "line": "red"
     },
     {
       "name": "4",
-      "velocity": 50,
+      "velocity": 14.89,
       "location": "Petri's Palace",
       "line": "blue"
     },
     {
       "name": "5",
-      "velocity": 50,
+      "velocity": 7.44,
       "location": "Model Station North",
       "line": "blue"
     },
     {
       "name": "6",
-      "velocity": 50,
+      "velocity": 14.89,
       "location": "Forrester Gardens",
       "line": "yellow"
     },
     {
       "name": "7",
-      "velocity": 50,
+      "velocity": 7.44,
       "location": "University Square",
       "line": "yellow"
     },
     {
       "name": "8",
-      "velocity": 50,
+      "velocity": 14.89,
       "location": "Moore's Moor",
       "line": "yellow"
     }

@@ -63,7 +63,7 @@ def plot_statistics(stats, extension):
 
 if __name__ == '__main__':
     # set the logging defaults
-    logging.basicConfig(format="%(levelname)s - %(message)s", level=logging.CRITICAL)
+    logging.basicConfig(format="%(levelname)s - %(message)s")
     # fix the seed
     seed = 123
     random.seed(seed)

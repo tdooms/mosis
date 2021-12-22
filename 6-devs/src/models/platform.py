@@ -16,7 +16,7 @@ class Platform(AtomicDEVS):
         self.origin = origin
 
     def __passenger_indices(self, line):
-        return [idx for idx, psgr in enumerate(self.state["queue"]) if self.origin in psgr.lines[line]]
+        return [idx for idx, psgr in enumerate(self.state["queue"]) if psgr.destination in psgr.lines[line]]
 
     def intTransition(self):
         self.state["time"] += self.timeAdvance()
@@ -24,7 +24,7 @@ class Platform(AtomicDEVS):
         candidates = self.__passenger_indices(self.state["requested"])
         self.state["requested"] = None
 
-        if len(self.state["queue"]) > 0:
+        if len(candidates) > 0:
             self.state["queue"].pop(candidates[0])
 
         return self.state
