@@ -65,7 +65,7 @@ if __name__ == '__main__':
     # set the logging defaults
     logging.basicConfig(format="%(levelname)s - %(message)s")
     # fix the seed
-    seed = 123
+    seed = 321
     random.seed(seed)
 
     HOURS = 24

@@ -620,10 +620,9 @@
                                 <p>
                                     The amount of people still commuting when the experiments ended are quite high,
                                     1250 and 1195. This is because they haven't been picked up at some point in time.
-                                    These could be in trollies or waiting at stations. A possible explanation is that
-                                    the generation of all the passengers happens too quickly, every 300s there is a
-                                    passenger generated at a station. Given that we have an average travel time of 700
-                                    this could easily explain the 100+ passengers at each station.
+                                    These passengers could be in trollies, waiting at stations. The fact that there are
+                                    a lot of passengers that can't reach their destination, because their line doesn't
+                                    reach that place makes this number so high.
                                 </p>
                             </li>
                             <li>
@@ -729,15 +728,110 @@
                         </ol>
                     </section>
                     <section>
-                        <h2>Part 6: Only reachable stations fix</h2>
+                        <h2>Part 6: Only reachable stations</h2>
                         <p>
                             We again will fix the seeds in order to get no difference in relation to the generation of
-                            the randomness. We need to set meta.only_reachable to true instead of false to get the
-                            correct type of simulation.
+                            the randomness of the passenger generation. We need to set meta.only_reachable to true
+                            instead of false to get the correct type of simulation. For this simulation we chose only to
+                            run the simulation with the same configuration as the first simulation we ran. This gives us
+                            a good point of reference to compare against.
                         </p>
                         <p>
-
+                            We need a total of 3% of the passengers to step of at the wrong station, taking 3% for the
+                            random unboard would yield too large numbers since the weighted average of the number of
+                            stations a passenger would travel equals to 1.9% (= (2 (avg yellow line) * 3 + 2 (avg red
+                            line) * 3 + 1.5 (avg blue line) * 2)/8). This of course isn't a perfect approximation, but
+                            should work well enough.
                         </p>
+                        <img src="img/non-random/reachable_calculation.png" alt="">
+                        <p>
+                            In order to simplify and ease the process of generating passengers with the right station
+                            we chose for an automated approach. In the file <a
+                                href="src/models/network.py">network.py</a> we wrote some code that is also shown above.
+                            We first go over all the station in each line all the stations, to create a reachables list
+                            for that station. In order to account for stations that have multiple lines we also add a
+                            union of the stations on that line to the reachables of that station. To close this short
+                            algorithm off, we remove all the station names of the stations that are in the list
+                            themselves. This is done because of the constraint that passengers can't go to stations that
+                            are themselves. We sort this list because of the non-determinism of sets in python.
+                        </p>
+                        <ol>
+                            <li>
+                                <p>
+                                    The average travel time is longer than the first simulation (~12min), this could be
+                                    because more passengers are correctly generated and picked up.
+                                </p>
+                            </li>
+                            <li>
+                                <img src="img/stats/non-random/fullness-random-123.png" alt=""/>
+                                <img src="img/stats/non-random/fullness-random-321.png" alt=""/>
+                                <p>
+                                    We can see more clearly that there are only 3 lines really serving the trolley
+                                    network, this is one trolley per line. This has the same explanation as previously.
+                                    The fact that the graphs are more distinct has to do with the fact that generation
+                                    of passengers is only passengers that can be picked up from that station. This
+                                    leaves little to no passengers for the next trolley to pick up.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    This result is higher than the other simulation, because of the reason given in the
+                                    last paragraph.
+                                </p>
+                            </li>
+                            <li>
+                                <img src="img/stats/non-random/exited-random-123.png" alt=""/>
+                                <img src="img/stats/non-random/exited-random-321.png" alt=""/>
+                                <p>
+                                    Nothing changed to this result. Still the blue bars.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    If we look at the orange bars, we can see that they are closer to the blue bars.
+                                    This is because the chance of stepping of at the wrong station has been reduced to
+                                    3%. It is difficult to see what 3% should be, but it looks about right. We will
+                                    later check this result.
+                                </p>
+                            </li>
+                            <li>
+                                <img src="img/stats/non-random/avg-random-123.png" alt=""/>
+                                <img src="img/stats/non-random/avg-random-321.png" alt=""/>
+                                <p>
+                                    We see that the travel times for the stations only on the shortest line, have the
+                                    shortest travel times. There are 2 other stations that also have short travel times
+                                    and that are the stations Model Station South and University Square. This has to do
+                                    with them being quite out of reach of the bottleneck stations.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    The amount of people using the PRT has changed by a lot, 2814 and 2856. The reason
+                                    for this sudden increase, can be explained by the generation. We only generate
+                                    people that can travel some place which is on the line where the station they are
+                                    generated at.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    As a result, the number of people that have successfully arrived at their desired
+                                    station has also risen.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    Because we have a lot less of wrongly generated persons at stations, we have a lot
+                                    lower amount of people still traveling the PRT. This is 50 and 47.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    lastly we have also 0 people that have a destination that equals their origin
+                                    station, which is logically given the constraint for running this specific
+                                    simulation.
+                                </p>
+                            </li>
+                        </ol>
                     </section>
                     <section>
                         <h2>Part 7: Optimizing the values</h2>

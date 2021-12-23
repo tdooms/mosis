@@ -18,7 +18,7 @@ class StationData:
     departing_delay: float = 30
     generator_mu: float = 300
     generator_sigma: float = 60
-    random_unboard: float = 0.2
+    random_unboard: float = 0.019
 
 
 @dataclass

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "only_reachable": false
+    "only_reachable": true
   },
   "stations": [
     {
@@ -218,7 +218,7 @@
   "trollies": [
     {
       "name": "1",
-      "velocity": 7.44,
+      "velocity": 14.89,
       "location": "Model Station South",
       "line": "red"
     },
@@ -230,7 +230,7 @@
     },
     {
       "name": "3",
-      "velocity": 7.44,
+      "velocity": 14.89,
       "location": "Museum of Informatics",
       "line": "red"
     },
@@ -242,7 +242,7 @@
     },
     {
       "name": "5",
-      "velocity": 7.44,
+      "velocity": 14.89,
       "location": "Model Station North",
       "line": "blue"
     },
@@ -254,7 +254,7 @@
     },
     {
       "name": "7",
-      "velocity": 7.44,
+      "velocity": 14.89,
       "location": "University Square",
       "line": "yellow"
     },
