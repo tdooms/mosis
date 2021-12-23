@@ -838,7 +838,135 @@
                         <p>
                             In order to get an optimal network we played around with some values by logical reasoning.
                             This is because it was easier to do it that way, and doesn't waste computational resources.
+                            The list below showed the parameters that we thought, would be interesting to change.
                         </p>
+                        <ul>
+                            <li>
+                                <p>
+                                    Positioning of the trollies. This parameter influences how often the trollies
+                                    stop at each of the stations. We chose to start the red trolley at Turing Station,
+                                    because this looked transited first the whole yellow unique line before getting to
+                                    the bottleneck of the system. For the blue line we decided to start at Model Station
+                                    North, in order try to clear out the bottleneck before the other lines arrive. In
+                                    order to 'sync' the whole system, we put a trolley at Moore's Moor station for the
+                                    yellow line.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    Amount of trollies was set to 3. We saw in the statistics that only this amount of
+                                    trollies were used over the course of the simulation.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    Capacity of the trollies. This can be lowered, because we saw that the hourly
+                                    averages never exceeded 8, and lowering the amount of passengers could be better for
+                                    a PRT. Otherwise, it would just be a train.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    The boarding and unboarding delays, also have been shortened to 5s. Because it never
+                                    takes a typical passenger never more than 5 seconds to board or unboard. The only
+                                    case where this would exceed 5s is when we have a passenger that is handicapped, but
+                                    averages out over time.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    The halting times have also been decreased to 10s, why would a system wait more than
+                                    10s to depart. This also makes the system less prone to waiting too long at a
+                                    station without doing anything.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    We also chose to lower the junction transfer time to 30s, because it looks like a
+                                    big bottleneck in our system, and waiting 50s each time a trolley tries to pass is
+                                    a lot of time. This is when we look at the constant speed of the trollies that drive
+                                    this system.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    Last but not least, we also changed assured that there were no passengers generated
+                                    that couldn't reach their destination with a line at the current station.
+                                </p>
+                            </li>
+                        </ul>
+                        <p>
+                            When we run the simulation with those parameters, we can take a look at the improved
+                            statistics.
+                        </p>
+                        <ol>
+                            <li>
+                                <p>
+                                    The average travel time has dropped significantly. This has become 509s for the
+                                    first seed and 501s for the second seed. If we compare it to the non-random
+                                    average travel times, around 4 minutes faster.
+                                </p>
+                            </li>
+                            <li>
+                                <img src="img/stats/optimal/fullness-random-123.png" alt=""/>
+                                <img src="img/stats/optimal/fullness-random-321.png" alt=""/>
+                                <p>
+                                    As expected the trolleys are now better used than before, although one of the lines
+                                    does have a significant lower amount of passengers. The reason for this low chart
+                                    is that this line is shorter and travels through two of the most passed stations.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    We see that the trolley average capacity is a 1 person lower than 8, but these are
+                                    averages and getting a capacity close to 8 is difficult.
+                                </p>
+                            </li>
+                            <li>
+                                <img src="img/stats/optimal/exited-random-123.png" alt=""/>
+                                <img src="img/stats/optimal/exited-random-321.png" alt=""/>
+                                <p>
+                                    The amount of people that exited at that station are the same as before and couldn't
+                                    be further optimized. This has to do with the topology of the network itself.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    The same counts for orange bar in the chart.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    The travel times of passengers over the network haven't changed that much. Only the
+                                    values that are lower. We can also see that we have clear winners in travel time and
+                                    that are Petri's Palace, Model Station north (both part of the blue line) and
+                                    University Square (part of the yellow line). These are the same results as in the
+                                    non-random network.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    The total amount that travelled the network change too much.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    The same counts for the number of people that arrived at their desired destination.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    This is the only number that has risen, this is because there is only one trolley
+                                    per line. For the long line this is a limiting factor, since we have a lower
+                                    capacity.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    This is also 0 because of the parameter in meta we fixed to true.
+                                </p>
+                            </li>
+                        </ol>
                     </section>
                     <section>
                         <h2>Part 8: Prove non-random model validity</h2>
