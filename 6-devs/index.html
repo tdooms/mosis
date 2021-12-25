@@ -444,6 +444,23 @@
                             arguments to a function or constructor)to turn the dicts returned by the parser into
                             arguments for the classes in order to create objects.
                         </p>
+                        <h4>Network</h4>
+                        <img src="img/json/network-1.png" alt=""/>
+                        <img src="img/json/network-2.png" alt=""/>
+                        <p>
+                            Because we construct the network automatically, we'll shortly discuss the code needed to
+                            do this here. The code depicted above can also be found <a href="src/models/network.py">
+                            here</a>.
+                        </p>
+                        <p>
+                            We first parse the network so that we get the data in the classes we discussed in a
+                            previous paragraph. Most of the code is straight forward, so we won't discuss it. The first
+                            part of the if clause will be discussed later, the second part just adds all the possible
+                            destinations to each possible destination in the whole network. Next up we have the private
+                            find_connection function. This function will check if a name corresponds to a station or a
+                            junction and return the corresponding object. This can then be used to create a beginning
+                            and an end to a rail.
+                        </p>
                     </section>
                     <section>
                         <h2>Part 3: Prove the validity of model</h2>
