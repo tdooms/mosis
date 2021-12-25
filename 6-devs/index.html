@@ -78,8 +78,7 @@
                                     longer than expected. Stations served by multiple lines will have trollies wait
                                     quite
                                     long (as there may be fewer passengers with the destination on that line). Which
-                                    blocks
-                                    the other trollies in the system. </p>
+                                    blocks the other trollies in the system. </p>
                             </li>
                             <li>
                                 <p>
@@ -284,15 +283,15 @@
                             </li>
                             <li> Even if we do random sampling this still isn't fair.</li>
                             <li> Calculating some combined probability of a random person exiting based on the amount of
-                                 people also isn't correct as it doesn't allow for multiple wrong exits.
+                                people also isn't correct as it doesn't allow for multiple wrong exits.
                             </li>
                             <li> Our last option is precalculate the list and keep it around as some kind of temporary
-                                 state. This is far from elegant but it works. The list of passengers to exit is in
-                                 state[2] and the current index of which passenger we are at is in state[3]. We need to
-                                 keep both as otherwise we would be changing the state when we aren't allowed to.
-                                 We also need to be careful about as we are working with indices, removing an element
-                                 from the original list will invalidate the next ones, so we only actually remove
-                                 everyone at the end.
+                                state. This is far from elegant but it works. The list of passengers to exit is in
+                                state[2] and the current index of which passenger we are at is in state[3]. We need to
+                                keep both as otherwise we would be changing the state when we aren't allowed to.
+                                We also need to be careful about as we are working with indices, removing an element
+                                from the original list will invalidate the next ones, so we only actually remove
+                                everyone at the end.
                             </li>
                         </ul>
                         <p> We will now describe the internal transition</p>
@@ -383,7 +382,9 @@
                             code that is used to interpret this JSON. The JSON for the network described int assignment
                             can be found <a href="networks/city.json">here</a>. The network hasn't undergone any big
                             transformations, if there is a transformation that is worth of mentioning, we will do this
-                            in the JSON format part.
+                            in the JSON format part. The units we used for the model are seconds and m/s. This is
+                            because this way we don't need to deal with unnecessary and complicated floating point
+                            conversions from minutes to seconds.
                         </p>
                         <h4>JSON format</h4>
                         <img src="img/json/stations.png" alt=""/>
@@ -516,7 +517,7 @@
                             per 10s of simulation time. The amount of summary buckets is 24, which is the same as the
                             hours the simulation will run.
                         </p>
-                        <div class="block"> </div>
+                        <div class="block"></div>
                     </section>
                     <section>
                         <h2>Part 5: Simulation</h2>
@@ -855,7 +856,8 @@
                         <ul>
                             <li>
                                 <p>
-                                    <b>Position the trollies better</b>. This parameter influences how often the trollies
+                                    <b>Position the trollies better</b>. This parameter influences how often the
+                                    trollies
                                     stop at each of the stations. We chose to start the red trolley at Turing Station,
                                     so that it can go through the bottleneck of the system when the trollies of the
                                     other lines aren't there. For the blue line we decided to start at Model Station
@@ -985,19 +987,182 @@
                     <section>
                         <h2>Part 8: Prove non-random model validity</h2>
                         <p>
-                            In order to get a proof of the non-random model, we first need to check if the randomness
-                            has truly been removed from the model. We do this by performing 2 simulation runs with
-                            different seeds on the original model.
+                            We change the distribution parameters and always set it to 0 (this is the sigma), so that
+                            our model becomes semi deterministic.
                         </p>
                         <p>
-                            We see that both simulation runs are similar. Because working on the original rail network
-                            requires too much work, we will simplify the model. We do this by reducing the amount of
-                            stations, and remove one of the lines, namely the blue line, this is because we only need to
-                            have one of each of the different types of the model. We also remove some more stations. All
-                            of these changes can be seen in the picture above.
+                            We'll try to provide this proof by proving each component of the system, except for the
+                            passenger and trolley. Since this only contains data that is used for the system. trolley
+                            however, contains the function is_full. We can see that this function is correct. We'll use
+                            both models to verify the correctness of the system. In order to give a complete proof of
+                            the system, we will follow the order that is given in the assignment. The code used to
+                            generate the achieved results in the following parts is written in the <a
+                                href="src/main_test.py">main_test.py</a> file.
                         </p>
+                        <h4>Rail</h4>
+                        <img src="img/proof/rail.png" alt=""/>
                         <p>
-
+                            For the proof of making the rail work we add a generator at the beginning of the rail and a
+                            collector at the other end of the rail. For simplicity, we'll assume that these 2 DEVS
+                            models work. We'll create a rail that is 3000m long and generate 2 different trollies, with
+                            different speeds one fast one (100m/s) and another slow (20m/s). This is so that we can see
+                            that we need to wait 10s before departing again and wait longer if the trolley is too fast
+                            for the current trolley on the rail. That's why we'll be simulating for 170s. We measure the
+                            following values:
+                        </p>
+                        <ul>
+                            <li>
+                                The amount of collected trollies. Should be: 3.
+                            </li>
+                            <li>
+                                The arrival time of the trollies, this is actually the elapsed time since the last
+                                arrival at the end of the rail. Should be: [150, 10, 10].
+                            </li>
+                            <li>
+                                The names of the trollies that arrived. Should be: ["one", "one", "two"].
+                            </li>
+                        </ul>
+                        <img src="img/proof/rail-result.png" alt=""/>
+                        <p>
+                            Indeed, the results above correspond to the img of the simulated results.
+                        </p>
+                        <h4>Junction</h4>
+                        <img src="img/proof/junction.png" alt=""/>
+                        <p>
+                            In order to check that a junction is correctly functioning, we constructed the <a
+                                href="src/tests/junction_test.py">code</a> shown above. In this coupled DEVS model we
+                            connect imagine two trollies coming from two lines that are joining the network. We'll
+                            generate these trollies automatically and collect them automatically. In order to show the
+                            priority we'll let the trolley of the first line arrive a second later than the trolley of
+                            the second line. The simulation will run for 30s. We expect the following values to be seen:
+                        </p>
+                        <ul>
+                            <li>
+                                The amount of collected trollies. Should be: 2.
+                            </li>
+                            <li>
+                                The arrival time of the trollies. Should be: [29, 1].
+                            </li>
+                            <li>
+                                The names of the trollies that arrived. Should be: ["two", "one"].
+                            </li>
+                        </ul>
+                        <img src="img/proof/junction-result.png" alt=""/>
+                        <p>
+                            We can clearly see that we obtained the correct results. It indeed takes a trolley 20s to
+                            transfer the junction.
+                        </p>
+                        <h4>Split</h4>
+                        <img src="img/proof/split.png" alt=""/>
+                        <p>
+                            We also want to test the split to check its correctness. We've written the <a
+                                href="src/tests/junction_test.py">code</a> above to test this. We have trollies on 2
+                            different lines that are being split on 2 different rails. We connect 2 collectors to these
+                            2 outputs and simulate the model for 20s. This is enough to show that we can perform a
+                            split. The following values and variables are measured:
+                        </p>
+                        <ul>
+                            <li>
+                                Amount of trollies in collector 1. Should be: 1.
+                            </li>
+                            <li>
+                                Amount of trollies in collector 2. Should be: 1.
+                            </li>
+                            <li>
+                                Name of line of trolley in collector 1. Should be: line-one.
+                            </li>
+                            <li>
+                                Name of line of trolley in collector 2. Should be: line-two.
+                            </li>
+                            <li>
+                                Arrived trolley in collector 1. Should be: 10.
+                            </li>
+                            <li>
+                                Arrived trolley in collector 2. Should be: 20.
+                            </li>
+                        </ul>
+                        <img src="img/proof/split-result.png" alt=""/>
+                        <p>
+                            As predicted, the result of the simulation matches that of the prediction. Thus, the split
+                            works as expected.
+                        </p>
+                        <h4>Generator + Collector</h4>
+                        <img src="img/proof/generator-collector.png" alt=""/>
+                        <p>
+                            Because we can't see the generator separate from the collector, we take them together in one
+                            test. The code for it can be found <a href="src/tests/generator_collector_test.py">here</a>
+                            as well as in the image above. As can be seen in the code snippet, the passenger will be
+                            directly forwarded to the collector. We try to generate passengers for 2 cycles (200s) of
+                            the system and capture them in the collector, and check if following parameters are
+                            satisfied:
+                        </p>
+                        <ul>
+                            <li>
+                                The amount of passengers generated (can only be checked in the collector) and captured.
+                                Should be: 2.
+                            </li>
+                            <li>
+                                Where the passenger has departed from. Should be: "main".
+                            </li>
+                            <li>
+                                What the destination is of the passenger. Should be: "main".
+                            </li>
+                            <li>
+                                Time at which the passenger has been generated and collected (arrived_at). Should be:
+                                100.
+                            </li>
+                        </ul>
+                        <img src="img/proof/generator-collector-result.png" alt=""/>
+                        <p>
+                            When we look at the picture above, we see the results that we predicted. Therefore, these
+                            two parts are correctly implemented.
+                        </p>
+                        <h4>Station + Platform + Track + Light</h4>
+                        <img src="img/proof/station.svg" alt=""/>
+                        <img src="img/proof/station.png" alt=""/>
+                        <p>
+                            There is no other way to prove this part, than to combine all these DEV components. The
+                            diagram shown above doesn't allow us to decouple all these components easily. We'll use
+                            mostly the defaults that have been used in the simulation of the total model, apart from the
+                            sigma, which is set to 0, and the mu which is shortened to 5. As can be seen from this
+                            coupled DEVS model, we do not take into account passengers that step of the trolley. Since
+                            we have one single destination for each passenger, each passenger will get on the trolley.
+                            Lastly we added some passengers that aren't generated, but aren't the main line so that we
+                            can show that we expect that non-full trollies also can depart. We'll simulate this model
+                            during 270s, and we expect the following results:
+                        </p>
+                        <ul>
+                            <li>
+                                Amount of arrived trollies. Should be: 2.
+                            </li>
+                            <li>
+                                Information about the trollies (trolley name, elapsed time since last arrival of
+                                trolley). Should be: [(one, 120), (two, 120)].
+                            </li>
+                            <li>
+                                Amount of passengers on first trolley. Should be: 2.
+                            </li>
+                            <li>
+                                Amount of passengers on second trolley. Should be: 6.
+                            </li>
+                            <li>
+                                Information about the passengers on the first trolley (used trolley, elapsed time since
+                                last trolley handling). Should be: [(one, 70), (one, 80)].
+                            </li>
+                            <li>
+                                Information about the passengers on the second trolley (traveled trolley, departure
+                                time). Should be: [(two, 180), (two, 190), (two, 200)].
+                            </li>
+                        </ul>
+                        <img src="img/proof/station-result.png">
+                        <p>
+                            When we check these results, they do match. Which proves that this part of the model is
+                            correct.
+                        </p>
+                        <h4>Conclusion</h4>
+                        <p>
+                            When we put these parts together in a correct fashion, we expect them to work as expected.
+                            This is because we've proven that each part of the model works correctly.
                         </p>
                     </section>
                 </div>

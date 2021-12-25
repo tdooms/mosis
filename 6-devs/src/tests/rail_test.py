@@ -9,12 +9,12 @@ from tests.trolley_generator import TrolleyGenerator
 class RailTest(CoupledDEVS):
     def __init__(self):
         super().__init__("RailTest")
-        trollies = [Trolley(20, 0, [], 2), Trolley(100, 0, [], 2)]
+        trollies = [Trolley("one", 20, "main", [], 2), Trolley("one", 20, "main", [], 2), Trolley("two", 100, "main", [], 2)]
 
-        self.generator = self.addSubModel(TrolleyGenerator(mu=20, sigma=0, trollies=trollies))
+        self.generator = self.addSubModel(TrolleyGenerator(mu=1, sigma=0, trollies=trollies))
         self.collector = self.addSubModel(TrolleyCollector())
-        self.junction = self.addSubModel(Rail(3000))
+        self.rail = self.addSubModel(Rail(3000))
 
-        self.connectPorts(self.generator.output, self.junction.input)
-        self.connectPorts(self.junction.output, self.collector.input)
+        self.connectPorts(self.generator.output, self.rail.input)
+        self.connectPorts(self.rail.output, self.collector.input)
 

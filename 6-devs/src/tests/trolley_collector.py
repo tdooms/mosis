@@ -1,4 +1,5 @@
 from pypdevs.DEVS import AtomicDEVS
+import logging
 
 from models.passenger import Passenger
 
