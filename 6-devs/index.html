@@ -211,12 +211,12 @@
                         <p> This part of the code
                             makes use of the statistics gathering pattern, as well as the complex state pattern. We have
                             the collector statistics class, which contains some parameters like the average time that a
-                            passenger traveled, the amount that exited at a (desired) destination and the amount that
-                            exited at their origin destination. We have the collector which keeps the departed
-                            passenger (in our terms this means that the passenger arrived if this event occurs), the
-                            origin station and all the passengers as well as the elapsed time since the beginning. This
-                            elapsed time since the beginning is called the simulated time and is another pattern for
-                            DEVS.
+                            passenger traveled (which is 0 when we don't have any passengers), the amount that exited at
+                            a (desired) destination and the amount that exited at their origin destination. We have the
+                            collector which keeps the departed passenger (in our terms this means that the passenger
+                            arrived if this event occurs), the origin station and all the passengers as well as the
+                            elapsed time since the beginning. This elapsed time since the beginning is called the
+                            simulated time and is another pattern for DEVS.
                         </p>
                         <p>
                             For the next part we'll discuss the methods. The first method is the time advance, because
@@ -238,7 +238,8 @@
                         <p>
                             We first describe the helper method passenger_indices. This method is used to get the
                             indices from all the passengers that are in the queue waiting for a trolley that serves a
-                            given line. We use the simulated time pattern described in the course notes. In order to
+                            line that has the destination of the passenger. We use the simulated time pattern described
+                            in the course notes. In order to
                             decide what the time advance should be we check if there is a passenger requested by the
                             track, if there is then we set the time advance to 0, otherwise we set it to infinity. The
                             internal transition is performed by selecting all the candidates, that can be on the line.
@@ -247,14 +248,15 @@
                             passenger. And only when we have passengers waiting for that line we can set the requested
                             parameter in the state to the line that is requested. Otherwise, if we have a passenger
                             entry, we need to add it to the passenger queue. Last but not least, we have the output
-                            function, that can only be executed if the there is a requested passenger, and there are
-                            candidates. the candidates are then chosen from the candidates list, and only the first
+                            function, that can only be executed if there is a requested passenger, and there are
+                            candidates. The candidates are then chosen from the candidates list, and only the first
                             candidate is chosen that has a destination that is on the requested line. We also store the
                             departed time of the candidate passenger for later statistics.
                         </p>
                         <h4>Track</h4>
                         <img src="img/model/track-1.png" alt=""/>
                         <img src="img/model/track-2.png" alt=""/>
+                        <img src="img/model/track-3.png" alt=""/>
                         <p> The code can be found <a href="src/models/track.py">here</a>. </p>
 
                         <p> For this part we chose an
@@ -300,10 +302,12 @@
                                 When the trolley has finished arriving then the state must become unboarding.
                             </li>
                             <li>
-                                When we discover that we are in the state unboarding and we unboarded everyone in the
-                                list, i.e. the counter is the length of the list, we can get to the boarding
+                                When we discover that we are in the state unboarding, and we did disembark everyone in
+                                the list, i.e. the counter is the length of the list, we can get to the boarding
                                 phase. This phase takes all the passengers that can board and boards them onto the
-                                trolley and set the state to the boarding state and keep the trolley also in it.
+                                trolley and set the state to the boarding state and keep the trolley also in it. We also
+                                check that the passengers still on the trolley plus the passengers that should unboard,
+                                equals the previous total passengers on the trolley, before the unboarding was complete.
                             </li>
                             <li>
                                 When we only have that we were in the unboarding phase we need to lower the amount of
