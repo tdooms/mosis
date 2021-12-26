@@ -93,6 +93,7 @@
                     <div class="block"></div>
 
                     <section>
+                        <div class="block"></div>
                         <h2>Part 1: Components of the Model</h2>
                         <h4>Passenger</h4>
                         <img src="img/model/passenger.png" alt=""/>
@@ -105,6 +106,7 @@
                             maintain the time at what the passenger departed and when it arrived as well as the id
                             of the trolley we used.
                         </p>
+                        <div class="block"></div>
                         <h4>Trolley</h4>
                         <img src="img/model/trolley.png" alt=""/>
                         <p>The code can be found <a href="src/models/trolley.py">here</a>. </p>
@@ -115,6 +117,7 @@
                             duplication prove to silly mistakes,We have defined a helper function to identify if the
                             trolley is full.
                         </p>
+                        <div class="block"></div>
                         <h4>Rail</h4>
                         <img src="img/model/rail.png" alt=""/>
                         <p>The code can be found <a href="src/models/rail.py">here</a>. </p>
@@ -139,6 +142,7 @@
                             full speed (nowait variable). We then take into account if there is a trolley in front of
                             it with a max of both.
                         </p>
+                        <div class="block"></div>
                         <h4>Junction</h4>
                         <img src="img/model/junction.png" alt=""/>
                         <p>The code can be found <a href="src/models/junction.py">here</a>. </p>
@@ -154,6 +158,7 @@
                             The logic is almost the same as with the rail, apart from the external transition function.
                             We take the trolley out of the inputs and append it to the list of the trollies to pass.
                         </p>
+                        <div class="block"></div>
                         <h4>Split</h4>
                         <img src="img/model/split.png" alt=""/>
                         <p> The code can be found <a href="src/models/split.py">here</a>. </p>
@@ -171,6 +176,7 @@
                             trolley on the right output rail. The time advance is only immediate when there is a trolley
                             currently being split otherwise we wait infinitely for the next trolley.
                         </p>
+                        <div class="block"></div>
                         <h4>Station</h4>
                         <img src="img/model/station.png" alt=""/>
                         <p> The code can be found <a href="src/models/station.py">here</a>. </p>
@@ -182,6 +188,7 @@
                             already been described before. Lastly the destinations parameter is the possible
                             destinations that can be used for the passengers generator.
                         </p>
+                        <div class="block"></div>
                         <h4>Generator</h4>
                         <img src="img/model/generator.png" alt=""/>
                         <p> The code can be found <a href="src/models/generator.py">here</a>. </p>
@@ -204,6 +211,7 @@
                             passenger, which brings along with it an origin, a destination and the corresponding lines.
                             The statistics function just gives the amount of passengers that have been generated.
                         </p>
+                        <div class="block"></div>
                         <h4>Collector</h4>
                         <img src="img/model/collector.png" alt=""/>
                         <p> The code can be found <a href="src/models/collector.py">here</a>. </p>
@@ -225,6 +233,7 @@
                             which logs all the passengers that leave the track and as a consequence a trolley. In
                             this method we take that passenger and store it into the list of passengers for that track.
                         </p>
+                        <div class="block"></div>
                         <h4>Platform</h4>
                         <img src="img/model/platform.png" alt=""/>
                         <p> The code can be found <a href="src/models/platform.py">here</a>. </p>
@@ -253,6 +262,7 @@
                             candidate is chosen that has a destination that is on the requested line. We also store the
                             departed time of the candidate passenger for later statistics.
                         </p>
+                        <div class="block"></div>
                         <h4>Track</h4>
                         <img src="img/model/track-1.png" alt=""/>
                         <img src="img/model/track-2.png" alt=""/>
@@ -358,6 +368,7 @@
                                 When we are in the departing state we can move to the split also the called the output.
                             </li>
                         </ul>
+                        <div class="block"></div>
                         <h4>Light</h4>
                         <img src="img/model/light.png" alt=""/>
                         <p> The code can be found <a href="src/models/light.py">here</a>. </p>
@@ -378,6 +389,7 @@
                         </p>
                     </section>
                     <section>
+                        <div class="block"></div>
                         <h2>Part 2: Creating the network</h2>
                         <p>
                             In order to represent the network, we've chosen to employ the JSON format. This is because
@@ -390,6 +402,7 @@
                             because this way we don't need to deal with unnecessary and complicated floating point
                             conversions from minutes to seconds.
                         </p>
+                        <div class="block"></div>
                         <h4>JSON format</h4>
                         <img src="img/json/stations.png" alt=""/>
                         <p>
@@ -432,6 +445,7 @@
                             trolley (in m/s), the location at which they start and the line to which they belong. Each
                             trolley also has a name used for the readability and traceability of the statistics.
                         </p>
+                        <div class="block"></div>
                         <h4>JSON parsing</h4>
                         <p>
                             In order to read and serialize the JSON file we need the
@@ -444,6 +458,7 @@
                             arguments to a function or constructor)to turn the dicts returned by the parser into
                             arguments for the classes in order to create objects.
                         </p>
+                        <div class="block"></div>
                         <h4>Network</h4>
                         <img src="img/json/network-1.png" alt=""/>
                         <img src="img/json/network-2.png" alt=""/>
@@ -463,6 +478,7 @@
                         </p>
                     </section>
                     <section>
+                        <div class="block"></div>
                         <h2>Part 3: Prove the validity of model</h2>
                         <img src="img/network/main.svg" alt=""/>
                         <p>
@@ -482,6 +498,7 @@
                         </p>
                     </section>
                     <section>
+                        <div class="block"></div>
                         <h2>Part 4: Statistics</h2>
                         <ol>
                             <li><p>Average travel time of a passenger.</p></li>
@@ -541,12 +558,14 @@
                         <div class="block"></div>
                     </section>
                     <section>
+                        <div class="block"></div>
                         <h2>Part 5: Simulation</h2>
                         <p>
                             We will split this section in 2. This is because we change parameters between the
                             two different simulations. For each simulation we perform 2 runs, the first run has seed 123
                             and the other run has 321. These are set in <a href="src/main.py">main.py</a>.
                         </p>
+                        <div class="block"></div>
                         <h4>Every trolley 50 kph</h4>
                         <img src="img/simulation/stations-same-speed.png" alt=""/>
                         <img src="img/simulation/stations-same-speed-json.png" alt=""/>
@@ -661,6 +680,7 @@
                                 </p>
                             </li>
                         </ol>
+                        <div class="block"></div>
                         <h4>Half of the trollies 50 kph, other half 25</h4>
                         <img src="img/simulation/stations-different-speed.png" alt=""/>
                         <p>
@@ -752,6 +772,7 @@
                         </ol>
                     </section>
                     <section>
+                        <div class="block"></div>
                         <h2>Part 6: Only reachable stations</h2>
                         <p>
                             We again will fix the seeds in order to get no difference in relation to the generation of
@@ -787,8 +808,6 @@
                                 </p>
                             </li>
                             <li>
-                                <img src="img/stats/non-random/fullness-random-123.png" alt=""/>
-                                <img src="img/stats/non-random/fullness-random-321.png" alt=""/>
                                 <p>
                                     We can see more clearly that there are only 3 lines really serving the trolley
                                     network, this is one trolley per line. This has the same explanation as previously.
@@ -796,6 +815,8 @@
                                     of passengers is only passengers that can be picked up from that station. This
                                     leaves little to no passengers for the next trolley to pick up.
                                 </p>
+                                <img src="img/stats/non-random/fullness-random-123.png" alt=""/>
+                                <img src="img/stats/non-random/fullness-random-321.png" alt=""/>
                                 <p>
                                     When we think about this using a small experiment it will become more clear why this
                                     is. Given two trollies on a network, where one is behind the other. The first one
@@ -868,6 +889,7 @@
                         </ol>
                     </section>
                     <section>
+                        <div class="block"></div>
                         <h2>Part 7: Optimizing the values</h2>
                         <p>
                             In order to get an optimal network we played around with some values by logical reasoning.
@@ -1006,30 +1028,31 @@
                         </ol>
                     </section>
                     <section>
+                        <div class="block"></div>
                         <h2>Part 8: Prove non-random model validity</h2>
                         <p>
                             We change the distribution parameters and always set it to 0 (this is the sigma), so that
                             our model becomes semi deterministic.
                         </p>
                         <p>
-                            We'll try to provide this proof by proving each component of the system, except for the
-                            passenger and trolley. Since this only contains data that is used for the system. trolley
-                            however, contains the function is_full. We can see that this function is correct. We'll use
-                            both models to verify the correctness of the system. In order to give a complete proof of
-                            the system, we will follow the order that is given in the assignment. The code used to
-                            generate the achieved results in the following parts is written in the <a
-                                href="src/main_test.py">main_test.py</a> file.
+                            We will prove this by showing each component in our system works, except for the
+                            passenger and trolley. Since they only contain data that is used by the system. The trolley
+                            however, contains a single helper function: is_full. By using simple logic we can see this
+                            is correct. We'll use both models to verify the correctness of the system. In order to give
+                            a complete proof of the system, we will follow the order that is given in the assignment.
+                            The code used to generate the achieved results in the following parts is written in the
+                            <a href="src/main_test.py">main_test.py</a> file.
                         </p>
+                        <div class="block"></div>
                         <h4>Rail</h4>
                         <img src="img/proof/rail.png" alt=""/>
                         <p>
-                            For the proof of making the rail work we add a generator at the beginning of the rail and a
-                            collector at the other end of the rail. For simplicity, we'll assume that these 2 DEVS
-                            models work. We'll create a rail that is 3000m long and generate 2 different trollies, with
-                            different speeds one fast one (100m/s) and another slow (20m/s). This is so that we can see
-                            that we need to wait 10s before departing again and wait longer if the trolley is too fast
-                            for the current trolley on the rail. That's why we'll be simulating for 170s. We measure the
-                            following values:
+                            To prove if the Rail component works, we add a Generator at the start and a Collector at the
+                            end. For simplicity, we assume that these 2 DEVS models work. We create a rail that is
+                            3000m long and generate 2 different trollies, with different speeds: an exceedingly fast one
+                            (100m/s) and two slower one's (20m/s). We use this setup to check if our model fulfills the
+                            requirements of having them arrive 10s apart even when the faster trolley has to slow down.
+                            That's why we'll be simulating for 170s. We measure the following values:
                         </p>
                         <ul>
                             <li>
@@ -1047,12 +1070,13 @@
                         <p>
                             Indeed, the results above correspond to the img of the simulated results.
                         </p>
+                        <div class="block"></div>
                         <h4>Junction</h4>
                         <img src="img/proof/junction.png" alt=""/>
                         <p>
-                            In order to check that a junction is correctly functioning, we constructed the <a
-                                href="src/tests/junction_test.py">code</a> shown above. In this coupled DEVS model we
-                            connect imagine two trollies coming from two lines that are joining the network. We'll
+                            In order to check that a junction is correctly functioning, we constructed the
+                            <a href="src/tests/junction_test.py">code</a> shown above. In this coupled DEVS model we
+                            connect two trollies coming from two lines that are joining the network. We'll
                             generate these trollies automatically and collect them automatically. In order to show the
                             priority we'll let the trolley of the first line arrive a second later than the trolley of
                             the second line. The simulation will run for 30s. We expect the following values to be seen:
@@ -1073,6 +1097,7 @@
                             We can clearly see that we obtained the correct results. It indeed takes a trolley 20s to
                             transfer the junction.
                         </p>
+                        <div class="block"></div>
                         <h4>Split</h4>
                         <img src="img/proof/split.png" alt=""/>
                         <p>
@@ -1107,10 +1132,11 @@
                             As predicted, the result of the simulation matches that of the prediction. Thus, the split
                             works as expected.
                         </p>
+                        <div class="block"></div>
                         <h4>Generator + Collector</h4>
                         <img src="img/proof/generator-collector.png" alt=""/>
                         <p>
-                            Because we can't see the generator separate from the collector, we take them together in one
+                            Because we can't really separate from the generator from the collector, we use them together in one
                             test. The code for it can be found <a href="src/tests/generator_collector_test.py">here</a>
                             as well as in the image above. As can be seen in the code snippet, the passenger will be
                             directly forwarded to the collector. We try to generate passengers for 2 cycles (200s) of
@@ -1138,15 +1164,16 @@
                             When we look at the picture above, we see the results that we predicted. Therefore, these
                             two parts are correctly implemented.
                         </p>
+                        <div class="block"></div>
                         <h4>Station + Platform + Track + Light</h4>
                         <img src="img/proof/station.svg" alt=""/>
                         <img src="img/proof/station.png" alt=""/>
                         <p>
-                            There is no other way to prove this part, than to combine all these DEV components. The
+                            There is no other way to prove this part, than to combine all these DEVS components. The
                             diagram shown above doesn't allow us to decouple all these components easily. We'll use
                             mostly the defaults that have been used in the simulation of the total model, apart from the
                             sigma, which is set to 0, and the mu which is shortened to 5. As can be seen from this
-                            coupled DEVS model, we do not take into account passengers that step of the trolley. Since
+                            coupled DEVS model, we do not take into account passengers that unboard. Since
                             we have one single destination for each passenger, each passenger will get on the trolley.
                             Lastly we added some passengers that aren't generated, but aren't the main line so that we
                             can show that we expect that non-full trollies also can depart. We'll simulate this model
